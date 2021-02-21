@@ -6,7 +6,7 @@ At the same time, database usage is reliable for storing data. It allows forming
 
 ## Team Members
 
-* Ahmet Feyzi Halaç: 21703178
+* Ahmet Feyzi Halaç: 21703026
 * Ege Şahin: 21702300
 * Göktuğ Gürbüztürk: 21702383
 * Zeynep Cankara: 21703381
