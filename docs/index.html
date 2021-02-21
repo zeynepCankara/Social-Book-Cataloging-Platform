@@ -1,0 +1,297 @@
+<html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <title>CS353 Project</title>
+      <meta name="author" content="Jon Barron">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" type="text/css" href="stylesheet.css">
+      <link rel="icon" type="image/png" href="images/seal_icon.png">
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Space+Mono&amp;display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Inconsolata&amp;display=swap" rel="stylesheet">
+      <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+      <script src="konami.js"></script>
+      <script>
+         function addDarkmodeWidget() {
+           new Darkmode().showWidget();
+         }
+         window.addEventListener('load', addDarkmodeWidget);
+      </script>
+   </head>
+   <body style="font-family: 'Inconsolata'">
+      <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+      <tbody>
+         <tr style="padding:0px">
+            <td style="padding:0px">
+               <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                  <tbody>
+                     <tr style="padding:0px">
+                        <td style="padding:2.5%;width:63%;vertical-align:middle">
+                           <p style="text-align:center">
+                              <name>CS 353 Database Systems</name>
+                              <br>
+                              <span>Social Cataloging Platform for Books</span>
+                           </p>
+                           <p style="text-align:center">
+                              <a href="mailto:zeynep.cankara@ug.bilkent.edu.tr">Email</a> &nbsp;/&nbsp;
+                              <a href="https://zeynepcankara.github.io/Social-Book-Cataloging-Platform">Github</a>
+                           </p>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                  <tbody>
+                     <tr style="padding:0px">
+                        <td id="pp" style="padding:2.5%;width:30%;max-width:40%">
+                          <img id="pp_img" style="width:200px; height: 200px; border-radius: 15px;" alt="profile photo" src="images/bookreads.png" class="hoverZoomLink">
+                        </td>
+                        <td style="padding:2.5%;width:63%;vertical-align:middle; padding-left: 0px;">
+                           <p>This website contains our reports on the Book Social Cataloging Platform we developed for the CS315 Database Systems Course.
+                           </p>
+                           <button style="
+                               border: none;
+                               border-radius: 5px;
+                               text-align: center;
+                               padding: 6px 8px;
+                           " onclick="letThereBeOneMoreOrLessDimension()">Toggle 3D
+                           </button>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                  <tbody>
+                     <tr>
+                        <td style="padding:20px;width:100%;vertical-align:middle">
+                           <heading class="hidden" style="margin-right: 16px;"><a style="font-size: 18px; font-weight: 400; text-decoration: underline; color: black;" onclick="let_there_be('research')">Research</a></heading>
+                           <heading style="margin-right: 16px;"><a style="font-size: 18px; font-weight: 400; text-decoration: underline; color: black;" onclick="let_there_be('apps')">Reports</a></heading>
+                           <heading class="hidden" style="margin-right: 16px;"><a style="font-size: 18px; font-weight: 400; text-decoration: underline; color: black;" onclick="let_there_be('projects')">Projects</a></heading>
+                           <heading class="hidden" style="margin-right: 16px;"><a style="font-size: 18px; font-weight: 400; text-decoration: underline; color: black;" onclick="let_there_be('misc')">Misc.</a></heading>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <table class="hidden" id="pubs_table" style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                  <tbody>
+                  </tbody>
+               </table>
+               <table class="" id="apps_table" style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                  <tbody>
+                     <tr onmouseout="nerv_stop()" onmouseover="nerv_start()">
+                        <td style="padding:20px;width:25%;vertical-align:middle">
+                           <div class="one">
+                              <img style="border-radius: 10px;" src="images/p.png" width="100%">
+                           </div>
+                        </td>
+                        <td style="padding:20px;width:75%;vertical-align:middle">
+                           <a >
+                              <papertitle>Proposal Report</papertitle>
+                           </a>
+                           <br>
+                           <a href="https://docs.google.com/document/d/1hq7DRZyj2dp-6nJ6X1iobbfGvHzaPEXvCxdDKfmgFY0/edit?usp=sharing">report</a>
+                           <p></p>
+                           <p>Describes the application system and why/how database going to be used.</p>
+                           <p>Contains a conceptual design of the database using the E/R model.</p>
+                        </td>
+                     </tr>
+                     <tr onmouseout="nerv_stop()" onmouseover="nerv_start()">
+                        <td style="padding:20px;width:25%;vertical-align:middle">
+                           <div class="one">
+                              <img style="border-radius: 10px;" src="images/D.png" width="100%">
+                           </div>
+                        </td>
+                        <td style="padding:20px;width:75%;vertical-align:middle">
+                           <a >
+                              <papertitle>Design Document</papertitle>
+                           </a>
+                           <br>
+                           <a href="https://zeynepcankara.github.io/Social-Book-Cataloging-Platform">report</a>
+                           <p></p>
+                           <p>Contains the design of the database, software, and user interface.</p>
+                        </td>
+                     </tr>
+                     <tr onmouseout="nerv_stop()" onmouseover="nerv_start()">
+                        <td style="padding:20px;width:25%;vertical-align:middle">
+                           <div class="one">
+                              <img style="border-radius: 10px;" src="images/f.png" width="100%">
+                           </div>
+                        </td>
+                        <td style="padding:20px;width:75%;vertical-align:middle">
+                           <a >
+                              <papertitle>Final Report</papertitle>
+                           </a>
+                           <br>
+                           <a href="https://zeynepcankara.github.io/Social-Book-Cataloging-Platform">report</a>
+                           <p></p>
+                           <p>Final E/R diagram, Final list of tables and description of the system can found in the report.</p>
+                           <p>Contains the implementation details.</p>
+                           <p>Contains an User's Manual that contains all the information necessary to use and maintain your system.</p>
+                           <p>Includes contribution of each group member to the term project in detail.</p>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <table class="hidden" id="proj_table" style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                  <tbody>
+                  </tbody>
+               </table>
+               <table class="hidden" id="misc_table" style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                  <tbody>
+                  </tbody>
+               </table>
+               <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20">
+                  <tr>
+                    <td>
+                      <div style="clear:both;">
+                        <p align="right"><font size="1"><a href="http://jonbarron.info">Thanks for the template!</a></font></p>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+               <script>
+                  function let_there_be(something) {
+                      pubs_table = document.getElementById("pubs_table")
+                      apps_table = document.getElementById("apps_table")
+                      proj_table = document.getElementById("proj_table")
+                      misc_table = document.getElementById("misc_table")
+
+                      if (something === "research") {
+                          pubs_table.classList.remove("hidden")
+                          apps_table.classList.add("hidden")
+                          proj_table.classList.add("hidden")
+                          misc_table.classList.add("hidden")
+                      } else if (something === "apps") {
+                          apps_table.classList.remove("hidden")
+                          pubs_table.classList.add("hidden")
+                          proj_table.classList.add("hidden")
+                          misc_table.classList.add("hidden")
+                      } else if (something === "projects") {
+                          proj_table.classList.remove("hidden")
+                          pubs_table.classList.add("hidden")
+                          apps_table.classList.add("hidden")
+                          misc_table.classList.add("hidden")
+                      } else {
+                          misc_table.classList.remove("hidden")
+                          pubs_table.classList.add("hidden")
+                          apps_table.classList.add("hidden")
+                          proj_table.classList.add("hidden")
+                      }
+                  }
+               </script>
+
+               <script type="module">
+
+                import * as THREE from './pc_viewer/three.module.js';
+
+                import { XYZLoader } from './pc_viewer/XYZLoader.js';
+
+                let camera, scene, renderer, clock;
+
+                let points;
+
+                let pp, pp_img;
+
+                init();
+                animate();
+
+                function init() {
+
+                    pp = document.getElementById("pp")
+                    pp_img = document.getElementById("pp_img")
+
+                    /*
+                    pp.width = pp_img.width
+                    pp.height = pp_img.height
+
+                    pp.style.width = pp_img.style.width
+                    pp.style.height = pp_img.style.height
+                    */
+
+                    camera = new THREE.PerspectiveCamera( 2, 1, 0.1, 100 );
+                    camera.position.set( 10, 0, 10 );
+
+                    scene = new THREE.Scene();
+                    scene.add( camera );
+                    camera.lookAt( scene.position );
+
+                    clock = new THREE.Clock();
+
+                    const loader = new XYZLoader();
+                    loader.load( './pc_viewer/pp_pc.xyz', function ( geometry ) {
+
+                        geometry.center();
+
+                        const vertexColors = ( geometry.hasAttribute( 'color' ) === false );
+
+                        console.log(geometry.hasAttribute( 'color' ))
+
+                                const material = new THREE.PointsMaterial( { color: "#FF0000", size: 0.08, vertexColors: vertexColors } );
+
+                        points = new THREE.Points( geometry, material );
+                        scene.add( points );
+
+                    } );
+
+                    //
+
+                    renderer = new THREE.WebGLRenderer();
+                    renderer.setPixelRatio( window.devicePixelRatio );
+                    renderer.setSize( 200, 200 );
+                    renderer.domElement.id = "port"
+                    renderer.domElement.style.width = "200px"
+                    renderer.domElement.style.height = "200px"
+                    renderer.domElement.style.display = "none"
+                    pp.appendChild( renderer.domElement );
+
+                    //
+
+                    window.addEventListener( 'resize', onWindowResize, false );
+
+                }
+
+                function onWindowResize() {
+
+                    camera.aspect = 1;
+                    camera.updateProjectionMatrix();
+
+                    renderer.setSize( 200, 200 );
+
+                }
+
+                function animate() {
+
+                    requestAnimationFrame( animate );
+
+                    const delta = clock.getDelta();
+
+                    if ( points ) {
+
+                        //points.rotation.x += delta * 0.2;
+                        points.rotation.y += delta * 0.5;
+
+                    }
+
+                    renderer.render( scene, camera );
+
+                }
+
+            </script>
+
+            <script>
+                function letThereBeOneMoreOrLessDimension() {
+                    pp_img = document.getElementById("pp_img")
+                    port = document.getElementById("port")
+
+                    if(port.style.display == "none") {
+                        port.style.display = "block"
+                        pp_img.style.display = "none"
+                    } else if(pp_img.style.display == "none") {
+                        port.style.display = "none"
+                        pp_img.style.display = "block"
+                    }
+                }
+            </script>
+   </body>
+</html>
