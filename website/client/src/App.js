@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Login from './components/Login/Login';
+import { LoginSignupContainer } from './components/LoginSignup/LoginSignupContainer';
 import Home from './components/Home/Home';
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
                     <Home/>
                 </Route>
                 <Route path='/'>
-                    <Login/>
+                    <LoginSignupContainer/>
                 </Route>
             </Switch>
         </Router>
