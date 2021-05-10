@@ -27,7 +27,7 @@ async function runServer() {
 
         // const results = await connection.executeQuery('SELECT * FROM users...');
 
-        res.status(200).send(results);
+        res.status(200).send(`testLogin with ${name} and ${password}`);
     })
     
     /**
