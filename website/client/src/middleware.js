@@ -1,6 +1,12 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { login, signup } from './api';
 import { LOGIN_REQUEST, LOGIN_FAILURE, LOGIN_SUCCESS, SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE } from './actions';
+import Cookies from 'universal-cookie';
+
+function setCookie(key, value) {
+    const cookies = new Cookies();
+    cookies.set(key, value, { path: '/' });
+}
 
 function* loginMiddleware(action) {
     try {  
@@ -8,14 +14,13 @@ function* loginMiddleware(action) {
     
         if (response.status === 200) {
             yield put({type: LOGIN_SUCCESS, payload: action.payload});
+            yield call(setCookie, 'username', action.payload.name);
             action.history.push('/home');
-        } else {
-            yield put({type: LOGIN_FAILURE, payload: response.data});
-            action.onError(response.data);
         }
     } catch (error) {
-        yield put({type: LOGIN_FAILURE, payload: error.message});
-        action.onError(error.message);
+        const errorMessage = error.response.data || error.message;
+        yield put({type: LOGIN_FAILURE, payload: errorMessage });
+        action.onError(errorMessage);
     }
 }
 
@@ -25,14 +30,13 @@ function* signupMiddleware(action) {
 
         if (response.status === 200) {
             yield put({type: SIGNUP_SUCCESS, payload: action.payload});
+            yield call(setCookie, 'username', action.payload.name);
             action.history.push('/home');
-        } else {
-            yield put({type: SIGNUP_FAILURE, payload: response.data})
-            action.onError(response.data);
         }
     } catch (error) {
-        yield put({type: SIGNUP_FAILURE, payload: error.message});
-        action.onError(error.message);
+        const errorMessage = error.response.data || error.message;
+        yield put({type: SIGNUP_FAILURE, payload: errorMessage});
+        action.onError(errorMessage);
     }
 }
 

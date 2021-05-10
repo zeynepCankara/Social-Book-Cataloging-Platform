@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, LinearProgress, Grid, Typography} from '@material-ui/core';
+import { Paper, LinearProgress, Grid, Typography, Select, MenuItem } from '@material-ui/core';
 import Login from './Login';
 import Signup from './Signup';
 import CustomLink from '../StyledComponents/CustomLink';
@@ -53,19 +53,20 @@ const useStyles = makeStyles((theme) => ({
 export function LoginSignupContainer() {
     const classes = useStyles();
     const [state, setState] = useState({
-        isAdmin: false,
+        userType: 'USER',
         isLogin: true
     });
     const [error, setError] = useState({
         isError: false,
-        errorText: 'adada'
+        errorText: ''
     });
     const [loading, setLoading] = useState(false);
 
-    const switchAdminMode = () => {
+    const switchUserType = e => {
+        console.log(e);
         setState({
             ...state,
-            isAdmin: !state.isAdmin
+            userType: e.target.value
         });
     }
 
@@ -100,7 +101,7 @@ export function LoginSignupContainer() {
     }
 
     const MainComponent = state.isLogin ? Login : Signup;
-    const headerText = state.isLogin ? (state.isAdmin ? 'Sign In as Admin' : 'Sign In') : 'Sign Up';
+    const headerText = (state.isLogin ? 'Sign in' : 'Sign up') + ' as ' + state.userType.toLowerCase();
     const switchText = state.isLogin ? "Don't have an account? Sign Up" : "Already have an account? Sign in";
 
     return (
@@ -115,13 +116,17 @@ export function LoginSignupContainer() {
                         <Typography component="h1" variant="h5">
                             {headerText}
                         </Typography>
-                        <MainComponent classes={classes} onError={onError} onSubmit={onSubmit} isAdmin={state.isAdmin}/>
+                        <MainComponent classes={classes} onError={onError} onSubmit={onSubmit} userType={state.userType}/>
                         <Grid container className={classes.bottom}>
                             <Grid item xs>
-                                {state.isLogin && 
-                                    <CustomLink onClick={switchAdminMode} variant="body2">
-                                    {state.isAdmin ? "I'm not Admin" : "I'm Admin"}
-                                    </CustomLink>}
+                                <Select
+                                    value={state.userType}
+                                    onChange={switchUserType}
+                                >
+                                    <MenuItem value='USER'>User</MenuItem>
+                                    <MenuItem value='AUTHOR'>Author</MenuItem>
+                                    <MenuItem value='LIBRARIAN'>Librarian</MenuItem>
+                                </Select>
                             </Grid>
                             <Grid item>
                                 <CustomLink onClick={switchMode} variant="body2">

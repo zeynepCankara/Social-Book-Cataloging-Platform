@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { LOGIN_REQUEST } from '../../actions';
 
-export default function Login({classes, onError: parentError, onSubmit, isAdmin}) {
+export default function Login({classes, onError: parentError, onSubmit, userType}) {
     const dispatch = useDispatch();
     const history = useHistory();
     const [state, setState] = useState({
@@ -67,7 +67,7 @@ export default function Login({classes, onError: parentError, onSubmit, isAdmin}
                 type: LOGIN_REQUEST,
                 payload: {
                     ...state,
-                    isAdmin
+                    userType
                 },
                 history,
                 onError
