@@ -6,7 +6,9 @@ import { Paper, LinearProgress, Grid, Typography, Select, MenuItem } from '@mate
 import Login from './Login';
 import Signup from './Signup';
 import CustomLink from '../StyledComponents/CustomLink';
-import AdminImage from '../../assets/admin.jpg';
+import UserImage from '../../assets/user.jpg';
+import AuthorImage from '../../assets/author.jpg';
+import LibrarianImage from '../../assets/admin.jpg';
 import Alert from '@material-ui/lab/Alert';
 
 
@@ -104,10 +106,25 @@ export function LoginSignupContainer() {
     const headerText = (state.isLogin ? 'Sign in' : 'Sign up') + ' as ' + state.userType.toLowerCase();
     const switchText = state.isLogin ? "Don't have an account? Sign Up" : "Already have an account? Sign in";
 
+    let loginImage;
+    switch(state.userType) {
+        case 'USER':
+            loginImage = UserImage;
+            break;
+        case 'AUTHOR':
+            loginImage = AuthorImage;
+            break;
+        case 'LIBRARIAN':
+            loginImage = LibrarianImage;
+            break;
+        default:
+            break;
+    }
+
     return (
         <Grid container component="main" className={classes.root}>
             <Grid item xs={false} sm={4} md={7} className={classes.image} 
-                  style={{backgroundImage: state.isAdmin ? `url(${AdminImage})` : 'url(https://source.unsplash.com/random)'}}/>
+                  style={{backgroundImage: `url(${loginImage})`}}/>
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6}>
                     <div className={classes.paper}>
                         <Avatar className={classes.avatar}>
