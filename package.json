@@ -1,0 +1,7 @@
+{
+    "scripts": {
+        "build": "yarn --cwd ./website/client install && yarn --cwd ./website/server install",
+        "start:backend": "node ./website/server/router.js",
+        "start:frontend": "yarn --cwd ./website/client start"
+    }
+}
