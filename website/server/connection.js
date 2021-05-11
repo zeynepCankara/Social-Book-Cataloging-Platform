@@ -221,12 +221,12 @@ class Connection {
                                     'FOREIGN KEY(buyer_id) REFERENCES User(user_id),' +
                                     'FOREIGN KEY(seller_id) REFERENCES User(user_id),' +
                                     'FOREIGN KEY(book_id) REFERENCES Book(book_id));');
-/*
-        await this.executeQuery('CREATE TABLE Group(' +
+
+        await this.executeQuery('CREATE TABLE Grup(' +
                                     'group_id INT,' +
                                     'name VARCHAR(64),' +
                                     'description VARCHAR(64),' +
-                                    'isPrivate INT,' +
+                                    'is_Private INT,' +
                                     'user_id INT,' +
                                     'PRIMARY KEY(group_id),' +
                                     'FOREIGN KEY(user_id) REFERENCES User(user_id));');
@@ -235,7 +235,7 @@ class Connection {
                                     'group_id INT,' +
                                     'user_id INT,' +
                                     'PRIMARY KEY(group_id, user_id),' +
-                                    'FOREIGN KEY(group_id) REFERENCES Group(group_id),' +
+                                    'FOREIGN KEY(group_id) REFERENCES Grup(group_id),' +
                                     'FOREIGN KEY(user_id) REFERENCES User(user_id));');
 
         await this.executeQuery('CREATE TABLE GroupPost(' +
@@ -243,8 +243,8 @@ class Connection {
                                     'group_id INT,' +
                                     'PRIMARY KEY(post_id),' +
                                     'FOREIGN KEY(post_id) REFERENCES Post(post_id),' +
-                                    'FOREIGN KEY(group_id) REFERENCES Group(group_id));');
-*/
+                                    'FOREIGN KEY(group_id) REFERENCES Grup(group_id));');
+
         await this.populateDatabase();
     }
     
