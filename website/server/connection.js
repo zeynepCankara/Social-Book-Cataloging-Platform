@@ -34,7 +34,7 @@ class Connection {
         // TODO: Initialize database
         // await this.executeQuery('CREATE TABLE ...')
 
-        await populateDatabase();
+        await this.populateDatabase();
     }
     
     async populateDatabase() {
