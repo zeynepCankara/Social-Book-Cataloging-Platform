@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { SIGNUP_REQUEST } from '../../actions';
 
-export default function Login({classes, onError: parentError, onSubmit}) {
+export default function Login({classes, onError: parentError, onSubmit, userType}) {
     const dispatch = useDispatch();
     const history = useHistory();
     const [state, setState] = useState({
@@ -87,7 +87,10 @@ export default function Login({classes, onError: parentError, onSubmit}) {
             onSubmit();
             dispatch({
                 type: SIGNUP_REQUEST,
-                payload: state,
+                payload: {
+                    ...state,
+                    userType
+                },
                 history,
                 onError
             })
