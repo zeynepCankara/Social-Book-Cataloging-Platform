@@ -10,48 +10,26 @@ export default function Login({classes, onError: parentError, onSubmit, userType
     const history = useHistory();
     const [state, setState] = useState({
         name: '',
+        username: '',
         password: '',
         email: ''
     });
     const [errored, setErrored] = useState({
         name: false,
+        username: false,
         password: false,
         email: false
     })
 
-    const handleNameInput = e => {
+    const handleInput = inputType => e => {
         setState({
             ...state,
-            name: e.target.value,
+            [inputType]: e.target.value,
         })
 
         setErrored({
             ...errored,
-            name: false
-        })
-    }
-
-    const handlePasswordInput = e => {
-        setState({
-            ...state,
-            password: e.target.value,
-        })
-
-        setErrored({
-            ...errored,
-            password: false
-        })
-    }
-
-    const handleEmailInput = e => {
-        setState({
-            ...state,
-            email: e.target.value,
-        })
-
-        setErrored({
-            ...errored,
-            email: false
+            [inputType]: false
         })
     }
 
@@ -70,6 +48,12 @@ export default function Login({classes, onError: parentError, onSubmit, userType
             setErrored({
                 ...errored,
                 name: true
+            })
+        } else if (state.username === '') {
+            parentError('Please fill the username field');
+            setErrored({
+                ...errored,
+                username: true
             })
         } else if (state.email === '') {
             parentError('Please enter password');
@@ -109,9 +93,23 @@ export default function Login({classes, onError: parentError, onSubmit, userType
                 name="name"
                 autoComplete="name"
                 autoFocus
-                onChange={handleNameInput}
+                onChange={handleInput('name')}
                 value={state.name}
                 error={errored.name}
+            />
+            <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="name"
+                autoFocus
+                onChange={handleInput('username')}
+                value={state.username}
+                error={errored.username}
             />
             <TextField
                 variant="outlined"
@@ -122,7 +120,7 @@ export default function Login({classes, onError: parentError, onSubmit, userType
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                onChange={handleEmailInput}
+                onChange={handleInput('email')}
                 value={state.email}
                 error={errored.email}
             />
@@ -136,7 +134,7 @@ export default function Login({classes, onError: parentError, onSubmit, userType
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={handlePasswordInput}
+                onChange={handleInput('password')}
                 value={state.password}
                 error={errored.password}
             />

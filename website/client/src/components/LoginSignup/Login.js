@@ -8,23 +8,23 @@ export default function Login({classes, onError: parentError, onSubmit, userType
     const dispatch = useDispatch();
     const history = useHistory();
     const [state, setState] = useState({
-        name: '',
+        username: '',
         password: '',
     });
     const [errored, setErrored] = useState({
-        name: false,
+        username: false,
         password: false
     })
 
     const handleNameInput = e => {
         setState({
             ...state,
-            name: e.target.value,
+            username: e.target.value,
         })
 
         setErrored({
             ...errored,
-            name: false
+            username: false
         })
     }
 
@@ -43,17 +43,17 @@ export default function Login({classes, onError: parentError, onSubmit, userType
     const onError = errorText => {
         parentError(errorText);
         setState({
-            name: '',
+            username: '',
             password: ''
         })
     }
 
     const handleLogin = () => {
-        if (state.name === '') {
-            parentError('Please fill the name field');
+        if (state.username === '') {
+            parentError('Please fill the username field');
             setErrored({
                 ...errored,
-                name: true
+                username: true
             })
         } else if (state.password === '') {
             parentError('Please enter password');
@@ -82,21 +82,21 @@ export default function Login({classes, onError: parentError, onSubmit, userType
                 margin="normal"
                 required
                 fullWidth
-                id="name"
+                id="username"
                 label="Name"
-                name="name"
-                autoComplete="name"
+                username="username"
+                autoComplete="username"
                 autoFocus
                 onChange={handleNameInput}
-                value={state.name}
-                error={errored.name}
+                value={state.username}
+                error={errored.username}
             />
             <TextField
                 variant="outlined"
                 margin="normal"
                 required
                 fullWidth
-                name="password"
+                username="password"
                 label="Password"
                 type="password"
                 id="password"

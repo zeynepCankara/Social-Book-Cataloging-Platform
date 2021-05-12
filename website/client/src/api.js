@@ -11,3 +11,7 @@ export async function signup(payload) {
 export async function getAllBooks() {
     return axios.get('http://localhost:3001/getAllBooks').then(res => res);
 }
+
+export async function getTrackedBooks(username) {
+    return axios.post('http://localhost:3001/getTrackedBooks', {username}).then(res => res);
+}

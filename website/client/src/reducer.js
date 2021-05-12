@@ -1,27 +1,27 @@
 import { 
-    LOGIN_SUCCESS,
     SET_USERNAME,
-    SIGNUP_SUCCESS,
-    SET_HOME_CONTENT
+    SET_HOME_CONTENT,
+    SET_USER_INFORMATION
 } from './actions';
 
 export default function reducer(state, action) {
     switch (action.type) {
-        case LOGIN_SUCCESS:
-            const { name } = action.payload;
+        case SET_USER_INFORMATION:
+            const { informationType, value } = action.payload;
             return {
                 ...state,
-                username: name,
-            }
-        case SIGNUP_SUCCESS:
-            return {
-                ...state,
-                username: action.payload.name,
+                user: {
+                    ...state.user,
+                    [informationType]: value,
+                }
             }
         case SET_USERNAME:
             return {
                 ...state,
-                username: action.username
+                user: {
+                    ...state.user,
+                    name: action.username
+                }
             }
         case SET_HOME_CONTENT:
             return {
