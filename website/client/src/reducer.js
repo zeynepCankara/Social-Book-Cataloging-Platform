@@ -1,7 +1,8 @@
 import { 
     LOGIN_SUCCESS,
     SET_USERNAME,
-    SIGNUP_SUCCESS
+    SIGNUP_SUCCESS,
+    SET_HOME_CONTENT
 } from './actions';
 
 export default function reducer(state, action) {
@@ -21,6 +22,11 @@ export default function reducer(state, action) {
             return {
                 ...state,
                 username: action.username
+            }
+        case SET_HOME_CONTENT:
+            return {
+                ...state,
+                homeContent: action.payload
             }
         default:
             return {};

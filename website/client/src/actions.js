@@ -7,3 +7,4 @@ export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
 
 export const SET_USERNAME = 'SET_USERNAME';
+export const SET_HOME_CONTENT = 'SET_HOME_CONTENT';

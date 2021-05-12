@@ -1,6 +1,13 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { login, signup } from './api';
-import { LOGIN_REQUEST, LOGIN_FAILURE, LOGIN_SUCCESS, SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE } from './actions';
+import { 
+    LOGIN_REQUEST, 
+    LOGIN_FAILURE, 
+    LOGIN_SUCCESS, 
+    SIGNUP_REQUEST, 
+    SIGNUP_SUCCESS,
+    SIGNUP_FAILURE,
+    SET_HOME_CONTENT } from './actions';
 import Cookies from 'universal-cookie';
 
 function setCookie(key, value) {
@@ -14,6 +21,7 @@ function* loginMiddleware(action) {
     
         if (response.status === 200) {
             yield put({type: LOGIN_SUCCESS, payload: action.payload});
+            yield put({type: SET_HOME_CONTENT, payload: { mode: 'home' }});
             yield call(setCookie, 'username', action.payload.name);
             action.history.push('/home');
         }
@@ -30,6 +38,7 @@ function* signupMiddleware(action) {
 
         if (response.status === 200) {
             yield put({type: SIGNUP_SUCCESS, payload: action.payload});
+            yield put({type: SET_HOME_CONTENT, payload: { mode: 'home' }});
             yield call(setCookie, 'username', action.payload.name);
             action.history.push('/home');
         }

@@ -19,7 +19,7 @@ function App() {
                         <Home/>
                     </Route>
                     <Route path='/'>
-                        <BookListContainer/>
+                        <LoginSignupContainer/>
                     </Route>
                 </Switch>
             </CookieProvider>
