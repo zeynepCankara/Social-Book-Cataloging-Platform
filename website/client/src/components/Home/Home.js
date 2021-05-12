@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Cookies from 'universal-cookie';
 import { AppBar, Toolbar, makeStyles, styled, Button, Container, Typography } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
@@ -9,6 +9,7 @@ import BookListContainer from '../BookList/BookListContainer';
 import ChallengeListContainer from '../ChallengeList/ChallengeListContainer';
 import BooksContainer from '../Books/BooksContainer';
 import Logo from '../../assets/logo.png';
+import { useHomeContentSelector, useUserSelector } from '../../selectors';
 
 const useStyles = makeStyles((theme) => ({
     navBar: {
@@ -56,8 +57,8 @@ const NavButton = styled(Button)({
 export default function Home() {
     const dispatch = useDispatch();
     const classes = useStyles();
-    const name = useSelector(state => state.user && state.user.username);
-    const homeContent = useSelector(state => state.homeContent) || { mode: 'none'};
+    const user = useUserSelector();
+    const homeContent = useHomeContentSelector();
 
     const handleLogout = () => {
         const cookies = new Cookies();
@@ -111,7 +112,7 @@ export default function Home() {
                     {renderButton('challenges', 'Challenges')}
                     {renderButton('booklists', 'My Lists')}
                     <div className={classes.accountBox}>
-                        <Typography style={{ fontSize: '25px'}}>{name}</Typography>
+                        <Typography style={{ fontSize: '25px'}}>{user.username}</Typography>
                         <AccountCircleIcon color="action" fontSize="large" style={{margin: '0 5px'}}/>
                     </div>
                     <NavButton style={{padding: '0 30px'}} onClick={handleLogout}>

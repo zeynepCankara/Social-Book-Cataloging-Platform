@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import { SET_USERNAME, SET_HOME_CONTENT } from './actions';
+import { SET_USERNAME, SET_HOME_CONTENT, FETCH_BOOKS_REQUEST } from './actions';
 import { useDispatch } from 'react-redux';
 
 export default function CookieProvider({children}) {
@@ -25,6 +25,11 @@ export default function CookieProvider({children}) {
             dispatch({
                 type: SET_HOME_CONTENT,
                 payload: homeContent
+            })
+            dispatch({
+                type: FETCH_BOOKS_REQUEST,
+                onSuccess: () => {},
+                onFailure: () => {}
             })
             history.push('/home');
         } else {

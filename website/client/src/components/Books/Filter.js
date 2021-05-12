@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, makeStyles, Slider, TextField, Typography } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { APPLY_FILTERS, FETCH_BOOKS_REQUEST } from '../../actions';
@@ -39,6 +39,16 @@ export default function Filter() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [filter, setFilter] = useState({});
+
+    useEffect(() => {
+        return () => {
+            dispatch({
+                type: FETCH_BOOKS_REQUEST,
+                onSuccess: () => {},
+                onFailure: () => {}
+            })
+        }
+    }, [dispatch])
 
     const changeFilter = filterType => (event, range) => {
         if (filterType === 'publishYear') {

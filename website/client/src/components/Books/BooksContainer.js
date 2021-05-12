@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { FETCH_BOOKS_REQUEST } from '../../actions';
 import { makeStyles } from '@material-ui/core';
 import Books from './Books';
 import Filter from './Filter';
+import { useBookSelector } from '../../selectors';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -15,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 export default function BooksContainer() {
     const dispatch = useDispatch();
     const classes = useStyles();
-    const books = useSelector(state => state.books) || [];
+    const books = useBookSelector();
     const [loading, setLoading] = useState(false);
     const [failure, setFailure] = useState(false);
 
