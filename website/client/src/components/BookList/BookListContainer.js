@@ -1,19 +1,19 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import PropTypes from 'prop-types';
+
+import NavBar from '../Common/NavBar';
+import FormDialog from '../Common/FormDialog';
 
 function Copyright() {
   return (
@@ -31,13 +31,37 @@ function Copyright() {
 const propTypes = {
   no: PropTypes.number.isRequired,
   booklists: PropTypes.array.isRequired,
-  name: PropTypes.string.isRequired,
+  books: PropTypes.array,
+  username: PropTypes.string.isRequired,
   description: PropTypes.string
 };
 
 // use it to test the booklist cards
 const defaultProps = {
   no: 1,
+  username: "Zeynep Cankara",
+  description: "Zeynep C. 21 yo. Aspiring eggdog. Bookworm in free time. To the moon.",
+  books: [{
+    book_id: 1,
+    genre: "sci-fi",
+    year: 1999,
+    name: "Foundation",
+    author_id: 1
+  },
+  {
+    book_id: 2,
+    genre: "fantasy",
+    year: 2021,
+    name: "Lord of the Rings",
+    author_id: 2
+  },
+  {
+    book_id: 3,
+    genre: "sci-fi",
+    year: 2020,
+    name: "Foundation II",
+    author_id: 1
+  }],
   booklists: [{
     id: 1,
     name: "markup",
@@ -64,9 +88,7 @@ const defaultProps = {
     creation_date: "11/05/2021",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     nof_followers: 12
-  }],
-  username: "Zeynep Cankara",
-  description: "Bio: Zeynep. 21 y.o. Aspiring eggdog. Senior @Bilkent CS"
+  }]
 };
 
 
@@ -121,46 +143,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 const BookListContainer = (props) => {
-  const { no, booklists, username, description } = props;
+  const { no, booklists, username, description, books } = props;
   const classes = useStyles();
 
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
-        <Toolbar className={classes.toolbar}>
-          <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-            LibRead
-          </Typography>
-          <nav>
-            <Link variant="button" color="textPrimary" href="./home" className={classes.link}>
-              Home
-            </Link>
-            <Link variant="button" color="textPrimary" href="./booklist" className={classes.link}>
-              My Lists
-            </Link>
-            <Link variant="button" color="textPrimary" href="./browse" className={classes.link}>
-              Browse
-            </Link>
-            <Link variant="button" color="textPrimary" href="./community" className={classes.link}>
-              Community
-            </Link>
-            <Link variant="button" color="textPrimary" href="./challenge" className={classes.link}>
-              Challenge
-            </Link>
-            <Link variant="button" color="textPrimary" href="./market" className={classes.link}>
-              Market
-            </Link>
-          </nav>
-          <Button href="./login" color="primary" variant="outlined" className={classes.link}>
-            Login
-          </Button>
-        </Toolbar>
-      </AppBar>
-
+      <NavBar></NavBar>
       <main>
         {/* Hero unit */}
         <div className={classes.heroContent}>
@@ -171,13 +161,20 @@ const BookListContainer = (props) => {
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
             {description}
             </Typography>
+            <div className={classes.heroButtons}>
+              <Grid container spacing={2} justify="center">
+                <Grid item>
+                  <FormDialog text="Create Book List" books={books}></FormDialog>
+                </Grid>
+              </Grid>
+            </div>
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {booklists.map((booklist) => (
-              <Grid item key={booklist.toString()} xs={12} sm={6} md={4}>
+            {booklists.map((booklist, index) => (
+              <Grid item key={index} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
