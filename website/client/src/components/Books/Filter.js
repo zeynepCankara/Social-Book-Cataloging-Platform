@@ -39,16 +39,20 @@ export default function Filter() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [filter, setFilter] = useState({});
+    const [filterApplied, setFilterApplied] = useState(false);
+
 
     useEffect(() => {
         return () => {
-            dispatch({
-                type: FETCH_BOOKS_REQUEST,
-                onSuccess: () => {},
-                onFailure: () => {}
-            })
+            if (filterApplied) {
+                dispatch({
+                    type: FETCH_BOOKS_REQUEST,
+                    onSuccess: () => {},
+                    onFailure: () => {}
+                })
+            }
         }
-    }, [dispatch])
+    }, [filterApplied])
 
     const changeFilter = filterType => (event, range) => {
         if (filterType === 'publishYear') {
@@ -77,11 +81,7 @@ export default function Filter() {
             setFilter(newState);
         } else {
             setFilter({});
-            dispatch({
-                type: FETCH_BOOKS_REQUEST,
-                onSuccess: () => {},
-                onFailure: () => {}
-            })
+            setFilterApplied(false);
         }
     }
 
@@ -91,12 +91,9 @@ export default function Filter() {
                 type: APPLY_FILTERS,
                 payload: filter
             })
+            setFilterApplied(true);
         } else {
-            dispatch({
-                type: FETCH_BOOKS_REQUEST,
-                onSuccess: () => {},
-                onFailure: () => {}
-            })
+            setFilterApplied(false);
         }
     }
 

@@ -22,7 +22,7 @@ async function runServer() {
      * Checks the credentials of user trying to login and returns status 200 if they are valid, return 400 otherwise
      */
     app.post('/login', parse.json(), async (req, res) => {
-        console.log(req.body);
+        console.log('login', req.body);
         const { username, password, userType } = req.body;
 
         // const results = await connection.executeQuery('SELECT * FROM users...');
@@ -34,7 +34,7 @@ async function runServer() {
      * Saves new user
      */
     app.post('/signup', parse.json(), async (req, res) => {
-        console.log(req.body);
+        console.log('signup', req.body);
         const { name, username, email, password, userType } = req.body;
         // TODO: Check database whether this credentials are valid
         res.status(200).send(`testSignup with ${name} and ${password}`);
@@ -44,12 +44,14 @@ async function runServer() {
      * Get all books
      */
     app.get('/getAllBooks', parse.json(), async (req, res) => {
+        console.log('getAllBooks');
         const results = await connection.executeQuery('SELECT * FROM Book;');
         res.status(200).send(results);
     })
 
     
     app.post('/getFilteredBooks', parse.json(), async (req, res) => {
+        console.log('getFilteredBooks', req.body);
         const { bookName, author, genre, publishYear } = req.body;
         const filters = [
             bookName && `name LIKE '%${bookName}%'`,
@@ -58,13 +60,12 @@ async function runServer() {
             publishYear && `year BETWEEN ${publishYear[0]} AND ${publishYear[1]}`
         ];
         const whereClause = filters.filter(e => e).join(' AND ');
-        console.log(`SELECT * FROM Book WHERE ${whereClause};`);
         const results = await connection.executeQuery(`SELECT * FROM Book WHERE ${whereClause};`)
         res.status(200).send(results);
     })
     
     app.post('/getTrackedBooks', parse.json(), async (req, res) => {
-        console.log(req.body);
+        console.log('getTrackedBooks', req.body);
         const { username } = req.body;
         /*
         response should be in this format:
@@ -86,24 +87,50 @@ async function runServer() {
         res.status(200).send({
             1: [
                 {
-                    page_number: 10,
+                    pageNumber: 10,
                     date: '2020-01-01'
                 },
                 {
-                    page_number: 50,
+                    pageNumber: 50,
                     date: '2020-02-01'
                 },
             ],
             2: [
                 {
-                    page_number: 10,
+                    pageNumber: 10,
                     date: '2020-01-01'
                 },
                 {
-                    page_number: 50,
+                    pageNumber: 50,
                     date: '2020-02-01'
                 },
             ],
+        });
+    })
+
+    app.post('/getReviews', parse.json(), async (req, res) => {
+        console.log('getReviews', req.body);
+        const { username } = req.body;
+        // Get all reviews done by specified user
+
+                /*
+        response should be in this format:
+        {
+            bookID: {
+                rate: 2,
+                comment: 'Comment',
+                date: '2020-01-01,
+            },
+            otherBookID...
+        }
+    
+        */
+        res.status(200).send({
+            1: {
+                rate: 4,
+                comment: 'I loved this book',
+                date: '2020-01-01'
+            }
         });
     })
 }

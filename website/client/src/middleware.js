@@ -1,5 +1,12 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { login, signup, getAllBooks, getTrackedBooks, getFilteredBooks } from './api';
+import { 
+    login, 
+    signup,
+    getAllBooks, 
+    getTrackedBooks, 
+    getFilteredBooks,
+    getReviews
+} from './api';
 import { 
     LOGIN_REQUEST, 
     LOGIN_FAILURE, 
@@ -78,6 +85,18 @@ function* fetchUserInformation(action) {
             type: SET_USER_INFORMATION,
             payload: {
                 informationType: 'trackedBooks',
+                value: response.data
+            }
+        })
+    }
+
+    response = yield call(getReviews, username);
+
+    if (response.status === 200) {
+        yield put({
+            type: SET_USER_INFORMATION,
+            payload: { 
+                informationType: 'reviews',
                 value: response.data
             }
         })

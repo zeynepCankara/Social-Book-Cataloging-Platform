@@ -17,6 +17,9 @@ export async function getTrackedBooks(username) {
 }
 
 export async function getFilteredBooks(filters) {
-    console.log(filters)
     return axios.post('http://localhost:3001/getFilteredBooks', filters).then(res => res);
+}
+
+export async function getReviews(username) {
+    return axios.post('http://localhost:3001/getReviews', {username}).then(res => res);
 }

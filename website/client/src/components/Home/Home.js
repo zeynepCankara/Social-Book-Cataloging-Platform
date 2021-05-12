@@ -10,6 +10,7 @@ import ChallengeListContainer from '../ChallengeList/ChallengeListContainer';
 import BooksContainer from '../Books/BooksContainer';
 import Logo from '../../assets/logo.png';
 import { useHomeContentSelector, useUserSelector } from '../../selectors';
+import BookPage from '../BookPage/BookPage';
 
 const useStyles = makeStyles((theme) => ({
     navBar: {
@@ -87,6 +88,9 @@ export default function Home() {
         case 'booklists':
             MainComponent = BookListContainer;
             break;
+        case 'book':
+            MainComponent = BookPage;
+            break;
         default:
             MainComponent = Container;
     }
@@ -120,7 +124,7 @@ export default function Home() {
                     </NavButton>
                 </Toolbar>
             </AppBar>
-            <MainComponent/>
+            <MainComponent {...homeContent}/>
         </div>
     )
 }
