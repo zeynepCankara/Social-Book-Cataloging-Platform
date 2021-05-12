@@ -1,7 +1,8 @@
 import { 
     SET_USERNAME,
     SET_HOME_CONTENT,
-    SET_USER_INFORMATION
+    SET_USER_INFORMATION,
+    FETCH_BOOKS_SUCCESS
 } from './actions';
 
 export default function reducer(state, action) {
@@ -29,6 +30,11 @@ export default function reducer(state, action) {
             return {
                 ...state,
                 homeContent: action.payload
+            }
+        case FETCH_BOOKS_SUCCESS:
+            return {
+                ...state,
+                books: action.payload
             }
         default:
             return state || {};

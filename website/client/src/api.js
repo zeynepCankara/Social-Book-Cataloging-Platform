@@ -15,3 +15,8 @@ export async function getAllBooks() {
 export async function getTrackedBooks(username) {
     return axios.post('http://localhost:3001/getTrackedBooks', {username}).then(res => res);
 }
+
+export async function getFilteredBooks(filters) {
+    console.log(filters)
+    return axios.post('http://localhost:3001/getFilteredBooks', filters).then(res => res);
+}

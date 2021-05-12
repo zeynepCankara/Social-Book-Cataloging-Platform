@@ -57,7 +57,7 @@ export default function Home() {
     const dispatch = useDispatch();
     const classes = useStyles();
     const name = useSelector(state => state.user && state.user.username);
-    const homeContent = useSelector(state => state.homeContent) || { mode: 'home'};
+    const homeContent = useSelector(state => state.homeContent) || { mode: 'none'};
 
     const handleLogout = () => {
         const cookies = new Cookies();
@@ -90,23 +90,26 @@ export default function Home() {
             MainComponent = Container;
     }
 
+    const renderButton = (mode, text) => {
+        return (<NavButton
+            onClick={setHomeContent(mode)}
+            style={homeContent && homeContent.mode === mode ? {
+                backgroundColor: '#382110',
+                color: 'white'
+            } : {}}
+        >
+            {text}
+        </NavButton>)
+    }
     return (
         <div>
             <AppBar position="sticky">
                 <Toolbar className={classes.navBar}>
                     <div className={classes.logo}/>
-                    <NavButton onClick={setHomeContent('home')}>
-                        Home
-                    </NavButton>
-                    <NavButton onClick={setHomeContent('books')}>
-                        Books
-                    </NavButton>
-                    <NavButton onClick={setHomeContent('challenges')}>
-                        Challenges
-                    </NavButton>
-                    <NavButton onClick={setHomeContent('booklists')}>
-                        My Lists
-                    </NavButton>
+                    {renderButton('home', 'Home')}
+                    {renderButton('books', 'Books')}
+                    {renderButton('challenges', 'Challenges')}
+                    {renderButton('booklists', 'My Lists')}
                     <div className={classes.accountBox}>
                         <Typography style={{ fontSize: '25px'}}>{name}</Typography>
                         <AccountCircleIcon color="action" fontSize="large" style={{margin: '0 5px'}}/>

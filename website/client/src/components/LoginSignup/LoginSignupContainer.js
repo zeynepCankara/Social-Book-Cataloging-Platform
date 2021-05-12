@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
     },
     bottom: {
         marginTop: '10px'
@@ -128,7 +127,7 @@ export function LoginSignupContainer() {
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6}>
                     <div className={classes.paper}>
                         <Avatar className={classes.avatar}>
-                            <LockOutlinedIcon />
+                            <LockOutlinedIcon/>
                         </Avatar>
                         <Typography component="h1" variant="h5">
                             {headerText}
@@ -146,7 +145,7 @@ export function LoginSignupContainer() {
                                 </Select>
                             </Grid>
                             <Grid item>
-                                <CustomLink onClick={switchMode} variant="body2" color="secondary">
+                                <CustomLink onClick={switchMode} variant="body2" color="primary">
                                    {switchText}
                                 </CustomLink>
                             </Grid>

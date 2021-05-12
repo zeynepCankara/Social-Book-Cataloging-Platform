@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
     container: {
         display: 'flex',
         justifyContent: 'center',
-        flex: 0.7,
+        flexBasis: '75%',
         overflowY: 'scroll',
         padding: '10px 20px',
         backgroundColor: '#ddd',
@@ -22,20 +22,16 @@ const useStyles = makeStyles((theme) => ({
     },
     list: {
         width: '100%',
-        height: '100%',
+        height: 'fit-content',
         display: 'grid',
         gridGap: '10px',
-        gridTemplateColumns: 'auto auto auto',
+        gridRowGap: '5px',
+        gridTemplateColumns: 'auto auto',
     },
 }))
 
 export default function Books({loading, books, failure}) {
     const classes = useStyles();
-    let populated = books;
-    let i = 0;
-    for (i = 0; i < 10; i++) {
-        populated = [...populated, ...books];
-    }
     return (
         <div className={classes.container}>
             {loading ?
@@ -47,7 +43,7 @@ export default function Books({loading, books, failure}) {
                     Loading...
                 </div> :
                 <div className={classes.list}>
-                    {populated.map(book => <Book info={book} className={classes.item} />)}
+                    {books.map(book => <Book info={book} className={classes.item} />)}
                 </div>
             }
         </div>

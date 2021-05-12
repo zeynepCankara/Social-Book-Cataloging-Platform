@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FETCH_BOOKS_REQUEST } from '../../actions';
 import { makeStyles } from '@material-ui/core';
 import Books from './Books';
@@ -15,13 +15,11 @@ const useStyles = makeStyles((theme) => ({
 export default function BooksContainer() {
     const dispatch = useDispatch();
     const classes = useStyles();
-
-    const [books, setBooks] = useState([]);
+    const books = useSelector(state => state.books) || [];
     const [loading, setLoading] = useState(false);
     const [failure, setFailure] = useState(false);
 
-    const onSuccess = books => {
-        setBooks(books);
+    const onSuccess = () => {
         setLoading(false);
     };
 

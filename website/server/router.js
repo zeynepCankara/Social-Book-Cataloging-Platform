@@ -44,28 +44,25 @@ async function runServer() {
      * Get all books
      */
     app.get('/getAllBooks', parse.json(), async (req, res) => {
-        // const results = await connection.executeQuery('SELECT ...');
-        // res.status(200).send(results);
-        res.status(200).send([
-        {
-            book_id: 1,
-            genre: 'Fiction',
-            year: 2000,
-            name: 'Republic',
-            author_id: 1,
-            author_name: 'Plato',
-        },
-        {
-            book_id: 2,
-            genre: 'Fiction',
-            year: 2005,
-            name: 'Tutunamayanlar',
-            author_id: 2,
-            author_name: 'Oğuz Atay',
-        }
-        ]);
+        const results = await connection.executeQuery('SELECT * FROM Book;');
+        res.status(200).send(results);
     })
 
+    
+    app.post('/getFilteredBooks', parse.json(), async (req, res) => {
+        const { bookName, author, genre, publishYear } = req.body;
+        const filters = [
+            bookName && `name LIKE '%${bookName}%'`,
+            author && `authorName LIKE '%${author}%'`,
+            genre && `genre LIKE '%${genre}%'`,
+            publishYear && `year BETWEEN ${publishYear[0]} AND ${publishYear[1]}`
+        ];
+        const whereClause = filters.filter(e => e).join(' AND ');
+        console.log(`SELECT * FROM Book WHERE ${whereClause};`);
+        const results = await connection.executeQuery(`SELECT * FROM Book WHERE ${whereClause};`)
+        res.status(200).send(results);
+    })
+    
     app.post('/getTrackedBooks', parse.json(), async (req, res) => {
         console.log(req.body);
         const { username } = req.body;
@@ -84,7 +81,7 @@ async function runServer() {
             ],
             otherBookID...
         }
-
+    
         */
         res.status(200).send({
             1: [

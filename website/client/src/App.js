@@ -15,21 +15,17 @@ import { ThemeProvider } from '@material-ui/styles';
 const THEME = createMuiTheme({
     typography: {
         fontFamily: [
-            '"Lato"', 
-            '"Helvetica Neue"', 
-            '"Helvetica"', 
-            'sans-serif'
+            '"Merriweather"'
         ].join(','),
     },
     palette: {
         primary: {
-            main: '#F4F1EA',
-            dark: '#382110',
-            contrastText: '#382110'
-        },
-        secondary: {
             main: '#382110',
             dark: '#F4F1EA'
+        },
+        secondary: {
+            main: '#F4F1EA',
+            dark: '#382110',
         },
     },
     overrides: {
@@ -39,14 +35,14 @@ const THEME = createMuiTheme({
             },
             containedPrimary: {
                 '&:hover': {
-                    color: 'white'
+                    color: '#382110'
                 }
             },
             containedSecondary: {
                 '&:hover': {
-                    color: '#382110'
+                    color: 'white'
                 }
-            }
+            },
         }
     }
 })

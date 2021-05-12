@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { login, signup, getAllBooks, getTrackedBooks } from './api';
+import { login, signup, getAllBooks, getTrackedBooks, getFilteredBooks } from './api';
 import { 
     LOGIN_REQUEST, 
     LOGIN_FAILURE, 
@@ -10,7 +10,8 @@ import {
     FETCH_BOOKS_SUCCESS,
     FETCH_BOOKS_FAILURE,
     SET_USERNAME,
-    SET_USER_INFORMATION} from './actions';
+    SET_USER_INFORMATION,
+    APPLY_FILTERS} from './actions';
 import Cookies from 'universal-cookie';
 
 function setCookie(key, value) {
@@ -87,10 +88,20 @@ function* saveHomeContent(action) {
     yield call(setCookie, 'homeContent', action.payload);
 }
 
+function* applyFilters(action) {
+    const response = yield call(getFilteredBooks, action.payload);
+    yield put({
+        type: FETCH_BOOKS_SUCCESS,
+        payload: response.data
+    })
+
+}
+
 export default function* mainMiddleware() {
     yield takeEvery(LOGIN_REQUEST, loginMiddleware);
     yield takeEvery(SIGNUP_REQUEST, signupMiddleware);
     yield takeEvery(FETCH_BOOKS_REQUEST, fetchBook);
     yield takeEvery(SET_USERNAME, fetchUserInformation);
     yield takeEvery(SET_HOME_CONTENT, saveHomeContent);
+    yield takeEvery(APPLY_FILTERS, applyFilters);
 }
