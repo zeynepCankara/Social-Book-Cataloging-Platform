@@ -34,216 +34,226 @@ class Connection {
 
         // TODO: Initialize database
         await this.executeQuery('CREATE TABLE User(' +
-                                    'user_id INT,' +
-                                    'username VARCHAR(16),' +
+                                    'userId INT,' +
+                                    'userName VARCHAR(30),' +
+                                    'name VARCHAR(30),' +
                                     'mail VARCHAR(32) NOT NULL,' +
-                                    'name VARCHAR(16) NOT NULL,' +
                                     'password VARCHAR(32) NOT NULL,' +
-                                    'usertype VARCHAR(16) NOT NULL,' +
-                                    'PRIMARY KEY(user_id),' +
-                                    'UNIQUE (username));');
+                                    'userType VARCHAR(16) NOT NULL,' +
+                                    'PRIMARY KEY(userId),' +
+                                    'UNIQUE (userName));');
                                     //'CONSTRAINT chk_user CHECK (usertype IN ("librarian", "user", "author")));');
 
         await this.executeQuery('CREATE TABLE Book(' +
-                                    'book_id INT,' +
+                                    'bookId INT,' +
                                     'genre VARCHAR(32),' +
                                     'year INT,' +
                                     'name VARCHAR(64),' +
-                                    'author_id INT,' +
-                                    'PRIMARY KEY(book_id),' +
-                                    'FOREIGN KEY(author_id) REFERENCES User (user_id));');
+                                    'authorId INT,' +
+                                    'authorName VARCHAR(30),' +
+                                    'PRIMARY KEY(bookId),' +
+                                    'FOREIGN KEY(authorId) REFERENCES User (userId));');
 
         await this.executeQuery('CREATE TABLE Challenge(' +
-                                    'challenge_id INT,' +
+                                    'challengeId INT,' +
                                     'name VARCHAR(16) NOT NULL,' +
-                                    'start_date DATE NOT NULL,' +
-                                    'end_date DATE NOT NULL,' +
+                                    'startDate DATE NOT NULL,' +
+                                    'endDate DATE NOT NULL,' +
                                     'description VARCHAR(80),' +
                                     'type VARCHAR(16),' +
-                                    'creator_id INT NOT NULL,' +
-                                    'winner_id INT,' +
-                                    'PRIMARY KEY(challenge_id),' +
-                                    'FOREIGN KEY (creator_id) REFERENCES User (user_id),' +
-                                    'FOREIGN KEY (winner_id) REFERENCES User (user_id));');
+                                    'creatorId INT NOT NULL,' +
+                                    'winnerId INT,' +
+                                    'PRIMARY KEY(challengeId),' +
+                                    'FOREIGN KEY (creatorId) REFERENCES User (userId),' +
+                                    'FOREIGN KEY (winnerId) REFERENCES User (userId));');
 
         await this.executeQuery('CREATE TABLE JoinsChallenge(' +
-                                    'challenge_id INT,' +
-                                    'user_id INT,' +
+                                    'challengeId INT,' +
+                                    'userId INT,' +
                                     'score INT,' +
-                                    'PRIMARY KEY(user_id, challenge_id),' +
-                                    'FOREIGN KEY(challenge_id) REFERENCES Challenge(challenge_id),' +
-                                    'FOREIGN KEY(user_id) REFERENCES User(user_id));');
+                                    'PRIMARY KEY(userId, challengeId),' +
+                                    'FOREIGN KEY(challengeId) REFERENCES Challenge(challengeId),' +
+                                    'FOREIGN KEY(userId) REFERENCES User(userId));');
                                      
-        await this.executeQuery('CREATE TABLE Friend_of(' +
-                                    'friend_id INT,' +
-                                    'person_id INT,' +
+        await this.executeQuery('CREATE TABLE FriendOf(' +
+                                    'friendId INT,' +
+                                    'personId INT,' +
                                     'status VARCHAR(16) NOT NULL,' +
-                                    'PRIMARY KEY(friend_id, person_id),' +
-                                    'FOREIGN KEY(friend_id) REFERENCES User(user_id),' +
-                                    'FOREIGN KEY(person_id) REFERENCES User(user_id));');
+                                    'PRIMARY KEY(friendId, personId),' +
+                                    'FOREIGN KEY(friendId) REFERENCES User(userId),' +
+                                    'FOREIGN KEY(personId) REFERENCES User(userId));');
                                     //'CHECK (status IN (‘PENDING’, ‘ACCEPTED’, ‘REJECTED’));');
 
         await this.executeQuery('CREATE TABLE Post(' +
-                                    'post_id INT,' +
+                                    'postId INT,' +
                                     'text VARCHAR(6),' +
                                     'date DATE,' +
-                                    'writer_id INT,' +
-                                    'PRIMARY KEY(post_id),' +
-                                    'FOREIGN KEY(writer_id) REFERENCES User(user_id));');
+                                    'writerId INT,' +
+                                    'PRIMARY KEY(postId),' +
+                                    'FOREIGN KEY(writerId) REFERENCES User(userId));');
                                     
         await this.executeQuery('CREATE TABLE Likes(' +
-                                    'post_id INT,' +
-                                    'user_id INT,' +
-                                    'PRIMARY KEY(post_id, user_id),' +
-                                    'FOREIGN KEY(post_id) REFERENCES Post(post_id),' +
-                                    'FOREIGN KEY(user_id) REFERENCES User(user_id));');        
+                                    'postId INT,' +
+                                    'userId INT,' +
+                                    'PRIMARY KEY(postId, userId),' +
+                                    'FOREIGN KEY(postId) REFERENCES Post(postId),' +
+                                    'FOREIGN KEY(userId) REFERENCES User(userId));');        
 
         await this.executeQuery('CREATE TABLE Comments(' +
-                                    'post_id INT,' +
-                                    'user_id INT,' +
+                                    'postId INT,' +
+                                    'userId INT,' +
                                     'text VARCHAR(64),' +
-                                    'PRIMARY KEY(post_id, user_id, text),' +
-                                    'FOREIGN KEY(post_id) REFERENCES Post(post_id),' +
-                                    'FOREIGN KEY(user_id) REFERENCES User(user_id));');
+                                    'PRIMARY KEY(postId, userId, text),' +
+                                    'FOREIGN KEY(postId) REFERENCES Post(postId),' +
+                                    'FOREIGN KEY(userId) REFERENCES User(userId));');
 
-        await this.executeQuery('CREATE TABLE Book_List(' +
-                                    'book_list_id INT,' +
+        await this.executeQuery('CREATE TABLE BookList(' +
+                                    'bookListId INT,' +
                                     'name VARCHAR(32),' +
-                                    'creation_date DATE,' +
+                                    'creationDate DATE,' +
                                     'description VARCHAR(64),' +
-                                    'owner_id INT,' +
-                                    'PRIMARY KEY(book_list_id),' +
-                                    'FOREIGN KEY(owner_id) REFERENCES User(user_id));');
+                                    'ownerId INT,' +
+                                    'PRIMARY KEY(bookListId),' +
+                                    'FOREIGN KEY(ownerId) REFERENCES User(userId));');
 
         await this.executeQuery('CREATE TABLE Follows(' +
-                                    'user_id INT,' +
-                                    'book_list_id INT,' +
-                                    'PRIMARY KEY(user_id, book_list_id),' +
-                                    'FOREIGN KEY(book_list_id) REFERENCES Book_List(book_list_id),' +
-                                    'FOREIGN KEY(user_id) REFERENCES User(user_id));');
+                                    'userId INT,' +
+                                    'bookListId INT,' +
+                                    'PRIMARY KEY(userId, bookListId),' +
+                                    'FOREIGN KEY(bookListId) REFERENCES BookList(bookListId),' +
+                                    'FOREIGN KEY(userId) REFERENCES User(userId));');
 
         await this.executeQuery('CREATE TABLE Contains(' +
-                                    'book_list_id INT,' +
-                                    'book_id INT,' +
-                                    'PRIMARY KEY(book_list_id, book_id),' +
-                                    'FOREIGN KEY(book_list_id) REFERENCES Book_List(book_list_id),' +
-                                    'FOREIGN KEY(book_id) REFERENCES Book(book_id));');
+                                    'bookListId INT,' +
+                                    'bookId INT,' +
+                                    'PRIMARY KEY(bookListId, bookId),' +
+                                    'FOREIGN KEY(bookListId) REFERENCES BookList(bookListId),' +
+                                    'FOREIGN KEY(bookId) REFERENCES Book(bookId));');
 
         await this.executeQuery('CREATE TABLE Edition(' +
-                                    'book_id INT,' +
+                                    'bookId INT,' +
                                     'number INT,' +
                                     'publisher VARCHAR(64),' +
-                                    'page_count INT,' +
+                                    'pageCount INT,' +
                                     'format VARCHAR(64),' +
                                     'language VARCHAR(64),' +
                                     'translator VARCHAR(64),' +
-                                    'PRIMARY KEY(book_id, number, publisher, page_count, format, language, translator),' +
-                                    'FOREIGN KEY(book_id) REFERENCES Book(book_id));');
+                                    'PRIMARY KEY(bookId, number, publisher, pageCount, format, language, translator),' +
+                                    'FOREIGN KEY(bookId) REFERENCES Book(bookId));');
 
         await this.executeQuery('CREATE TABLE Tracks(' +
-                                    'user_id INT,' +
-                                    'book_id INT,' +
+                                    'userId INT,' +
+                                    'bookId INT,' +
                                     'number INT,' +
                                     'publisher VARCHAR(64),' +
-                                    'page_count INT,' +
+                                    'pageCount INT,' +
                                     'format VARCHAR(64),' +
                                     'language VARCHAR(64),' +
                                     'translator VARCHAR(64),' +
-                                    'PRIMARY KEY(user_id, book_id, number, publisher, page_count, format, language, translator),' +
-                                    'FOREIGN KEY(book_id, number, publisher, page_count, format, language, translator) REFERENCES Edition(book_id, number, publisher, page_count, format, language, translator),' +
-                                    'FOREIGN KEY(user_id) REFERENCES User(user_id));');
+                                    'PRIMARY KEY(userId, bookId, number, publisher, pageCount, format, language, translator),' +
+                                    'FOREIGN KEY(bookId, number, publisher, pageCount, format, language, translator) REFERENCES Edition(bookId, number, publisher, pageCount, format, language, translator),' +
+                                    'FOREIGN KEY(userId) REFERENCES User(userId));');
 
-        // Bu tablo sıkıntılı olablir - agregation kontrol et
         await this.executeQuery('CREATE TABLE Progress(' +
-                                    'page_number INT,' +
+                                    'pageNumber INT,' +
                                     'date DATE,' +
-                                    'PRIMARY KEY(page_number, date));');
+                                    'userId INT,' +
+                                    'bookId INT,' +
+                                    'number INT,' +
+                                    'publisher VARCHAR(64),' +
+                                    'pageCount INT,' +
+                                    'format VARCHAR(64),' +
+                                    'language VARCHAR(64),' +
+                                    'translator VARCHAR(64),' +
+                                    'PRIMARY KEY(pageNumber, date,userId, bookId, number, publisher, pageCount, format, language, translator),' +
+                                    'FOREIGN KEY(userId, bookId, number, publisher, pageCount, format, language, translator) REFERENCES Tracks (userId, bookId, number, publisher, pageCount, format, language, translator));');
 
         await this.executeQuery('CREATE TABLE Reviews(' +
-                                    'user_id INT,' + 
-                                    'book_id INT,' +
+                                    'userId INT,' + 
+                                    'bookId INT,' +
                                     'rate INT,' +
                                     'comment VARCHAR(200),' +
                                     'date DATE,' +
-                                    'PRIMARY KEY(user_id, book_id),' +
-                                    'FOREIGN KEY(user_id) REFERENCES User(user_id),' +
-                                    'FOREIGN KEY(book_id) REFERENCES Book(book_id));');
+                                    'PRIMARY KEY(userId, bookId),' +
+                                    'FOREIGN KEY(userId) REFERENCES User(userId),' +
+                                    'FOREIGN KEY(bookId) REFERENCES Book(bookId));');
 
         await this.executeQuery('CREATE TABLE Recommends(' +
-                                    'recommendee_id INT,' +
-                                    'recommender_id INT,' +
-                                    'book_id INT,' +
-                                    'PRIMARY KEY(recommendee_id, recommender_id, book_id),' +
-                                    'FOREIGN KEY(recommendee_id) REFERENCES User(user_id),' +
-                                    'FOREIGN KEY(recommender_id) REFERENCES User(user_id),' +
-                                    'FOREIGN KEY(book_id) REFERENCES Book(book_id));');
+                                    'recommendeeId INT,' +
+                                    'recommenderId INT,' +
+                                    'bookId INT,' +
+                                    'PRIMARY KEY(recommendeeId, recommenderId, bookId),' +
+                                    'FOREIGN KEY(recommendeeId) REFERENCES User(userId),' +
+                                    'FOREIGN KEY(recommenderId) REFERENCES User(userId),' +
+                                    'FOREIGN KEY(bookId) REFERENCES Book(bookId));');
 
-        await this.executeQuery('CREATE TABLE Request_Change(' +
-                                    'user_id INT,' +
-                                    'book_id INT,' +
-                                    'book_attribute VARCHAR(64),' +
-                                    'new_value VARCHAR(64),' +
-                                    'PRIMARY KEY(user_id, book_id, book_attribute, new_value),' +
-                                    'FOREIGN KEY(user_id) REFERENCES User(user_id),' +
-                                    'FOREIGN KEY(book_id) REFERENCES Book(book_id))');
+        await this.executeQuery('CREATE TABLE RequestChange(' +
+                                    'userId INT,' +
+                                    'bookId INT,' +
+                                    'bookAttribute VARCHAR(64),' +
+                                    'newValue VARCHAR(64),' +
+                                    'PRIMARY KEY(userId, bookId, bookAttribute, newValue),' +
+                                    'FOREIGN KEY(userId) REFERENCES User(userId),' +
+                                    'FOREIGN KEY(bookId) REFERENCES Book(bookId))');
                                     //'CHECK (book_attribute IN (‘genre’, ‘year’, ‘name’));');
+                                  
 
-        await this.executeQuery('CREATE TABLE Book_Serie(' +
-                                    'book_serie_id INT,' +
+        await this.executeQuery('CREATE TABLE BookSerie(' +
+                                    'bookSerieId INT,' +
                                     'name VARCHAR(64),' +
-                                    'PRIMARY KEY(book_serie_id));');
+                                    'PRIMARY KEY(bookSerieId));');
 
-        await this.executeQuery('CREATE TABLE Series_of(' +
-                                    'book_id INT,' +
-                                    'book_serie_id INT,' +
-                                    'PRIMARY KEY(book_id),' +
-                                    'FOREIGN KEY(book_id) REFERENCES Book(book_id),' +
-                                    'FOREIGN KEY(book_serie_id) REFERENCES Book_Serie(book_serie_id));');
+        await this.executeQuery('CREATE TABLE SeriesOf(' +
+                                    'bookId INT,' +
+                                    'bookSerieId INT,' +
+                                    'PRIMARY KEY(bookId),' +
+                                    'FOREIGN KEY(bookId) REFERENCES Book(bookId),' +
+                                    'FOREIGN KEY(bookSerieId) REFERENCES BookSerie(bookSerieId));');
 
         await this.executeQuery('CREATE TABLE Replies(' +
-                                    'user_id INT,' +
-                                    'book_id INT,' +
+                                    'userId INT,' +
+                                    'bookId INT,' +
                                     'date DATE,' +
                                     'text VARCHAR(200),' +
-                                    'author_id INT,' +
-                                    'PRIMARY KEY(user_id, book_id, author_id),' +
-                                    'FOREIGN KEY(author_id) REFERENCES User(user_id),' +
-                                    'FOREIGN KEY(book_id, user_id) REFERENCES Reviews(book_id, user_id));');
+                                    'authorId INT,' +
+                                    'PRIMARY KEY(userId, bookId, authorId),' +
+                                    'FOREIGN KEY(authorId) REFERENCES User(userId),' +
+                                    'FOREIGN KEY(bookId, userId) REFERENCES Reviews(bookId, userId));');
 
         await this.executeQuery('CREATE TABLE Trades(' +
-                                    'offer_id INT,' +
-                                    'buyer_id INT,' +
-                                    'seller_id INT,' +
+                                    'offerId INT,' +
+                                    'buyerId INT,' +
+                                    'sellerId INT,' +
                                     'price REAL,' +
                                     'description VARCHAR(64),' +
-                                    'book_id INT,' +
-                                    'PRIMARY KEY(offer_id),' +
-                                    'FOREIGN KEY(buyer_id) REFERENCES User(user_id),' +
-                                    'FOREIGN KEY(seller_id) REFERENCES User(user_id),' +
-                                    'FOREIGN KEY(book_id) REFERENCES Book(book_id));');
+                                    'bookId INT,' +
+                                    'PRIMARY KEY(offerId),' +
+                                    'FOREIGN KEY(buyerId) REFERENCES User(userId),' +
+                                    'FOREIGN KEY(sellerId) REFERENCES User(userId),' +
+                                    'FOREIGN KEY(bookId) REFERENCES Book(bookId));');
 
         await this.executeQuery('CREATE TABLE Grup(' +
-                                    'group_id INT,' +
+                                    'groupId INT,' +
                                     'name VARCHAR(64),' +
                                     'description VARCHAR(64),' +
-                                    'is_Private INT,' +
-                                    'user_id INT,' +
-                                    'PRIMARY KEY(group_id),' +
-                                    'FOREIGN KEY(user_id) REFERENCES User(user_id));');
+                                    'isPrivate INT,' +
+                                    'userId INT,' +
+                                    'PRIMARY KEY(groupId),' +
+                                    'FOREIGN KEY(userId) REFERENCES User(userId));');
 
         await this.executeQuery('CREATE TABLE JoinsGroup(' +
-                                    'group_id INT,' +
-                                    'user_id INT,' +
-                                    'PRIMARY KEY(group_id, user_id),' +
-                                    'FOREIGN KEY(group_id) REFERENCES Grup(group_id),' +
-                                    'FOREIGN KEY(user_id) REFERENCES User(user_id));');
+                                    'groupId INT,' +
+                                    'userId INT,' +
+                                    'PRIMARY KEY(groupId, userId),' +
+                                    'FOREIGN KEY(groupId) REFERENCES Grup(groupId),' +
+                                    'FOREIGN KEY(userId) REFERENCES User(userId));');
 
         await this.executeQuery('CREATE TABLE GroupPost(' +
-                                    'post_id INT,' +
-                                    'group_id INT,' +
-                                    'PRIMARY KEY(post_id),' +
-                                    'FOREIGN KEY(post_id) REFERENCES Post(post_id),' +
-                                    'FOREIGN KEY(group_id) REFERENCES Grup(group_id));');
+                                    'postId INT,' +
+                                    'groupId INT,' +
+                                    'PRIMARY KEY(postId),' +
+                                    'FOREIGN KEY(postId) REFERENCES Post(postId),' +
+                                    'FOREIGN KEY(groupId) REFERENCES Grup(groupId));');
 
         await this.populateDatabase();
     }
