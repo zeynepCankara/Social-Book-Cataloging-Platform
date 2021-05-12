@@ -8,10 +8,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 
-import CheckboxList from './CheckboxList';
-
-const FormDialog = (props) => {
-  const { text, books } = props;
+const ChallengeFormDialog = (props) => {
+  const { text } = props;
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -31,16 +29,29 @@ const FormDialog = (props) => {
         <DialogTitle id="form-dialog-title">{text}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Specify the name of the book list and add from available books
+            Specify the challenge information
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Name of the New Book List"
+            label="Name of the New Challenge"
             fullWidth
           />
-        <CheckboxList books={books}></CheckboxList>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Start Date"
+            fullWidth
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="End Date"
+            fullWidth
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
@@ -55,4 +66,4 @@ const FormDialog = (props) => {
   );
 }
 
-export default FormDialog;
+export default ChallengeFormDialog;

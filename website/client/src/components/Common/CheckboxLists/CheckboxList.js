@@ -49,7 +49,7 @@ const CheckboxList = (props) => {
                 inputProps={{ 'aria-labelledby': labelId }}
               />
             </ListItemIcon>
-            <ListItemText id={labelId} primary={`${book.name} ${index + 1}`} />
+            <ListItemText id={labelId} primary={`${book.name} `} />
           </ListItem>
         );
       })}

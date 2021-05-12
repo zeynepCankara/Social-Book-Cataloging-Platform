@@ -13,70 +13,42 @@ import PropTypes from 'prop-types';
 
 import NavBar from '../Common/NavBar';
 import Footer from '../Common/Footer';
-import FormDialog from '../Common/FormDialogs/FormDialog';
-
+import ChallengeFormDialog from '../Common/FormDialogs/ChallengeFormDialog';
 
 
 const propTypes = {
-  no: PropTypes.number.isRequired,
-  booklists: PropTypes.array.isRequired,
-  books: PropTypes.array,
-  username: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  creator: PropTypes.array.isRequired,
+  number_of_participants: PropTypes.number.isRequired,
+  challenges: PropTypes.array,
   description: PropTypes.string
 };
 
 // use it to test the booklist cards
 const defaultProps = {
-  no: 1,
-  username: "Zeynep Cankara",
-  description: "Zeynep C. 21 yo. Aspiring eggdog. Bookworm in free time. To the moon.",
-  books: [{
-    book_id: 1,
-    genre: "sci-fi",
-    year: 1999,
-    name: "Foundation",
-    author_id: 1
+  id: 1,
+  creator: "Librarian",
+  description: "See available challenges",
+  number_of_participants: 12,
+  challenges: [{
+    challenge_id: 1,
+    name: "Weekly Challenge",
+    image: "https://source.unsplash.com/1600x1200/?prize,challenge,flag",
+    start_date: "12-02-2021",
+    end_date: "15-03-2021",
+    type: "open",
+    creator_id: 1,
+    winner_id: 12
   },
   {
-    book_id: 2,
-    genre: "fantasy",
-    year: 2021,
-    name: "Lord of the Rings",
-    author_id: 2
-  },
-  {
-    book_id: 3,
-    genre: "sci-fi",
-    year: 2020,
-    name: "Foundation II",
-    author_id: 1
-  }],
-  booklists: [{
-    id: 1,
-    name: "markup",
-    owner: "zcankara",
-    image: "https://source.unsplash.com/1600x1200/?book,fantastic,movie,start-wars,game-of-thrones",
-    creation_date: "11/05/2021",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    nof_followers: 12
-  },
-  {
-    id: 2,
-    name: "tiktok",
-    owner: "zcankara",
-    image: "https://source.unsplash.com/1600x1200/?book,fantastic,movie,start-wars,game-of-thrones",
-    creation_date: "11/05/2021",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    nof_followers: 12
-  },
-  {
-    id: 3,
-    name: "express",
-    owner: "zcankara",
-    image: "https://source.unsplash.com/1600x1200/?book,fantastic,movie,start-wars,game-of-thrones",
-    creation_date: "11/05/2021",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    nof_followers: 12
+    challenge_id: 2,
+    name: "Monthly Challenge",
+    image: "https://source.unsplash.com/1600x1200/?prize,challenge,flag",
+    start_date: "12-02-2021",
+    end_date: "15-03-2021",
+    type: "open",
+    creator_id: 1,
+    winner_id: 12
   }]
 };
 
@@ -125,8 +97,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const BookListContainer = (props) => {
-  const { no, booklists, username, description, books } = props;
+const ChallengeListContainer = (props) => {
+
+  const { id, creator, number_of_participants, challenges, description} = props;
   const classes = useStyles();
 
   return (
@@ -138,7 +111,7 @@ const BookListContainer = (props) => {
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-              My Book Lists
+              Challenges
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
             {description}
@@ -146,7 +119,7 @@ const BookListContainer = (props) => {
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
-                  <FormDialog text="Create Book List" books={books}></FormDialog>
+                  <ChallengeFormDialog text="Create New Challenge" ></ChallengeFormDialog>
                 </Grid>
               </Grid>
             </div>
@@ -155,20 +128,17 @@ const BookListContainer = (props) => {
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {booklists.map((booklist, index) => (
+            {challenges.map((challenge, index) => (
               <Grid item key={index} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image={booklist.image}
-                    title={booklist.name}
+                    image={challenge.image}
+                    title={challenge.name}
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                    {booklist.name}
-                    </Typography>
-                    <Typography>
-                    {booklist.description}
+                    {challenge.name}
                     </Typography>
                   </CardContent>
                   <CardActions>
@@ -185,12 +155,11 @@ const BookListContainer = (props) => {
           </Grid>
         </Container>
       </main>
-      {/* Footer */}
       <Footer></Footer>
     </React.Fragment>
   );
 }
 
-BookListContainer.defaultProps = defaultProps;
-BookListContainer.propTypes = propTypes;
-export default BookListContainer;
+ChallengeListContainer.defaultProps = defaultProps;
+ChallengeListContainer.propTypes = propTypes;
+export default ChallengeListContainer;
