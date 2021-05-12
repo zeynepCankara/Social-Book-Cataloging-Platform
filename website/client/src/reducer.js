@@ -29,6 +29,6 @@ export default function reducer(state, action) {
                 homeContent: action.payload
             }
         default:
-            return {};
+            return state || {};
     }
 }

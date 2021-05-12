@@ -39,6 +39,32 @@ async function runServer() {
         // TODO: Check database whether this credentials are valid
         res.status(200).send(`testSignup with ${name} and ${password}`);
     })
+
+    /**
+     * Get all books
+     */
+    app.get('/getAllBooks', async (req, res) => {
+        // const results = await connection.executeQuery('SELECT ...');
+        // res.status(200).send(results);
+        res.status(200).send([
+        {
+            book_id: 1,
+            genre: 'Fiction',
+            year: 2000,
+            name: 'Republic',
+            author_id: 1,
+            author_name: 'Plato',
+        },
+        {
+            book_id: 2,
+            genre: 'Fiction',
+            year: 2005,
+            name: 'Tutunamayanlar',
+            author_id: 2,
+            author_name: 'Oğuz Atay',
+        }
+        ]);
+    })
 }
 
 runServer();

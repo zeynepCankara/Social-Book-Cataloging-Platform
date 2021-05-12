@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Cookies from 'universal-cookie';
-import { AppBar, Toolbar, makeStyles, styled, Button, Container } from '@material-ui/core';
+import { AppBar, Toolbar, makeStyles, styled, Button, Container, Typography } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { SET_HOME_CONTENT } from '../../actions';
 import HomePage from '../HomePage/HomePage';
@@ -108,7 +108,7 @@ export default function Home() {
                         My Lists
                     </NavButton>
                     <div className={classes.accountBox}>
-                        {name}
+                        <Typography style={{ fontSize: '25px'}}>{name}</Typography>
                         <AccountCircleIcon color="action" fontSize="large" style={{margin: '0 5px'}}/>
                     </div>
                     <NavButton style={{padding: '0 30px'}} onClick={handleLogout}>

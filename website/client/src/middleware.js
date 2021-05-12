@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { login, signup } from './api';
+import { login, signup, getAllBooks } from './api';
 import { 
     LOGIN_REQUEST, 
     LOGIN_FAILURE, 
@@ -7,7 +7,10 @@ import {
     SIGNUP_REQUEST, 
     SIGNUP_SUCCESS,
     SIGNUP_FAILURE,
-    SET_HOME_CONTENT } from './actions';
+    SET_HOME_CONTENT, 
+    FETCH_BOOKS_REQUEST,
+    FETCH_BOOKS_SUCCESS,
+    FETCH_BOOKS_FAILURE} from './actions';
 import Cookies from 'universal-cookie';
 
 function setCookie(key, value) {
@@ -49,7 +52,23 @@ function* signupMiddleware(action) {
     }
 }
 
+function* fetchBook(action) {
+    try {
+        const response = yield call(getAllBooks);
+
+        if (response.status === 200) {
+            yield put({type: FETCH_BOOKS_SUCCESS, payload: response.data});
+            action.onSuccess(response.data);
+        }
+    } catch (error) {
+        const errorMessage = error.response.data || error.message;
+        yield put({type: FETCH_BOOKS_FAILURE, payload: errorMessage});
+        action.onFailure(errorMessage);
+    }
+}
+
 export default function* mainMiddleware() {
     yield takeEvery(LOGIN_REQUEST, loginMiddleware);
     yield takeEvery(SIGNUP_REQUEST, signupMiddleware);
+    yield takeEvery(FETCH_BOOKS_REQUEST, fetchBook);
 }
