@@ -23,7 +23,7 @@ function* loginMiddleware(action) {
         const response = yield call(login, action.payload);
     
         if (response.status === 200) {
-            yield put({type: SET_USERNAME, username: action.payload.username});
+            yield put({type: SET_USERNAME, payload: action.payload });
             yield put({type: SET_HOME_CONTENT, payload: { mode: 'home' }});
             action.history.push('/home');
         }
@@ -39,7 +39,7 @@ function* signupMiddleware(action) {
         const response = yield call(signup, action.payload);
 
         if (response.status === 200) {
-            yield put({type: SET_USERNAME, username: action.payload.username});
+            yield put({type: SET_USERNAME, payload: action.payload});
             yield put({type: SET_HOME_CONTENT, payload: { mode: 'home' }});
             action.history.push('/home');
         }
@@ -66,8 +66,9 @@ function* fetchBook(action) {
 }
 
 function* fetchUserInformation(action) {
-    const { username } = action;
+    const { username, userType } = action.payload;
     yield call(setCookie, 'username', username);
+    yield call(setCookie, 'userType', userType);
 
     let response = yield call(getTrackedBooks, username);
 
@@ -82,9 +83,14 @@ function* fetchUserInformation(action) {
     }
 }
 
+function* saveHomeContent(action) {
+    yield call(setCookie, 'homeContent', action.payload);
+}
+
 export default function* mainMiddleware() {
     yield takeEvery(LOGIN_REQUEST, loginMiddleware);
     yield takeEvery(SIGNUP_REQUEST, signupMiddleware);
     yield takeEvery(FETCH_BOOKS_REQUEST, fetchBook);
     yield takeEvery(SET_USERNAME, fetchUserInformation);
+    yield takeEvery(SET_HOME_CONTENT, saveHomeContent);
 }

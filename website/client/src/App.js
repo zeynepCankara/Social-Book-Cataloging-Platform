@@ -20,6 +20,34 @@ const THEME = createMuiTheme({
             '"Helvetica"', 
             'sans-serif'
         ].join(','),
+    },
+    palette: {
+        primary: {
+            main: '#F4F1EA',
+            dark: '#382110',
+            contrastText: '#382110'
+        },
+        secondary: {
+            main: '#382110',
+            dark: '#F4F1EA'
+        },
+    },
+    overrides: {
+        MuiButton: {
+            textPrimary: {
+                color: '#382110'
+            },
+            containedPrimary: {
+                '&:hover': {
+                    color: 'white'
+                }
+            },
+            containedSecondary: {
+                '&:hover': {
+                    color: '#382110'
+                }
+            }
+        }
     }
 })
 

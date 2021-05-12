@@ -16,11 +16,13 @@ export default function reducer(state, action) {
                 }
             }
         case SET_USERNAME:
+            const { username, userType } = action.payload;
             return {
                 ...state,
                 user: {
                     ...state.user,
-                    name: action.username
+                    username,
+                    userType
                 }
             }
         case SET_HOME_CONTENT:

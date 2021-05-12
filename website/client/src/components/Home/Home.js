@@ -56,7 +56,7 @@ const NavButton = styled(Button)({
 export default function Home() {
     const dispatch = useDispatch();
     const classes = useStyles();
-    const name = useSelector(state => state.user ? state.user.name : '');
+    const name = useSelector(state => state.user && state.user.username);
     const homeContent = useSelector(state => state.homeContent) || { mode: 'home'};
 
     const handleLogout = () => {

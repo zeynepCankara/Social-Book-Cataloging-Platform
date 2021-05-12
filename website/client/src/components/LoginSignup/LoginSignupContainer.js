@@ -146,7 +146,7 @@ export function LoginSignupContainer() {
                                 </Select>
                             </Grid>
                             <Grid item>
-                                <CustomLink onClick={switchMode} variant="body2">
+                                <CustomLink onClick={switchMode} variant="body2" color="secondary">
                                    {switchText}
                                 </CustomLink>
                             </Grid>
