@@ -86,7 +86,7 @@ class Connection {
 
         await this.executeQuery('CREATE TABLE Post(' +
                                     'postId INT,' +
-                                    'text VARCHAR(64),' +
+                                    'text VARCHAR(200),' +
                                     'date DATE,' +
                                     'writerId INT,' +
                                     'PRIMARY KEY(postId),' +
@@ -345,7 +345,11 @@ class Connection {
         await this.executeQuery('INSERT INTO Edition (bookId, number, publisher, pageCount, format, language, translator) VALUES (12, 1, \'Ace\', 352, \'Hardcover\', \'English\', null);');
         await this.executeQuery('INSERT INTO Edition (bookId, number, publisher, pageCount, format, language, translator) VALUES (11, 1, \'Orbit\', 352, \'Hardcover\', \'English\', null);');
 
-        
+        // insert into Tracks Table
+        await this.executeQuery('INSERT INTO Tracks (userId, bookId, number, publisher, format, language) VALUES (2, 1, 1, \'Atria Books\', \'Hardcover\', \'English\');');
+        await this.executeQuery('INSERT INTO Tracks (userId, bookId, number, publisher, format, language) VALUES (2, 5, 1, \'Thomas & Mercer\', \'Hardcover\', \'English\');');
+        await this.executeQuery('INSERT INTO Tracks (userId, bookId, number, publisher, format, language) VALUES (5, 2, 1, \'Dial Press\', \'Hardcover\', \'English\');');
+        await this.executeQuery('INSERT INTO Tracks (userId, bookId, number, publisher, format, language) VALUES (7, 8, 2, \'Riverhead Books\', \'Paperback\', \'English\');');
     }
 
 
