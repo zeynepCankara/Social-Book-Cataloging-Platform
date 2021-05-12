@@ -269,8 +269,9 @@ class Connection {
         await this.executeQuery('INSERT INTO user (userId, userName, name, mail, password, userType) VALUES (12, \'sclarke\', \'Susanna Clarke\', \'susanna@gmail.com\', \'1234\', \'author\');');
         await this.executeQuery('INSERT INTO user (userId, userName, name, mail, password, userType) VALUES (13, \'jbutcher\', \'Jim Butcher\', \'jim@gmail.com\', \'1234\', \'author\');');
         await this.executeQuery('INSERT INTO user (userId, userName, name, mail, password, userType) VALUES (14, \'pbriggs\', \'Patricia Briggs\', \'patricia@gmail.com\', \'1234\', \'author\');');
-    
-        // insert into Book table
+        await this.executeQuery('INSERT INTO test.User (userId, userName, name, mail, password, userType) VALUES (15, \'jkrowling\', \'J.K. Rowling\', \'rowling@gmail.com\', \'1234\', \'author\');');
+        
+        // insert into Book table -> BURAYA BIR EKLEME YAPILIRKEN EDITION'A DA YAPILMALI BUNUN ICIN TRIGGER OLABILIR
         await this.executeQuery('INSERT INTO Book (bookId, genre, year, name, authorId, authorName) VALUES (1, \'fiction\', 2020, \'Big Summer\', 3, \'Jennifer Weiner\');');
         await this.executeQuery('INSERT INTO Book (bookId, genre, year, name, authorId, authorName) VALUES (2, \'fiction\', 2020, \'Dear Edward\', 4, \'Ann Napolitano\');');
         await this.executeQuery('INSERT INTO Book (bookId, genre, year, name, authorId, authorName) VALUES (3, \'fiction\', 2020, \'Migrations\', 5, \'Charlotte McConaghy\');');
@@ -283,8 +284,11 @@ class Connection {
         await this.executeQuery('INSERT INTO Book (bookId, genre, year, name, authorId, authorName) VALUES (10, \'fantasy\', 2020, \'Piranesi\', 12, \'Susanna Clarke\');');
         await this.executeQuery('INSERT INTO Book (bookId, genre, year, name, authorId, authorName) VALUES (11, \'fantasy\', 2020, \'Peace Talks\', 13, \'Jim Butcher\');');
         await this.executeQuery('INSERT INTO Book (bookId, genre, year, name, authorId, authorName) VALUES (12, \'fantasy\', 2020, \'Smoke Bitten\', 14, \'Patricia Briggs\');');
+        await this.executeQuery('INSERT INTO Book (bookId, genre, year, name, authorId, authorName) VALUES (13, \'fantasy\', 2003, \'Harry Potter and the Sorcerers Stone\', 15, \'J.K. Rowling\');');
+        await this.executeQuery('INSERT INTO Book (bookId, genre, year, name, authorId, authorName) VALUES (14, \'fantasy\', 1999, \'Harry Potter and the Chamber of Secrets\', 15, \'J.K. Rowling\');');
+        await this.executeQuery('INSERT INTO Book (bookId, genre, year, name, authorId, authorName) VALUES (15, \'fantasy\', 2004, \'Harry Potter and the Prisoner of Azkaban\', 15, \'J.K. Rowling\');');
 
-        // insert into Challenge table
+        // insert into Challenge table -> GOODREADS'DEN BAK CHALLENGE'DA BASKALARIYLA YARISTIRMIYOR
         await this.executeQuery('INSERT INTO Challenge (challengeId, name, startDate, endDate, description, type, creatorId, winnerId) VALUES (1, \'Challenge1\', \'2021-01-01\', \'2021-02-01\', \'description1\', \'reading\', 1, null);');
         await this.executeQuery('INSERT INTO Challenge (challengeId, name, startDate, endDate, description, type, creatorId, winnerId) VALUES (2, \'Challenge2\', \'2021-02-02\', \'2021-07-02\', \'description2\', \'reading\', 1, null);');
 
@@ -344,12 +348,79 @@ class Connection {
         await this.executeQuery('INSERT INTO Edition (bookId, number, publisher, pageCount, format, language, translator) VALUES (10, 1, \'Bloomsbury\', 245, \'Hardcover\', \'English\', null);');
         await this.executeQuery('INSERT INTO Edition (bookId, number, publisher, pageCount, format, language, translator) VALUES (12, 1, \'Ace\', 352, \'Hardcover\', \'English\', null);');
         await this.executeQuery('INSERT INTO Edition (bookId, number, publisher, pageCount, format, language, translator) VALUES (11, 1, \'Orbit\', 352, \'Hardcover\', \'English\', null);');
+        await this.executeQuery('INSERT INTO test.Edition (bookId, number, publisher, pageCount, format, language, translator) VALUES (13, 1, \'Scholastic Inc\', 309, \'Hardcover\', \'English\', null);');
+        await this.executeQuery('INSERT INTO test.Edition (bookId, number, publisher, pageCount, format, language, translator) VALUES (14, 1, \'Pottermore Publishing\', 341, \'Hardcover\', \'English\', null);');
+        await this.executeQuery('INSERT INTO test.Edition (bookId, number, publisher, pageCount, format, language, translator) VALUES (15, 1, \'Scholastic Inc\', 435, \'Hardcover\', \'English\', null);');
 
         // insert into Tracks Table
         await this.executeQuery('INSERT INTO Tracks (userId, bookId, number, publisher, format, language) VALUES (2, 1, 1, \'Atria Books\', \'Hardcover\', \'English\');');
         await this.executeQuery('INSERT INTO Tracks (userId, bookId, number, publisher, format, language) VALUES (2, 5, 1, \'Thomas & Mercer\', \'Hardcover\', \'English\');');
         await this.executeQuery('INSERT INTO Tracks (userId, bookId, number, publisher, format, language) VALUES (5, 2, 1, \'Dial Press\', \'Hardcover\', \'English\');');
         await this.executeQuery('INSERT INTO Tracks (userId, bookId, number, publisher, format, language) VALUES (7, 8, 2, \'Riverhead Books\', \'Paperback\', \'English\');');
+
+        // Insert into Progress Table
+        await this.executeQuery('INSERT INTO Progress (pageNumber, date, userId, bookId, number, publisher, format, language) VALUES (25, \'2021-02-05\', 2, 1, 1, \'Atria Books\', \'Hardcover\', \'English\');');
+        await this.executeQuery('INSERT INTO Progress (pageNumber, date, userId, bookId, number, publisher, format, language) VALUES (50, \'2021-02-07\', 2, 1, 1, \'Atria Books\', \'Hardcover\', \'English\');');
+        await this.executeQuery('INSERT INTO Progress (pageNumber, date, userId, bookId, number, publisher, format, language) VALUES (100, \'2021-03-10\', 5, 2, 1, \'Dial Press\', \'Hardcover\', \'English\');');
+        await this.executeQuery('INSERT INTO Progress (pageNumber, date, userId, bookId, number, publisher, format, language) VALUES (160, \'2021-03-15\', 7, 8, 2, \'Riverhead Books\', \'Paperback\', \'English\');');
+
+        // Insert into Reviews
+        await this.executeQuery('INSERT INTO Reviews (userId, bookId, rate, comment, date) VALUES (2, 1, 4, \'It was a very gripping book.\', \'2021-04-10\');');
+        await this.executeQuery('INSERT INTO Reviews (userId, bookId, rate, comment, date) VALUES (5, 2, 2, \'There are contradictory statements in the book.\', \'2021-04-20\');');
+        await this.executeQuery('INSERT INTO Reviews (userId, bookId, rate, comment, date) VALUES (7, 8, 3, \'I strongly recommend everyone to read it. It broadened my perspective.\', \'2021-05-03\');');
+
+        //Insert into Recommends
+        await this.executeQuery('INSERT INTO test.Recommends (recommendeeId, recommenderId, bookId) VALUES (2, 3, 1);');
+        await this.executeQuery('INSERT INTO test.Recommends (recommendeeId, recommenderId, bookId) VALUES (2, 8, 1);');
+        await this.executeQuery('INSERT INTO test.Recommends (recommendeeId, recommenderId, bookId) VALUES (5, 14, 2);');
+
+        //Insert into Request Change -> HATALI OLABILIR TYPE'DA SIKINTI VAR GIBI TEKRAR KONTROL ET
+        await this.executeQuery('INSERT INTO RequestChange (userId, bookId, bookAttribute, newValue) VALUES (2, 1, \'genre\', \'mystery\');');
+        await this.executeQuery('INSERT INTO RequestChange (userId, bookId, bookAttribute, newValue) VALUES (2, 5, \'year\', \'2019\');');
+        await this.executeQuery('INSERT INTO RequestChange (userId, bookId, bookAttribute, newValue) VALUES (5, 2, \'year\', \'2018\');');
+        await this.executeQuery('INSERT INTO RequestChange (userId, bookId, bookAttribute, newValue) VALUES (7, 8, \'name\', \'The Vanishing\');');
+
+        //TODO: INSERT INTO BOOK SERIE
+        await this.executeQuery('INSERT INTO test.BookSerie (bookSerieId, name) VALUES (1, \'Harry Potter\');');
+
+
+        //TODO: INSERT INTO SERIES OF
+        await this.executeQuery('INSERT INTO test.SeriesOf (bookId, bookSerieId) VALUES (13, 1);');
+        await this.executeQuery('INSERT INTO test.SeriesOf (bookId, bookSerieId) VALUES (14, 1);');
+        await this.executeQuery('INSERT INTO test.SeriesOf (bookId, bookSerieId) VALUES (15, 1);');
+
+
+        //Insert into Replies
+        await this.executeQuery('INSERT INTO test.Replies (userId, bookId, date, text, authorId) VALUES (2, 1, \'2021-04-10\', \'Thank you.\', 3);');
+        await this.executeQuery('INSERT INTO test.Replies (userId, bookId, date, text, authorId) VALUES (5, 2, \'2021-04-20\', \'I will consider this.\', 4);');
+        await this.executeQuery('INSERT INTO test.Replies (userId, bookId, date, text, authorId) VALUES (7, 8, \'2021-05-03\', \'Thank you for your good comment.\', 10);');
+
+        //Insert into Trades -> EKSTRA BUYER SELLER OLAYINA GEREK VAR MI YOKSA SATILMADIYSA NULL TUTMAK MI GEREKLI
+        await this.executeQuery('INSERT INTO test.Trades (offerId, buyerId, sellerId, price, description, bookId) VALUES (1, null, 2, 15, \'Second hand\', 1);');
+        await this.executeQuery('INSERT INTO test.Trades (offerId, buyerId, sellerId, price, description, bookId) VALUES (2, 4, 2, 40, \'Brand new\', 5);');
+        await this.executeQuery('INSERT INTO test.Trades (offerId, buyerId, sellerId, price, description, bookId) VALUES (3, 3, 5, 30, \'Brand new\', 7);');
+        await this.executeQuery('INSERT INTO test.Trades (offerId, buyerId, sellerId, price, description, bookId) VALUES (4, 14, 10, 25, \'Second hand\', 4);');
+        await this.executeQuery('INSERT INTO test.Trades (offerId, buyerId, sellerId, price, description, bookId) VALUES (5, null, 11, 50, \'Second hand\', 10);');
+
+        //Grup 
+        await this.executeQuery('INSERT INTO Grup (groupId, name, description, isPrivate, userId) VALUES (1, \'Stars\', \'Group of stars\', null, 2);');
+        await this.executeQuery('INSERT INTO Grup (groupId, name, description, isPrivate, userId) VALUES (2, \'Readers\', \'Group of book lovers\', 1, 5);');
+        await this.executeQuery('INSERT INTO Grup (groupId, name, description, isPrivate, userId) VALUES (3, \'Bookworms\', \'Group of bookworms\', null, 7);');
+
+        //JoinsGroup -> GRUP KURULURKEN KURUCUYU BURAYA EKLEMEK ICIN TRIGGER VB BIR SEY YAZILABILIR
+        await this.executeQuery('INSERT INTO test.JoinsGroup (groupId, userId) VALUES (1, 2);');
+        await this.executeQuery('INSERT INTO test.JoinsGroup (groupId, userId) VALUES (1, 3);');
+        await this.executeQuery('INSERT INTO test.JoinsGroup (groupId, userId) VALUES (2, 5);');
+        await this.executeQuery('INSERT INTO test.JoinsGroup (groupId, userId) VALUES (2, 6);');
+        await this.executeQuery('INSERT INTO test.JoinsGroup (groupId, userId) VALUES (3, 7);');
+        await this.executeQuery('INSERT INTO test.JoinsGroup (groupId, userId) VALUES (3, 3);');
+        await this.executeQuery('INSERT INTO test.JoinsGroup (groupId, userId) VALUES (3, 10);');
+
+        //GroupPost
+        await this.executeQuery('INSERT INTO test.GroupPost (postId, groupId) VALUES (1, 1);');
+        await this.executeQuery('INSERT INTO test.GroupPost (postId, groupId) VALUES (3, 2);');
+
+
     }
 
 
