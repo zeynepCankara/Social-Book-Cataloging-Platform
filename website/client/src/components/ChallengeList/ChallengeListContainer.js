@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -38,7 +39,15 @@ const defaultProps = {
     end_date: "15-03-2021",
     type: "open",
     creator_id: 1,
-    winner_id: 12
+    winner_id: 12,
+    participants: [{
+      id: 1,
+      progress: 12,
+    },
+    {
+      id: 2,
+      progress: 3
+    }],
   },
   {
     challenge_id: 2,
@@ -48,7 +57,15 @@ const defaultProps = {
     end_date: "15-03-2021",
     type: "open",
     creator_id: 1,
-    winner_id: 12
+    winner_id: 12,
+    participants: [{
+      id: 1,
+      progress: 12,
+    },
+    {
+      id: 2,
+      progress: 3
+    }],
   }]
 };
 
@@ -100,6 +117,14 @@ const useStyles = makeStyles((theme) => ({
 const ChallengeListContainer = (props) => {
 
   const { id, creator, number_of_participants, challenges, description} = props;
+
+  const history = useHistory();
+
+  const routeChange = (challenge) =>{
+    let path = `${challenge}`;
+    history.push(path);
+  }
+
   const classes = useStyles();
 
   return (
@@ -142,11 +167,12 @@ const ChallengeListContainer = (props) => {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary">
+                    <Button size="small" color="primary"
+                     onClick={() => routeChange(challenge.name)}>
                       View
                     </Button>
                     <Button size="small" color="primary">
-                      Edit
+                      Join
                     </Button>
                   </CardActions>
                 </Card>

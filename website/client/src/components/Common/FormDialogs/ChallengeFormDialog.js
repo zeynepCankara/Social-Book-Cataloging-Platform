@@ -52,6 +52,20 @@ const ChallengeFormDialog = (props) => {
             label="End Date"
             fullWidth
           />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Type"
+            fullWidth
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Book Count"
+            fullWidth
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

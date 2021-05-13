@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -25,7 +26,7 @@ const propTypes = {
   description: PropTypes.string
 };
 
-// use it to test the booklist cards
+// will be retrieved from the database
 const defaultProps = {
   no: 1,
   username: "Zeynep Cankara",
@@ -58,7 +59,28 @@ const defaultProps = {
     image: "https://source.unsplash.com/1600x1200/?book,fantastic,movie,start-wars,game-of-thrones",
     creation_date: "11/05/2021",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    nof_followers: 12
+    nof_followers: 12,
+    books: [{
+      book_id: 1,
+      genre: "sci-fi",
+      year: 1999,
+      name: "Foundation",
+      author_id: 1
+    },
+    {
+      book_id: 2,
+      genre: "fantasy",
+      year: 2021,
+      name: "Lord of the Rings",
+      author_id: 2
+    },
+    {
+      book_id: 3,
+      genre: "sci-fi",
+      year: 2020,
+      name: "Foundation II",
+      author_id: 1
+    }]
   },
   {
     id: 2,
@@ -67,7 +89,28 @@ const defaultProps = {
     image: "https://source.unsplash.com/1600x1200/?book,fantastic,movie,start-wars,game-of-thrones",
     creation_date: "11/05/2021",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    nof_followers: 12
+    nof_followers: 12,
+    books: [{
+      book_id: 1,
+      genre: "sci-fi",
+      year: 1999,
+      name: "Foundation",
+      author_id: 1
+    },
+    {
+      book_id: 2,
+      genre: "fantasy",
+      year: 2021,
+      name: "Lord of the Rings",
+      author_id: 2
+    },
+    {
+      book_id: 3,
+      genre: "sci-fi",
+      year: 2020,
+      name: "Foundation II",
+      author_id: 1
+    }]
   },
   {
     id: 3,
@@ -76,7 +119,28 @@ const defaultProps = {
     image: "https://source.unsplash.com/1600x1200/?book,fantastic,movie,start-wars,game-of-thrones",
     creation_date: "11/05/2021",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    nof_followers: 12
+    nof_followers: 12,
+    books: [{
+      book_id: 1,
+      genre: "sci-fi",
+      year: 1999,
+      name: "Foundation",
+      author_id: 1
+    },
+    {
+      book_id: 2,
+      genre: "fantasy",
+      year: 2021,
+      name: "Lord of the Rings",
+      author_id: 2
+    },
+    {
+      book_id: 3,
+      genre: "sci-fi",
+      year: 2020,
+      name: "Foundation II",
+      author_id: 1
+    }]
   }]
 };
 
@@ -127,6 +191,14 @@ const useStyles = makeStyles((theme) => ({
 
 const BookListContainer = (props) => {
   const { no, booklists, username, description, books } = props;
+
+  const history = useHistory();
+
+  const routeChange = (booklist) =>{
+    let path = `${booklist}`;
+    history.push(path);
+  }
+
   const classes = useStyles();
 
   return (
@@ -172,11 +244,9 @@ const BookListContainer = (props) => {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary">
+                    <Button size="small" color="primary"
+                      onClick={() => routeChange(booklist.name)}>
                       View
-                    </Button>
-                    <Button size="small" color="primary">
-                      Edit
                     </Button>
                   </CardActions>
                 </Card>
