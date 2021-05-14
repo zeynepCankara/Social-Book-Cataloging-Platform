@@ -104,7 +104,7 @@ const ReviewDialog = ({
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        width: '100%',
+        width: '520px',
         height: '150px',
         padding: '10px',
         display: 'flex',

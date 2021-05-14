@@ -1,10 +1,40 @@
-import { Button, Card, Slider, TextField, Typography } from '@material-ui/core'
+import { Button, Card, Slider, TextField, Typography, withStyles } from '@material-ui/core'
 import React, { useState } from 'react'
 import { convertToSQLDate, parseDate, isBefore } from '../../utils';
 import { useDispatch } from 'react-redux';
 import { ADD_PROGRESS } from '../../actions';
 import { useUserSelector } from '../../selectors'
 
+const CustomSlider = withStyles({
+    root: {
+        color: '#52af77',
+    },
+    track: {
+        width: '10px !important',
+        borderRadius: 5,
+        backgroundColor: '#ccc !important'
+    },
+    rail: {
+        width: '10px !important',
+        borderRadius: 5,
+    },
+    markLabel: {
+        marginLeft: '5px',
+        marginBottom: '5px',
+        fontSize: '20px',
+        fontWeight: 'bold'
+    },
+    markActive: {
+        marginTop: '10px',
+        width: '10px',
+        height: '10px',
+        borderRadius: '100%',
+        backgroundColor: 'black'
+    },
+    thumb: {
+        display: 'none'
+    }
+})(Slider);
 export default function Progress({trackInformation}) {
     const lastProgress = trackInformation.progresses[trackInformation.progresses.length - 1] || { pageNumber: 0, date: '1970-01-01'};
     let marks, isFinished;
@@ -78,7 +108,7 @@ export default function Progress({trackInformation}) {
             }}
         >
             <Typography variant="h4" style={{marginBottom: '20px'}}><b>Your Progress</b></Typography>
-            <Slider
+            <CustomSlider
                 scale={x => -x}
                 track='inverted'
                 orientation='vertical'

@@ -44,36 +44,6 @@ const THEME = createMuiTheme({
                 }
             },
         },
-        MuiSlider: {
-            root: {
-                color: '#52af77',
-            },
-            track: {
-                width: '10px !important',
-                borderRadius: 5,
-                backgroundColor: '#ccc !important'
-            },
-            rail: {
-                width: '10px !important',
-                borderRadius: 5,
-            },
-            markLabel: {
-                marginLeft: '5px',
-                marginBottom: '5px',
-                fontSize: '20px',
-                fontWeight: 'bold'
-            },
-            markActive: {
-                marginTop: '10px',
-                width: '10px',
-                height: '10px',
-                borderRadius: '100%',
-                backgroundColor: 'black'
-            },
-            thumb: {
-                display: 'none'
-            }
-        }
     }
 })
 
