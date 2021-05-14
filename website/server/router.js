@@ -133,6 +133,45 @@ async function runServer() {
             }
         });
     })
+
+    app.post('/getEditions', parse.json(), async (req, res) => {
+        console.log('getEditons', req.body);
+        const { bookId } = req.body;
+        res.status(200).send([
+            {
+                bookId,
+                number: 1,
+                publisher: 'X',
+                pageCount: 258,
+                format: 'Print',
+                language: 'English',
+                translator: 'Ahmet'
+            },
+            {
+                bookId,
+                number: 2,
+                publisher: 'Y',
+                pageCount: 123,
+                format: 'E-book',
+                language: 'Turkish',
+                translator: 'Mehmet'
+            }
+        ])
+    })
+
+    app.post('/startTracking', parse.json(), async (req, res) => {
+        console.log('startTracking', req.body);
+        const { username, edition } = req.body; // Edition is the same format as above
+
+        res.status(200).send();
+    })
+
+    app.post('/addReview', parse.json(), async (req, res) => {
+        console.log('addReview', req.body);
+        const { username, bookId, rate, comment, date } = req.body;
+
+        res.status(200).send();
+    })
 }
 
 runServer();

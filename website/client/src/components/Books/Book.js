@@ -1,8 +1,106 @@
-import React from 'react'
-import { Button, makeStyles, Typography } from '@material-ui/core';
-import { useBookProgressSelector, useBookReviewSelector } from '../../selectors';
+import React, { useState } from 'react'
+import { Button, makeStyles, Typography, Dialog, DialogTitle, Table, TableHead, TableRow, TableCell, TableBody, DialogContent, DialogActions, TextField } from '@material-ui/core';
+import { useBookProgressSelector, useBookReviewSelector, useUserSelector } from '../../selectors';
 import { useDispatch } from 'react-redux';
-import { SET_HOME_CONTENT } from '../../actions';
+import { ADD_REVIEW, GET_EDITIONS, SET_HOME_CONTENT, START_TRACKING } from '../../actions';
+import Review from '../Review/Review';
+import { Rating } from '@material-ui/lab';
+import { convertToSQLDate } from '../../utils';
+
+const ProgressDialog = ({
+    className,
+    open,
+    handleClose,
+    selectEdition,
+    editions
+}) => {
+    return (
+        <Dialog open={open} onClose={handleClose}>
+            <DialogTitle className={className}>Choose an edition to start reading</DialogTitle>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>ID</TableCell>
+                        <TableCell>Publisher</TableCell>
+                        <TableCell>Page Count</TableCell>
+                        <TableCell>Format</TableCell>
+                        <TableCell>Language</TableCell>
+                        <TableCell>Translator</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {editions.map(e => {
+                        return <TableRow hover onClick={selectEdition(e)} style={{cursor: 'pointer'}}>
+                            <TableCell>{e.number}</TableCell>
+                            <TableCell>{e.publisher}</TableCell>
+                            <TableCell>{e.pageCount}</TableCell>
+                            <TableCell>{e.format}</TableCell>
+                            <TableCell>{e.language}</TableCell>
+                            <TableCell>{e.translator}</TableCell>
+                        </TableRow>
+                    })}
+                </TableBody>
+            </Table>
+        </Dialog>)
+}
+
+const ReviewDialog = ({
+    user,
+    open,
+    handleClose,
+    review,
+    bookInfo,
+    onNewReview
+}) => {
+    const [rate, setRate] = useState(0);
+    const [comment, setComment] = useState('');
+
+
+
+    return <Dialog open={open} onClose={handleClose}>
+        {review ? <Review
+            bookInfo={bookInfo}
+            {...review}
+            username={user.username}
+        /> : 
+        <div>
+            <DialogTitle>
+                Add Review for <b>{bookInfo.name}</b>
+            </DialogTitle>
+            <DialogContent dividers>
+                <Rating
+                    onChange={(event, newValue) => setRate(newValue)}
+                    value={rate}
+                />
+                <TextField
+                    onChange={e => setComment(e.target.value)}
+                    value={comment}
+                    placeholder={`Please enter your thoughts about ${bookInfo.name}`}
+                    fullWidth
+                    color="primary" 
+                    autoFocus
+                    multiline 
+                    rows={4}
+                    rowsMax={8}
+                    variant="outlined"
+                    size="medium"
+                    style={{ marginTop: '10px'}}
+                />
+            </DialogContent>
+            <DialogActions>
+                <Button 
+                    variant="contained"
+                    color="primary" 
+                    onClick={e => {
+                        onNewReview(rate, comment);
+                        handleClose();
+                    }}
+                >Review</Button>
+            </DialogActions>
+        </div>
+        }
+    </Dialog>
+}
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -31,13 +129,23 @@ const useStyles = makeStyles((theme) => ({
     },
     actionButton: {
         width: '48%'
+    },
+    progressPopupTitle: {
+        '& h2': {
+            fontWeight: 'bold',
+        }
     }
 }))
+
 export default function Book({info, className}) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const isTracked = useBookProgressSelector(info.bookId);
-    const isReviewed = useBookReviewSelector(info.bookId);
+    const review = useBookReviewSelector(info.bookId);
+    const user = useUserSelector();
+    const [editions, setEditions] = useState([]);
+    const [progressPopupIsOpen, toggleProgressPopup] = useState(false);
+    const [reviewPopupIsOpen, toggleReviewPopup] = useState(false);
 
     const goToBookPage = () => {
         dispatch({
@@ -53,18 +161,45 @@ export default function Book({info, className}) {
         if (isTracked) {
             goToBookPage();
         } else {
-            // TODO: Open popup, select edition and dispatch START_TRACKING
+            dispatch({
+                type: GET_EDITIONS,
+                payload: {
+                    bookId: info.bookId,
+                    onSuccess: editionsFetched
+                }
+            });
         }
     }
 
-    const handleReview = () => {
-        if (isReviewed) {
-            // TODO: Open popup and show review
-        } else {
-            // TODO: Open popup and get review from user and dispatch ADD_REVIEW
-        }
+    const editionsFetched = editions => {
+        setEditions(editions);
+        toggleProgressPopup(true);
     }
 
+    const selectEditionForProgress = edition => () => {
+        dispatch({
+            type: START_TRACKING,
+            payload: {
+                username: user.username,
+                edition
+            }
+        })
+        toggleProgressPopup(false);
+    }
+
+    const handleNewReview = (rate, comment) => {
+        dispatch({
+            type: ADD_REVIEW,
+            payload: {
+                username: user.username,
+                bookId: info.bookId,
+                rate,
+                comment,
+                date: convertToSQLDate(Date.now())
+            }
+        })
+    }
+    
     return (
         <div className={`${classes.container} ${className || ''}`}>
             <Typography className={classes.name} onClick={goToBookPage}>{info.name }</Typography>
@@ -82,12 +217,28 @@ export default function Book({info, className}) {
                 <Button 
                     className={classes.actionButton} 
                     variant='contained' 
-                    color={isReviewed ? 'primary': 'secondary'}
-                    onClick={handleReview}
+                    color={review ? 'primary': 'secondary'}
+                    onClick={() => toggleReviewPopup(true)}
                 >
-                    {isReviewed ? 'See Review' : 'Review'}
+                    {review ? 'See Review' : 'Review'}
                 </Button>
             </div>
+            <ProgressDialog
+                className={classes.progressPopupTitle}
+                open={progressPopupIsOpen}
+                handleClose={() => toggleProgressPopup(false)}
+                selectEdition={selectEditionForProgress}
+                editions={editions}
+            />
+            <ReviewDialog
+                open={reviewPopupIsOpen}
+                handleClose={() => toggleReviewPopup(false)}
+                review={review}
+                bookInfo={info}
+                user={user}
+                onNewReview={handleNewReview}
+            />
+
         </div>
     )
 }

@@ -2,7 +2,9 @@ import {
     SET_USERNAME,
     SET_HOME_CONTENT,
     SET_USER_INFORMATION,
-    FETCH_BOOKS_SUCCESS
+    FETCH_BOOKS_SUCCESS,
+    START_TRACKING_SUCCESS,
+    ADD_REVIEW_SUCCESS
 } from './actions';
 
 export default function reducer(state, action) {
@@ -35,6 +37,29 @@ export default function reducer(state, action) {
             return {
                 ...state,
                 books: action.payload
+            }
+        case START_TRACKING_SUCCESS:
+            const { bookId } = action.payload;
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    trackedBooks: {
+                        ...state.user.trackedBooks,
+                        [bookId]: []
+                    }
+                }
+            }
+        case ADD_REVIEW_SUCCESS:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    reviews: {
+                        ...state.user.reviews,
+                        [action.payload.bookId]: action.payload.content
+                    }
+                }
             }
         default:
             return state || {};

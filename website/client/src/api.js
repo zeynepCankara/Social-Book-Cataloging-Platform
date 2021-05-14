@@ -23,3 +23,15 @@ export async function getFilteredBooks(filters) {
 export async function getReviews(username) {
     return axios.post('http://localhost:3001/getReviews', {username}).then(res => res);
 }
+
+export async function getEditions(bookId) {
+    return axios.post('http://localhost:3001/getEditions', {bookId}).then(res => res);
+}
+
+export async function startTracking(payload) {
+    return axios.post('http://localhost:3001/startTracking', payload).then(res => res);
+}
+
+export async function addReview(payload) {
+    return axios.post('http://localhost:3001/addReview', payload).then(res => res);
+}

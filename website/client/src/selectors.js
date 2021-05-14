@@ -1,19 +1,19 @@
 import { useSelector } from 'react-redux';
 
 export const useBookSelector = () => {
-    return useSelector(state => state.books) || [];
+    return useSelector(state => state?.books) || [];
 }
 
 export const useUserSelector = () => {
-    return useSelector(state => state.user) || {}
+    return useSelector(state => state?.user) || {}
 }
 
 export const useHomeContentSelector = () => {
-    return useSelector(state => state.homeContent) || { mode: 'none'};
+    return useSelector(state => state?.homeContent) || { mode: 'none'};
 }
 
 export const useTrackedBooksSelector = () => {
-    return useSelector(state => state.user.trackedBooks) || {};
+    return useSelector(state => state?.user?.trackedBooks) || {};
 }
 
 export const useBookProgressSelector = bookID => {
@@ -21,7 +21,7 @@ export const useBookProgressSelector = bookID => {
 }
 
 export const useReviewsSelector = () => {
-    return useSelector(state => state.user.reviews) || {};
+    return useSelector(state => state?.user?.reviews) || {};
 }
 
 export const useBookReviewSelector = bookID => {

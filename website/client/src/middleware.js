@@ -5,7 +5,10 @@ import {
     getAllBooks, 
     getTrackedBooks, 
     getFilteredBooks,
-    getReviews
+    getReviews,
+    getEditions,
+    startTracking,
+    addReview
 } from './api';
 import { 
     LOGIN_REQUEST, 
@@ -18,7 +21,13 @@ import {
     FETCH_BOOKS_FAILURE,
     SET_USERNAME,
     SET_USER_INFORMATION,
-    APPLY_FILTERS} from './actions';
+    APPLY_FILTERS,
+    GET_EDITIONS,
+    START_TRACKING,
+    START_TRACKING_SUCCESS, 
+    ADD_REVIEW,
+    ADD_REVIEW_SUCCESS
+} from './actions';
 import Cookies from 'universal-cookie';
 
 function setCookie(key, value) {
@@ -116,6 +125,46 @@ function* applyFilters(action) {
 
 }
 
+function* getEditionsMiddleware(action) {
+    const { bookId, onSuccess } = action.payload;
+
+    const response = yield call(getEditions, bookId);
+    onSuccess(response.data);
+}
+
+
+function* startTrackingMiddleware(action) {
+    const { edition: { bookId } } = action.payload;
+
+    const response = yield call(startTracking, action.payload);
+
+    if (response.status === 200) {
+        yield put({
+            type: START_TRACKING_SUCCESS,
+            payload: { bookId }
+        })
+    }
+}   
+
+function* addReviewMiddleware(action) {
+    const response = yield call(addReview, action.payload);
+
+    if (response.status === 200) {
+        const { bookId, rate, comment, date } = action.payload;
+        yield put({
+            type: ADD_REVIEW_SUCCESS,
+            payload: {
+                bookId,
+                content: {
+                    rate,
+                    comment,
+                    date
+                }
+            }
+        })
+    }
+}
+
 export default function* mainMiddleware() {
     yield takeEvery(LOGIN_REQUEST, loginMiddleware);
     yield takeEvery(SIGNUP_REQUEST, signupMiddleware);
@@ -123,4 +172,7 @@ export default function* mainMiddleware() {
     yield takeEvery(SET_USERNAME, fetchUserInformation);
     yield takeEvery(SET_HOME_CONTENT, saveHomeContent);
     yield takeEvery(APPLY_FILTERS, applyFilters);
+    yield takeEvery(GET_EDITIONS, getEditionsMiddleware);
+    yield takeEvery(START_TRACKING, startTrackingMiddleware);
+    yield takeEvery(ADD_REVIEW, addReviewMiddleware);
 }
