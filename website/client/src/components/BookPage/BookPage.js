@@ -5,23 +5,26 @@ import { useBookProgressSelector } from '../../selectors';
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        margin: '30px',
+        height: 'calc(100vh - 50px)',
+        display: 'flex',
+        justifyContent: 'space-between'
     }
 }))
 export default function BookPage({book}) {
     const classes = useStyles();
-    const progress = useBookProgressSelector(book.bookId);
-    console.log(progress);
+    const trackInformation = useBookProgressSelector(book.bookId);
 
     return (
         <div  className={classes.container}>
-            <Typography variant='h2'>
-                {book.name}
-            </Typography>
-            <Typography variant='h4'>
-                {`by ${book.authorName}`}
-            </Typography>
-            {progress && <Progress progress={progress}/>}
+            <div>
+                <Typography variant='h2'>
+                    {book.name}
+                </Typography>
+                <Typography variant='h4'>
+                    {`by ${book.authorName}`}
+                </Typography>
+            </div>
+            {trackInformation && <Progress trackInformation={trackInformation}/>}
         </div>
     )
 }

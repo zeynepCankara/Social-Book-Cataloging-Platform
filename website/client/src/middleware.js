@@ -8,7 +8,8 @@ import {
     getReviews,
     getEditions,
     startTracking,
-    addReview
+    addReview,
+    addProgress
 } from './api';
 import { 
     LOGIN_REQUEST, 
@@ -26,7 +27,9 @@ import {
     START_TRACKING,
     START_TRACKING_SUCCESS, 
     ADD_REVIEW,
-    ADD_REVIEW_SUCCESS
+    ADD_REVIEW_SUCCESS,
+    ADD_PROGRESS,
+    ADD_PROGRESS_SUCCESS
 } from './actions';
 import Cookies from 'universal-cookie';
 
@@ -134,14 +137,14 @@ function* getEditionsMiddleware(action) {
 
 
 function* startTrackingMiddleware(action) {
-    const { edition: { bookId } } = action.payload;
+    const { edition } = action.payload;
 
     const response = yield call(startTracking, action.payload);
 
     if (response.status === 200) {
         yield put({
             type: START_TRACKING_SUCCESS,
-            payload: { bookId }
+            payload: { edition }
         })
     }
 }   
@@ -165,6 +168,17 @@ function* addReviewMiddleware(action) {
     }
 }
 
+function* addProgressMiddleware(action) {
+    const response = yield call(addProgress, action.payload);
+
+    if (response.status === 200 ) {
+        yield put({
+            type: ADD_PROGRESS_SUCCESS,
+            payload: action.payload
+        })
+    }
+}
+
 export default function* mainMiddleware() {
     yield takeEvery(LOGIN_REQUEST, loginMiddleware);
     yield takeEvery(SIGNUP_REQUEST, signupMiddleware);
@@ -175,4 +189,5 @@ export default function* mainMiddleware() {
     yield takeEvery(GET_EDITIONS, getEditionsMiddleware);
     yield takeEvery(START_TRACKING, startTrackingMiddleware);
     yield takeEvery(ADD_REVIEW, addReviewMiddleware);
+    yield takeEvery(ADD_PROGRESS, addProgressMiddleware);
 }

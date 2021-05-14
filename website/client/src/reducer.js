@@ -4,7 +4,8 @@ import {
     SET_USER_INFORMATION,
     FETCH_BOOKS_SUCCESS,
     START_TRACKING_SUCCESS,
-    ADD_REVIEW_SUCCESS
+    ADD_REVIEW_SUCCESS,
+    ADD_PROGRESS_SUCCESS
 } from './actions';
 
 export default function reducer(state, action) {
@@ -39,14 +40,17 @@ export default function reducer(state, action) {
                 books: action.payload
             }
         case START_TRACKING_SUCCESS:
-            const { bookId } = action.payload;
+            const { edition } = action.payload;
             return {
                 ...state,
                 user: {
                     ...state.user,
                     trackedBooks: {
                         ...state.user.trackedBooks,
-                        [bookId]: []
+                        [edition.bookId]: {
+                            edition,
+                            progresses: []
+                        }
                     }
                 }
             }
@@ -58,6 +62,24 @@ export default function reducer(state, action) {
                     reviews: {
                         ...state.user.reviews,
                         [action.payload.bookId]: action.payload.content
+                    }
+                }
+            }
+        case ADD_PROGRESS_SUCCESS:
+            const newProgresses = [...state.user.trackedBooks[action.payload.bookId].progresses, {
+                pageNumber: action.payload.pageNumber,
+                date: action.payload.date
+            }];
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    trackedBooks: {
+                        ...state.user.trackedBooks,
+                        [action.payload.bookId]: {
+                            ...state.user.trackedBooks[action.payload.bookId],
+                            progresses: newProgresses
+                        }
                     }
                 }
             }

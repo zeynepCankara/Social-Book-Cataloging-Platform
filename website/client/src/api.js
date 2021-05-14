@@ -35,3 +35,7 @@ export async function startTracking(payload) {
 export async function addReview(payload) {
     return axios.post('http://localhost:3001/addReview', payload).then(res => res);
 }
+
+export async function addProgress(payload) {
+    return axios.post('http://localhost:3001/addProgress', payload).then(res => res);
+}

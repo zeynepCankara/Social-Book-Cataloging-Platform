@@ -70,41 +70,45 @@ async function runServer() {
         /*
         response should be in this format:
         {
-            bookID: [
-                {
-                    page_number: firstProgress' pageNumber,
-                    date: firstProgress' date,
-                },
-                {
-                    page_number: secondProgress' pageNumber,
-                    date: secondProgress' date,
-                }
-            ],
+            bookID: {
+                edition: { editionInformation... },
+                progresses: [
+                    {
+                        page_number: firstProgress' pageNumber,
+                        date: firstProgress' date,
+                    },
+                    {
+                        page_number: secondProgress' pageNumber,
+                        date: secondProgress' date,
+                    }
+                ]   
+            },
             otherBookID...
         }
     
         */
         res.status(200).send({
-            1: [
-                {
-                    pageNumber: 10,
-                    date: '2020-01-01'
+            1: {
+                edition: {
+                    bookId: 1,
+                    number: 1,
+                    publisher: 'X',
+                    pageCount: 258,
+                    format: 'Print',
+                    language: 'English',
+                    translator: 'Ahmet'
                 },
-                {
-                    pageNumber: 50,
-                    date: '2020-02-01'
-                },
-            ],
-            2: [
-                {
-                    pageNumber: 10,
-                    date: '2020-01-01'
-                },
-                {
-                    pageNumber: 50,
-                    date: '2020-02-01'
-                },
-            ],
+                progresses: [
+                    {
+                        pageNumber: 10,
+                        date: '2020-01-01'
+                    },
+                    {
+                        pageNumber: 50,
+                        date: '2020-02-01'
+                    },
+                ]
+            }
         });
     })
 
@@ -169,6 +173,13 @@ async function runServer() {
     app.post('/addReview', parse.json(), async (req, res) => {
         console.log('addReview', req.body);
         const { username, bookId, rate, comment, date } = req.body;
+
+        res.status(200).send();
+    })
+
+    app.post('/addProgress', parse.json(), async (req, res) => {
+        console.log('addProgress', req.body);
+        const { pageNumber, date, username, bookId, number, publisher, format, language} = req.body;
 
         res.status(200).send();
     })
