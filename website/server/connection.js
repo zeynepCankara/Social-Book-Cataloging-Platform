@@ -32,6 +32,9 @@ class Connection {
         await this.executeQuery('CREATE DATABASE test');
         await this.executeQuery('USE test');
 
+        //STORED PROCEDURES
+        await this.executeQuery('CREATE PROCEDURE getAchievementInfo(IN specifiedUserId INT) BEGIN SELECT name,achieved FROM JoinsChallenge NATURAL JOIN Challenge WHERE  ((userId = 2) AND (achieved IS NOT NULL)); END');
+        await this.executeQuery('CREATE PROCEDURE indicateAchievement(IN specifiedChallengeId INT) BEGIN UPDATE JoinsChallenge SET achieved = 1 WHERE (score >= (SELECT bookCount FROM Challenge WHERE challengeId = specifiedChallengeId)) AND (challengeId = specifiedChallengeId); UPDATE JoinsChallenge SET achieved = 0 WHERE (score < (SELECT bookCount FROM Challenge WHERE challengeId = specifiedChallengeId)) AND (challengeId = specifiedChallengeId); END ');
         // TODO: Initialize database
         await this.executeQuery('CREATE TABLE User(' +
                                     'userId INT,' +
@@ -62,15 +65,15 @@ class Connection {
                                     'description VARCHAR(80),' +
                                     'type VARCHAR(16),' +
                                     'creatorId INT NOT NULL,' +
-                                    'winnerId INT,' +
+                                    'bookCount INT NOT NULL,' +
                                     'PRIMARY KEY(challengeId),' +
-                                    'FOREIGN KEY (creatorId) REFERENCES User (userId),' +
-                                    'FOREIGN KEY (winnerId) REFERENCES User (userId));');
+                                    'FOREIGN KEY (creatorId) REFERENCES User (userId));');
 
         await this.executeQuery('CREATE TABLE JoinsChallenge(' +
                                     'challengeId INT,' +
                                     'userId INT,' +
                                     'score INT,' +
+                                    'achieved INT,' +
                                     'PRIMARY KEY(userId, challengeId),' +
                                     'FOREIGN KEY(challengeId) REFERENCES Challenge(challengeId),' +
                                     'FOREIGN KEY(userId) REFERENCES User(userId));');
@@ -291,15 +294,15 @@ class Connection {
                                     '(15, \'fantasy\', 2004, \'Harry Potter and the Prisoner of Azkaban\', 15, \'J.K. Rowling\');');
 
         // insert into Challenge table -> GOODREADS'DEN BAK CHALLENGE'DA BASKALARIYLA YARISTIRMIYOR
-        await this.executeQuery('INSERT INTO Challenge (challengeId, name, startDate, endDate, description, type, creatorId, winnerId) VALUES' +
-                                    '(1, \'Challenge1\', \'2021-01-01\', \'2021-02-01\', \'description1\', \'reading\', 1, null),' +
-                                    '(2, \'Challenge2\', \'2021-02-02\', \'2021-07-02\', \'description2\', \'reading\', 1, null);');
+        await this.executeQuery('INSERT INTO Challenge (challengeId, name, startDate, endDate, description, type, creatorId, bookCount) VALUES' +
+                                    '(1, \'Challenge1\', \'2021-01-01\', \'2021-02-01\', \'description1\', \'reading\', 1, 20),' +
+                                    '(2, \'Challenge2\', \'2021-02-02\', \'2021-07-02\', \'description2\', \'reading\', 1, 40);');
 
         // insert into JoinsChallenge table 
-        await this.executeQuery('INSERT INTO JoinsChallenge (challengeId, userId, score) VALUES' + 
-                                    '(1, 2, 100),' +
-                                    '(1, 6, 80),' +
-                                    '(2, 2, 5);');
+        await this.executeQuery('INSERT INTO JoinsChallenge (challengeId, userId, score, achieved) VALUES' + 
+                                    '(1, 2, 100, null),' +
+                                    '(1, 6, 80, null),' +
+                                    '(2, 2, 5, null);');
 
         // insert into FriendOf table
         await this.executeQuery('INSERT INTO FriendOf (friendId, personId, status) VALUES' + 
@@ -442,7 +445,7 @@ class Connection {
         //GroupPost
         await this.executeQuery('INSERT INTO test.GroupPost (postId, groupId) VALUES' +
                                     '(1, 1),' +
-                                    '(3, 2);');
+                                    '(3, 2);');                            
 
 
     }
