@@ -39,3 +39,19 @@ export async function addReview(payload) {
 export async function addProgress(payload) {
     return axios.post('http://localhost:3001/addProgress', payload).then(res => res);
 }
+
+export async function getBooksOfAuthor(payload) {
+    return axios.post('http://localhost:3001/getBooksOfAuthor', payload).then(res => res);
+}
+
+export async function getReviewsForBook(payload) {
+    return axios.post('http://localhost:3001/getReviewsForBook', payload).then(res => res);
+}
+
+export async function getReplies(payload) {
+    return axios.post('http://localhost:3001/getReplies', payload).then(res => res);
+}
+
+export async function addReply(payload) {
+    return axios.post('http://localhost:3001/addReply', payload).then(res => res);
+}

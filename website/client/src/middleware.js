@@ -9,7 +9,11 @@ import {
     getEditions,
     startTracking,
     addReview,
-    addProgress
+    addProgress,
+    getBooksOfAuthor,
+    getReviewsForBook,
+    getReplies,
+    addReply
 } from './api';
 import { 
     LOGIN_REQUEST, 
@@ -29,7 +33,12 @@ import {
     ADD_REVIEW,
     ADD_REVIEW_SUCCESS,
     ADD_PROGRESS,
-    ADD_PROGRESS_SUCCESS
+    ADD_PROGRESS_SUCCESS,
+    GET_MY_BOOKS,
+    GET_MY_BOOKS_SUCCESS,
+    GET_REVIEWS_FOR_BOOK,
+    ADD_REPLY,
+    ADD_REPLY_SUCCESS
 } from './actions';
 import Cookies from 'universal-cookie';
 
@@ -104,11 +113,32 @@ function* fetchUserInformation(action) {
 
     response = yield call(getReviews, username);
 
+    let newResults = {};
+    response.data.forEach(result => {
+        newResults[result.bookId] = {
+            rate: result.rate,
+            comment: result.comment,
+            date: result.date
+        }
+    });
+
     if (response.status === 200) {
         yield put({
             type: SET_USER_INFORMATION,
             payload: { 
                 informationType: 'reviews',
+                value: newResults
+            }
+        })
+    }
+
+    if (userType === 'AUTHOR') {
+        response = yield call(getReplies, {username});
+
+        yield put({
+            type: SET_USER_INFORMATION,
+            payload: {
+                informationType: 'replies',
                 value: response.data
             }
         })
@@ -179,6 +209,39 @@ function* addProgressMiddleware(action) {
     }
 }
 
+function* getMyBooksMiddleware(action) {
+    const response = yield call(getBooksOfAuthor, action.payload);
+
+    if (response.status === 200) {
+        yield put({
+            type: GET_MY_BOOKS_SUCCESS,
+            payload: response.data
+        })
+    }
+}
+
+function* getReviewsForBookMiddleware(action) {
+    const { bookId, onSuccess } = action.payload;
+
+    const response = yield call(getReviewsForBook, {bookId});
+
+    if (response.status === 200) {
+        console.log(response.data);
+        onSuccess(response.data);
+    }
+}
+
+function* addReplyMiddleware(action) {
+    const response = yield call(addReply, action.payload);
+
+    if (response.status === 200) {
+        yield put({
+            type: ADD_REPLY_SUCCESS,
+            payload: action.payload
+        })
+    }
+}
+
 export default function* mainMiddleware() {
     yield takeEvery(LOGIN_REQUEST, loginMiddleware);
     yield takeEvery(SIGNUP_REQUEST, signupMiddleware);
@@ -190,4 +253,7 @@ export default function* mainMiddleware() {
     yield takeEvery(START_TRACKING, startTrackingMiddleware);
     yield takeEvery(ADD_REVIEW, addReviewMiddleware);
     yield takeEvery(ADD_PROGRESS, addProgressMiddleware);
+    yield takeEvery(GET_MY_BOOKS, getMyBooksMiddleware);
+    yield takeEvery(GET_REVIEWS_FOR_BOOK, getReviewsForBookMiddleware);
+    yield takeEvery(ADD_REPLY, addReplyMiddleware);
 }

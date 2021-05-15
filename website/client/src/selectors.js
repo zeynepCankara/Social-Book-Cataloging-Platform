@@ -27,3 +27,13 @@ export const useReviewsSelector = () => {
 export const useBookReviewSelector = bookID => {
     return useSelector(state => state?.user?.reviews?.[bookID]) || false;
 }
+
+export const useMyBooksSelector = () => {
+    return useSelector(state => state?.user?.mybooks) || [];
+}
+
+export const useReplySelector = (userID, bookID) => {
+    return useSelector(state => state?.user?.replies?.filter(e => {
+        return e.userId === userID && e.bookId === bookID;
+    })[0])
+}

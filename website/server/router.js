@@ -206,6 +206,28 @@ async function runServer() {
         const results = await connection.executeQuery(`SELECT * FROM Reviews NATURAL JOIN User WHERE bookId = ${bookId}`);
         res.status(200).send(results);
     })
+
+    app.post('/getReplies', parse.json(), async (req, res) => {
+        // Already implemented
+        console.log('getReplies', req.body);
+        const { username } = req.body;
+
+        const authorId = await getUserIDFromUsername(username);
+
+        const results = await connection.executeQuery(`SELECT * FROM Replies WHERE authorId = '${authorId}'`);
+        res.status(200).send(results);
+    })
+
+    app.post('/addReply', parse.json(), async (req, res) => {
+        console.log('addReply', req.body);
+        const { userId, bookId, date, text, authorName } = req.body;
+
+        const authorId = await getUserIDFromUsername(authorName);
+
+        console.log(authorId);
+
+        res.status(200).send();
+    })
 }
 
 runServer();

@@ -1,8 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import Cookies from 'universal-cookie';
 import { AppBar, Toolbar, makeStyles, styled, Button, Container, Typography } from '@material-ui/core';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { SET_HOME_CONTENT } from '../../actions';
 import HomePage from '../HomePage/HomePage';
 import BookListContainer from '../BookList/BookListContainer';
@@ -11,6 +9,8 @@ import BooksContainer from '../Books/BooksContainer';
 import Logo from '../../assets/logo.png';
 import { useHomeContentSelector, useUserSelector } from '../../selectors';
 import BookPage from '../BookPage/BookPage';
+import UserMenu from './UserMenu';
+import MyBooks from '../MyBooks/MyBooks';
 
 const useStyles = makeStyles((theme) => ({
     navBar: {
@@ -18,15 +18,6 @@ const useStyles = makeStyles((theme) => ({
         boxSizing: 'border-box',
         minHeight: '50px',
         padding: '0'
-    },
-    accountBox: {
-        flex: 1,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        color: '#706E6B',
-        fontSize: '20px',
-        fontWeight: 'bold'
     },
     logo: {
         width: '200px',
@@ -61,12 +52,6 @@ export default function Home() {
     const user = useUserSelector();
     const homeContent = useHomeContentSelector();
 
-    const handleLogout = () => {
-        const cookies = new Cookies();
-        cookies.remove('username');
-        window.location.reload();
-    }
-
     const setHomeContent = mode => () => {
         dispatch({
             type: SET_HOME_CONTENT,
@@ -90,6 +75,9 @@ export default function Home() {
             break;
         case 'book':
             MainComponent = BookPage;
+            break;
+        case 'mybooks':
+            MainComponent = MyBooks;
             break;
         default:
             MainComponent = Container;
@@ -115,13 +103,9 @@ export default function Home() {
                     {renderButton('books', 'Books')}
                     {renderButton('challenges', 'Challenges')}
                     {renderButton('booklists', 'My Lists')}
-                    <div className={classes.accountBox}>
-                        <Typography style={{ fontSize: '25px'}}>{user.username}</Typography>
-                        <AccountCircleIcon color="action" fontSize="large" style={{margin: '0 5px'}}/>
-                    </div>
-                    <NavButton style={{padding: '0 30px'}} onClick={handleLogout}>
-                        Logout
-                    </NavButton>
+                    {homeContent.mode === 'mybooks' && renderButton('mybooks', 'My Books')}
+                    <div style={{flex: 1}}/>
+                    <UserMenu/>
                 </Toolbar>
             </AppBar>
             <MainComponent {...homeContent}/>

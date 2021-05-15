@@ -5,7 +5,9 @@ import {
     FETCH_BOOKS_SUCCESS,
     START_TRACKING_SUCCESS,
     ADD_REVIEW_SUCCESS,
-    ADD_PROGRESS_SUCCESS
+    ADD_PROGRESS_SUCCESS,
+    GET_MY_BOOKS_SUCCESS,
+    ADD_REPLY_SUCCESS
 } from './actions';
 
 export default function reducer(state, action) {
@@ -81,6 +83,23 @@ export default function reducer(state, action) {
                             progresses: newProgresses
                         }
                     }
+                }
+            }
+        case GET_MY_BOOKS_SUCCESS:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    mybooks: action.payload
+                }
+            }
+        case ADD_REPLY_SUCCESS:
+            const newReplies = [...state.user.replies, action.payload];
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    replies: newReplies
                 }
             }
         default:

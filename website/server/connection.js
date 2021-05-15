@@ -420,6 +420,7 @@ class Connection {
         await this.executeQuery('INSERT INTO test.Replies (userId, bookId, date, text, authorId) VALUES' +
                                     '(2, 1, \'2021-04-10\', \'Thank you.\', 3),' +
                                     '(5, 2, \'2021-04-20\', \'I will consider this.\', 4),' +
+                                    '(6, 13, \'2021-10-01\', \'I appreciate your comment.\', 15),' +
                                     '(7, 8, \'2021-05-03\', \'Thank you for your good comment.\', 10);');
 
         //Insert into Trades -> EKSTRA BUYER SELLER OLAYINA GEREK VAR MI YOKSA SATILMADIYSA NULL TUTMAK MI GEREKLI
