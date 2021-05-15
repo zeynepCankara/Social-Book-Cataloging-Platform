@@ -83,13 +83,13 @@ export default function Home() {
             MainComponent = Container;
     }
 
-    const renderButton = (mode, text) => {
+    const renderButton = (mode, text, disabled) => {
         return (<NavButton
-            onClick={setHomeContent(mode)}
-            style={homeContent && homeContent.mode === mode ? {
+            onClick={disabled ? (e => e) : setHomeContent(mode)}
+            style={homeContent && (homeContent.mode === mode || disabled ? {
                 backgroundColor: '#382110',
                 color: 'white'
-            } : {}}
+            } : {})}
         >
             {text}
         </NavButton>)
@@ -103,7 +103,8 @@ export default function Home() {
                     {renderButton('books', 'Books')}
                     {renderButton('challenges', 'Challenges')}
                     {renderButton('booklists', 'My Lists')}
-                    {homeContent.mode === 'mybooks' && renderButton('mybooks', 'My Books')}
+                    {homeContent.mode === 'mybooks' && renderButton('mybooks', 'My Books', true)}
+                    {homeContent.mode === 'book' && renderButton('books', homeContent.book.name, true)}
                     <div style={{flex: 1}}/>
                     <UserMenu/>
                 </Toolbar>

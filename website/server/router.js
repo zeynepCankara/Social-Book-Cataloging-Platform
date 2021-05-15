@@ -222,6 +222,46 @@ async function runServer() {
         await connection.executeQuery(`INSERT INTO Book VALUES('${bookId}', '${genre}', '${year}', '${name}', '${authorId}', '${authorname}')`);
         res.status(200).send();
     })
+
+    app.post('/createBooklist', parse.json(), async (req, res) => {
+        console.log('publishBook', req.body);
+        const { name, date, description, username } = req.body;
+
+        const ownerId = await getUserIDFromUsername(username);
+
+        res.status(200).send();
+
+    })
+
+    app.post('/getBooklists', parse.json(), async (req, res) => {
+        // Get booklists
+        console.log('getBooklists', req.body);
+
+        const { username } = req.body;
+
+        res.status(200).send();
+    })
+
+    app.get('/getBooklistContent', parse.json(), async (req, res) => {
+        console.log('getBooklistContent', req.body);
+        const { bookListId } = req.body;
+
+        res.status(200).send();
+    })
+
+    app.get('/addBookToBooklist', parse.json(), async (req, res) => {
+        console.log('addBookToBooklist', req.body);
+        const { bookListId, bookId } = req.body;
+
+        res.status(200).send();
+    })
+
+    app.get('/deleteBookFromBooklist', parse.json(), async (req, res) => {
+        console.log('deleteBookFromBooklist', req.body);
+        const { bookListId, bookId } = req.body;
+
+        res.status(200).send();
+    })
 }
 
 runServer();
