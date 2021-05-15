@@ -169,13 +169,17 @@ async function runServer() {
     app.post('/addReview', parse.json(), async (req, res) => {
         console.log('addReview', req.body);
         const { username, bookId, rate, comment, date } = req.body;
+        const userId = await getUserIDFromUsername(username);
+        await connection.executeQuery(`INSERT INTO Reviews VALUES('${userId}', '${bookId}', '${rate}', '${comment}', '${date}')`);
         res.status(200).send();
     })
 
+    //CHECK AFTER GETTRACKEDBOOKS IS IMPLEMENTED
     app.post('/addProgress', parse.json(), async (req, res) => {
         console.log('addProgress', req.body);
         const { pageNumber, date, username, bookId, number, publisher, format, language} = req.body;
-
+        const userId = await getUserIDFromUsername(username); 
+        await connection.executeQuery(`INSERT INTO Progress VALUES('${pageNumber}', '${date}', '${userId}', '${bookId}', '${number}', '${publisher}', '${format}', '${language}')`);
         res.status(200).send();
     })
 
@@ -214,9 +218,7 @@ async function runServer() {
         const { userId, bookId, date, text, authorName } = req.body;
 
         const authorId = await getUserIDFromUsername(authorName);
-
-        console.log(authorId);
-
+        const results = await connection.executeQuery(`INSERT INTO Replies VALUES('${userId}', '${bookId}', '${date}', '${text}', '${authorId}')`);
         res.status(200).send();
     })
 }
