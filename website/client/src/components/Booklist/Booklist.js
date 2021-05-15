@@ -42,7 +42,10 @@ const AddBookDialog = ({
     }
 
     return (
-        <Dialog open={open} onClose={handleClose} maxWidth={false}>
+        <Dialog open={open} onClose={() => {
+            setSelectedBooks([]);
+            handleClose();
+        }} maxWidth={false}>
             <DialogTitle>
                 <Typography align="center" variant="h5">
                     Select books you want to add to <b>{list.name}</b>
