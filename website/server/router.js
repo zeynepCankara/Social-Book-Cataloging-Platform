@@ -226,7 +226,7 @@ async function runServer() {
         console.log('addEdition', req.body);
         const { number, publisher, pageCount, format, language, bookId, translator } = req.body;
         if (translator){
-            await connection.executeQuery(`INSERT INTO Edition VALUES('${bookId}', '${number}', '${publisher}', '${pageCount}', '${format}', '${language}, '${translator}')`);
+            await connection.executeQuery(`INSERT INTO Edition VALUES('${bookId}', '${number}', '${publisher}', '${pageCount}', '${format}', '${language}', '${translator}')`);
         }else{
             await connection.executeQuery(`INSERT INTO Edition VALUES('${bookId}', '${number}', '${publisher}', '${pageCount}', '${format}', '${language}', null)`);
         }
@@ -237,6 +237,8 @@ async function runServer() {
     app.post('/publishBook', parse.json(), async (req, res) => {
         console.log('publishBook', req.body);
         const { name, year, genre, authorName } = req.body;
+
+
 
         const authorId = await getUserIDFromUsername(authorName);
 
