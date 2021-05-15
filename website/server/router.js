@@ -42,7 +42,7 @@ async function runServer() {
             res.status(400).send(`Username is invalid!`);
         }else if(passwordResults.length === 0){
             res.status(400).send(`Password is invalid!`);
-        }else if(userTypeResults === 0){
+        }else if(userTypeResults.length === 0){
             res.status(400).send(`userType is invalid!`);
         }else{
             res.status(200).send(`testLogin with ${username} and ${password}`);
