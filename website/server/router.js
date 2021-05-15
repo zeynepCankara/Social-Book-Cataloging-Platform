@@ -300,6 +300,37 @@ async function runServer() {
 
         res.status(200).send();
     })
+
+    app.post('/createChallenge', parse.json(), async (req, res) => {
+        console.log('createChallenge', req.body);
+        const { name, startDate, endDate, description, type, bookCount, username } = req.body;
+
+        const creatorId = await getUserIDFromUsername(username);
+
+        res.status(200).send();
+    })
+
+    app.post('/getAvailableChallenges', parse.json(), async (req, res) => {
+        console.log('getAvailableChallenges', req.body);
+        
+        res.status(200).send();
+    })
+
+    app.post('/getAllParticipantsOfChallenge', parse.json(), async (req, res) => {
+        console.log('getAllParticipantsOfChallenge', req.body);
+        const { challengeId } = req.body;
+
+        res.status(200).send();
+    })
+
+    app.post('/getChallengeOutcomesForUser', parse.json(), async (req, res) => {
+        console.log('getChallengeOutcomesForUser', req.body);
+        const { username } = req.body;
+
+        const userId = await getUserIDFromUsername(username);
+
+        res.status(200).send();
+    })
 }
 
 runServer();
