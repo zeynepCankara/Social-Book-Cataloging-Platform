@@ -35,6 +35,7 @@ class Connection {
         //STORED PROCEDURES
         await this.executeQuery('CREATE PROCEDURE getAchievementInfo(IN specifiedUserId INT) BEGIN SELECT name,achieved FROM JoinsChallenge NATURAL JOIN Challenge WHERE  ((userId = 2) AND (achieved IS NOT NULL)); END');
         await this.executeQuery('CREATE PROCEDURE indicateAchievement(IN specifiedChallengeId INT) BEGIN UPDATE JoinsChallenge SET achieved = 1 WHERE (score >= (SELECT bookCount FROM Challenge WHERE challengeId = specifiedChallengeId)) AND (challengeId = specifiedChallengeId); UPDATE JoinsChallenge SET achieved = 0 WHERE (score < (SELECT bookCount FROM Challenge WHERE challengeId = specifiedChallengeId)) AND (challengeId = specifiedChallengeId); END ');
+        
         // TODO: Initialize database
         await this.executeQuery('CREATE TABLE User(' +
                                     'userId INT,' +
@@ -252,6 +253,10 @@ class Connection {
                                     'PRIMARY KEY(postId),' +
                                     'FOREIGN KEY(postId) REFERENCES Post(postId),' +
                                     'FOREIGN KEY(groupId) REFERENCES Grup(groupId));');
+
+        //TRIGGERS
+        await this.executeQuery('CREATE TRIGGER challengeDateChk AFTER INSERT ON Challenge FOR EACH ROW BEGIN IF NEW.startDate > NEW.endDate THEN DELETE FROM challenge WHERE challengeId = NEW.challengeId; END IF; END;');
+                            
 
         await this.populateDatabase();
     }
