@@ -35,3 +35,5 @@ export const GET_REVIEWS_FOR_BOOK = 'GET_REVIEWS_FOR_BOOK';
 
 export const ADD_REPLY = 'ADD_REPLY';
 export const ADD_REPLY_SUCCESS = 'ADD_REPLY_SUCCESS';
+
+export const ADD_EDITION = 'ADD_EDITION';

@@ -55,3 +55,7 @@ export async function getReplies(payload) {
 export async function addReply(payload) {
     return axios.post('http://localhost:3001/addReply', payload).then(res => res);
 }
+
+export async function addEdition(payload) {
+    return axios.post('http://localhost:3001/addEdition', payload).then(res => res);
+}

@@ -68,6 +68,13 @@ export default function MyBooks() {
 
     }
 
+    const handleAddEdition = bookInfo => () => {
+        setContent({
+            mode: 'addEdition',
+            bookInfo
+        })
+    }
+
     return (
         <div className={classes.container}>
             <RightSection content={content}/>
@@ -82,7 +89,7 @@ export default function MyBooks() {
                 <Divider/>
                 {mybooks.map((book, index) => {
                     return <ListItem divider style={index % 2 === 0 ? {backgroundColor: '#eee'} : {}}>
-                        <Book info={book} handleListReview={handleListReview}/>
+                        <Book info={book} handleListReview={handleListReview} handleAddEdition={handleAddEdition(book)} />
                     </ListItem>
                 })}
             </List>

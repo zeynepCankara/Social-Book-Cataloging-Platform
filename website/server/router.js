@@ -221,6 +221,13 @@ async function runServer() {
         const results = await connection.executeQuery(`INSERT INTO Replies VALUES('${userId}', '${bookId}', '${date}', '${text}', '${authorId}')`);
         res.status(200).send();
     })
+
+    app.post('/addEdition', parse.json(), async (req, res) => {
+        console.log('addEdition', req.body);
+        const { number, publisher, pageCount, format, language, bookId } = req.body;
+
+        res.status(200).send();
+    })
 }
 
 runServer();

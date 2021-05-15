@@ -13,7 +13,8 @@ import {
     getBooksOfAuthor,
     getReviewsForBook,
     getReplies,
-    addReply
+    addReply,
+    addEdition
 } from './api';
 import { 
     LOGIN_REQUEST, 
@@ -38,7 +39,8 @@ import {
     GET_MY_BOOKS_SUCCESS,
     GET_REVIEWS_FOR_BOOK,
     ADD_REPLY,
-    ADD_REPLY_SUCCESS
+    ADD_REPLY_SUCCESS,
+    ADD_EDITION
 } from './actions';
 import Cookies from 'universal-cookie';
 
@@ -242,6 +244,19 @@ function* addReplyMiddleware(action) {
     }
 }
 
+function* addEditionMiddleware(action) {
+    const response = yield call(addEdition, action.payload);
+
+    if (response.status === 200) {
+        yield put({
+            type: GET_MY_BOOKS,
+            payload: {
+                username: action.payload.username
+            }
+        })
+    }
+}
+
 export default function* mainMiddleware() {
     yield takeEvery(LOGIN_REQUEST, loginMiddleware);
     yield takeEvery(SIGNUP_REQUEST, signupMiddleware);
@@ -256,4 +271,5 @@ export default function* mainMiddleware() {
     yield takeEvery(GET_MY_BOOKS, getMyBooksMiddleware);
     yield takeEvery(GET_REVIEWS_FOR_BOOK, getReviewsForBookMiddleware);
     yield takeEvery(ADD_REPLY, addReplyMiddleware);
+    yield takeEvery(ADD_EDITION, addEditionMiddleware);
 }

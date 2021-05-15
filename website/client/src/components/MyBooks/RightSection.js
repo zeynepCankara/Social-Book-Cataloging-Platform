@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Container, IconButton, List, makeStyles, Typography } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import Review from '../Review/Review';
+import NewEdition from './NewEdition';
 
 const useStyles = makeStyles((theme) => ({
     container: {
         padding: 10,
-        overflowY: 'scroll'
+        overflowY: 'auto'
     },
     header: {
         padding: '10px 0',
@@ -22,41 +23,55 @@ export default function RightSection({content}) {
 
     useEffect(() => {
         if (content) {
-            switch (content.mode) {
-                case 'listReview':
-                    break;
-            
-                default:
-                    break;
-            }
             setFlex(0.5);
         }
     }, [content]);
 
     let MainComponent;
+    const setMainComponent = ui => {
+        let Header;
+        switch (content.mode) {
+            case 'listReview':
+                Header = <Typography variant="h6">
+                    Reviews for <b>{content?.bookInfo?.name}</b>
+                </Typography>
+                break;
+            case 'addEdition':
+                Header = <Typography variant="h6">
+                    Add Edition for <b>{content?.bookInfo?.name}</b>
+                </Typography>
+                break;
+            default:
+                break;
+        }
+        MainComponent = ({style}) => {
+            return <List
+                style={style}
+                className={classes.container}
+                subheader={                    
+                <div className={classes.header}>
+                    <IconButton onClick={() => setFlex(0)}>
+                        <CancelIcon/>
+                    </IconButton>
+                    {Header}
+                </div>
+                }
+            >
+                    {ui}
+            </List>
+        }
+    }
     switch (content.mode) {
         case 'listReview':
-            MainComponent = ({style}) => {
-                return <List
-                    style={style}
-                    className={classes.container}
-                    subheader={                    
-                    <div className={classes.header}>
-                        <IconButton onClick={() => setFlex(0)}>
-                            <CancelIcon/>
-                        </IconButton>
-                        <Typography variant="h6">Reviews for <b>{content?.bookInfo?.name}</b></Typography>
-                    </div>
-                    }
-                >
-                        {content.reviews.map(review => {
-                            return <div>
-                                <div style={{padding: 5}}/>
-                                <Review username={review.userName} bookInfo={content.bookInfo} {...review} authorView/>
-                            </div>
-                        })}
-                </List>
-            }
+            setMainComponent(content.reviews.map(review => {
+                return <div>
+                    <div style={{padding: 5}}/>
+                    <Review username={review.userName} bookInfo={content.bookInfo} {...review} authorView/>
+                </div>
+            }));
+            break;
+        case 'addEdition':
+            setMainComponent(<NewEdition bookInfo={content.bookInfo}/>)
             break;
         default:
             MainComponent = Container;

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-export default function Book({info, handleListReview}) {
+export default function Book({info, handleListReview, handleAddEdition}) {
     const classes = useStyles();
     const [editions, setEditions] = useState([]);
     const dispatch = useDispatch();
@@ -72,7 +72,13 @@ export default function Book({info, handleListReview}) {
                 <TableFooter>
                     <TableRow>
                         <TableCell colSpan={6} style={{padding: 5}}>
-                            <Button variant="contained" color="secondary">ADD NEW EDITION</Button>
+                            <Button 
+                                variant="contained" 
+                                color="secondary"
+                                onClick={handleAddEdition}
+                            >
+                                ADD NEW EDITION
+                            </Button>
                         </TableCell>
                     </TableRow>
                 </TableFooter>
