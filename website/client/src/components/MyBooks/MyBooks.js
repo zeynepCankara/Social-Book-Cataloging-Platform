@@ -35,7 +35,7 @@ export default function MyBooks() {
 
     const classes = useStyles();
     const dispatch = useDispatch();
-    const mybooks = [...useMyBooksSelector(), ...useMyBooksSelector()];
+    const mybooks = useMyBooksSelector();
     const user = useUserSelector();
     const [content, setContent] = useState(false);
 
