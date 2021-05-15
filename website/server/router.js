@@ -265,6 +265,41 @@ async function runServer() {
         await connection.executeQuery(`DELETE FROM Contains WHERE (bookListId,bookId) = (${bookListId}, ${bookId})`);
         res.status(200).send();
     })
+
+    app.post('/createTrade', parse.json(), async (req, res) => {
+        console.log('createTrade', req.body);
+        const { username, price, description, bookId } = req.body;
+
+        const sellerId = await getUserIDFromUsername(username);
+
+        res.status(200).send();
+    })
+
+    app.post('/viewTrades', parse.json(), async (req, res) => {
+        console.log('viewTrades', req.body);
+        const { bookId } = req.body;
+
+        // Get only trades whose buyerId null
+        res.status(200).send();
+    })
+
+    app.post('/buyBook', parse.json(), async (req, res) => {
+        console.log('buyBook', req.body);
+        const { offerId, username } = req.body;
+
+        const buyerId = await getUserIDFromUsername(username);
+
+        res.status(200).send();
+    })
+
+    app.post('/getBoughtBooks', parse.json(), async (req, res) => {
+        console.log('getBoughtBooks', req.body);
+        const { username };
+
+        const buyerId = await getUserIDFromUsername(username);
+
+        res.status(200).send();
+    })
 }
 
 runServer();
