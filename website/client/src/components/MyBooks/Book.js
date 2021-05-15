@@ -31,7 +31,7 @@ export default function Book({info, handleListReview, handleAddEdition}) {
                 onSuccess: setEditions
             }
         })
-    }, [])
+    }, [info])
 
     return (
         <div className={classes.container}>

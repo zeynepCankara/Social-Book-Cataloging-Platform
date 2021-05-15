@@ -9,7 +9,8 @@ export default function PublishBook() {
     const user = useUserSelector();
     const [info, setInfo] = useState({
         title: '',
-        genre: ''
+        genre: '',
+        year: new Date().getFullYear()
     });
 
     const setValue = type => e => {
@@ -27,7 +28,7 @@ export default function PublishBook() {
                 payload: {
                     name: info.title,
                     genre: info.genre,
-                    year: new Date().getFullYear(),
+                    year: info.year,
                     authorName: user.username
                 }
             })
@@ -42,7 +43,7 @@ export default function PublishBook() {
                 label='Book Title'
                 margin='normal'
                 onChange={setValue('title')}
-                value={info.title || ''}
+                value={info.title}
             />
             <TextField
                 variant="outlined"
@@ -50,15 +51,15 @@ export default function PublishBook() {
                 label='Genre'
                 margin='normal'
                 onChange={setValue('genre')}
-                value={info.genre || ''}
+                value={info.genre}
             />
             <TextField
                 variant="outlined"
                 fullWidth
                 label='Publish Year'
                 margin='normal'
-                disabled
-                value={new Date().getFullYear()}
+                onChange={setValue('year')}
+                value={info.year}
             />
             <Button
                 onClick={handleSubmit}
