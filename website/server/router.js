@@ -331,6 +331,20 @@ async function runServer() {
 
         res.status(200).send();
     })
+
+    app.post('/mostPopularTenChallenge', parse.json(), async (req, res) => {
+        res.status(200).send();
+    })
+
+    app.post('/mostPopularTenBooks', parse.json(), async (req, res) => {
+        res.status(200).send();
+    })
+
+    app.post('/getAllReviews', parse.json(), async (req, res) => {
+        console.log('getAllReviews');
+        const results = await connection.executeQuery('SELECT * FROM Reviews ORDER BY date DESC')
+        res.status(200).send(results);
+    })
 }
 
 runServer();
