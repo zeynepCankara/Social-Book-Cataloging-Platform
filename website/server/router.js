@@ -224,15 +224,15 @@ async function runServer() {
     })
 
     app.post('/createBooklist', parse.json(), async (req, res) => {
-        console.log('publishBook', req.body);
+        console.log('createBooklist', req.body);
         const { name, date, description, username } = req.body;
     
         const ownerId = await getUserIDFromUsername(username);
         const maxBookId = await connection.executeQuery(`SELECT MAX(bookListId) AS booklistid FROM BookList`);
-        const booklistId = maxBookId + 1;
+        const booklistId = maxBookId[0].booklistid + 1;
         await connection.executeQuery(`INSERT INTO BookList VALUES('${booklistId}', '${name}', '${date}', '${description}', '${ownerId}')`);
 
-        res.status(200).send();
+        res.status(200).send({booklistId});
 
     })
 
@@ -245,24 +245,24 @@ async function runServer() {
         res.status(200).send(results);
     })
 
-    app.get('/getBooklistContent', parse.json(), async (req, res) => {
+    app.post('/getBooklistContent', parse.json(), async (req, res) => {
         console.log('getBooklistContent', req.body);
         const { bookListId } = req.body;
         const results = await connection.executeQuery(`SELECT * FROM Contains NATURAL JOIN Book WHERE bookListId = '${bookListId}'`);
         res.status(200).send(results);
     })
 
-    app.get('/addBookToBooklist', parse.json(), async (req, res) => {
-        console.log('addBookToBooklist', req.body);
-        const { bookListId, bookId } = req.body;
-        await connection.executeQuery(`INSERT INTO Containts VALUES('${bookListId}', '${bookId}')`);
+    app.post('/addBooksToBooklist', parse.json(), async (req, res) => {
+        console.log('addBooksToBooklist', req.body);
+        const { bookListId, bookIds } = req.body;
+        await connection.executeQuery(`INSERT INTO Contains VALUES ${bookIds.map(id => `(${bookListId}, ${id})`).join(', ')};`);
         res.status(200).send();
     })
 
-    app.get('/deleteBookFromBooklist', parse.json(), async (req, res) => {
+    app.post('/deleteBookFromBooklist', parse.json(), async (req, res) => {
         console.log('deleteBookFromBooklist', req.body);
         const { bookListId, bookId } = req.body;
-        await connection.executeQuery(`DELETE FROM Contains WHERE (bookListId,bookId) = ('${bookListId}', '${bookId}')`);
+        await connection.executeQuery(`DELETE FROM Contains WHERE (bookListId,bookId) = (${bookListId}, ${bookId})`);
         res.status(200).send();
     })
 }

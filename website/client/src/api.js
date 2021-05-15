@@ -63,3 +63,23 @@ export async function addEdition(payload) {
 export async function publishBook(payload) {
     return axios.post('http://localhost:3001/publishBook', payload).then(res => res);
 }
+
+export async function createBooklist(payload) {
+    return axios.post('http://localhost:3001/createBooklist', payload).then(res => res);
+}
+
+export async function getBooklists(payload) {
+    return axios.post('http://localhost:3001/getBooklists', payload).then(res => res);
+}
+
+export async function getBooklistContent(payload) {
+    return axios.post('http://localhost:3001/getBooklistContent', payload).then(res => res);
+}
+
+export async function addBooksToBooklist(payload) {
+    return axios.post('http://localhost:3001/addBooksToBooklist', payload).then(res => res);
+}
+
+export async function removeBookFromBooklist(payload) {
+    return axios.post('http://localhost:3001/deleteBookFromBooklist', payload).then(res => res);
+}

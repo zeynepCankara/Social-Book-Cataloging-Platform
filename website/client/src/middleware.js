@@ -15,7 +15,12 @@ import {
     getReplies,
     addReply,
     addEdition,
-    publishBook
+    publishBook,
+    createBooklist,
+    getBooklists,
+    getBooklistContent,
+    removeBookFromBooklist,
+    addBooksToBooklist
 } from './api';
 import { 
     LOGIN_REQUEST, 
@@ -42,7 +47,14 @@ import {
     ADD_REPLY,
     ADD_REPLY_SUCCESS,
     ADD_EDITION,
-    PUBLISH_BOOK
+    PUBLISH_BOOK,
+    CREATE_BOOKLIST,
+    GET_BOOKLISTS,
+    GET_BOOKLISTS_SUCCESS,
+    GET_BOOKLIST_CONTENT,
+    GET_BOOKLIST_CONTENT_SUCCESS,
+    DELETE_BOOK_FROM_BOOKLIST,
+    ADD_BOOKS_TO_BOOKLIST
 } from './actions';
 import Cookies from 'universal-cookie';
 
@@ -143,6 +155,18 @@ function* fetchUserInformation(action) {
             type: SET_USER_INFORMATION,
             payload: {
                 informationType: 'replies',
+                value: response.data
+            }
+        })
+    }
+
+    response = yield call(getBooklists, {username});
+
+    if (response.status === 200) {
+        yield put({
+            type: SET_USER_INFORMATION,
+            payload: {
+                informationType: 'booklists',
                 value: response.data
             }
         })
@@ -272,6 +296,76 @@ function* publishBookMiddleware(action) {
     }
 }
 
+function* createBookListMiddleware(action) {
+    const response = yield call(createBooklist, action.payload);
+
+    if (response.status === 200) {
+        yield put({
+            type: GET_BOOKLISTS,
+            payload: {
+                username: action.payload.username
+            }
+        })
+        console.log(response)
+        yield put({
+            type: GET_BOOKLIST_CONTENT,
+            payload: {
+                bookListId: response.data.booklistId
+            }
+        })
+    }
+
+    
+}
+
+function* getBookListsMiddleware(action) {
+    const response = yield call(getBooklists, action.payload);
+
+    if (response.status === 200) {
+        yield put({
+            type: GET_BOOKLISTS_SUCCESS,
+            payload: response.data
+        })
+    }
+}
+
+function* getBooklistContentMiddleware(action) {
+    const response = yield call(getBooklistContent, action.payload);
+
+    if (response.status === 200) {
+        yield put({
+            type: GET_BOOKLIST_CONTENT_SUCCESS,
+            payload: response.data,
+            list: action.payload
+        })
+    }
+}
+
+function* deleteBookFromBooklistMiddleware(action) {
+    const response = yield call(removeBookFromBooklist, action.payload);
+
+    if (response.status === 200) {
+        yield put({
+            type: GET_BOOKLIST_CONTENT,
+            payload: action.payload
+        })
+    }
+}
+
+
+function* addBooksToBooklistMiddleware(action) {
+    const response = yield call(addBooksToBooklist, action.payload);
+
+    if (response.status === 200) {
+        yield put({
+            type: GET_BOOKLIST_CONTENT,
+            payload: {
+                bookListId: action.payload.bookListId
+            }
+        })
+    }
+}
+
 export default function* mainMiddleware() {
     yield takeEvery(LOGIN_REQUEST, loginMiddleware);
     yield takeEvery(SIGNUP_REQUEST, signupMiddleware);
@@ -288,4 +382,9 @@ export default function* mainMiddleware() {
     yield takeEvery(ADD_REPLY, addReplyMiddleware);
     yield takeEvery(ADD_EDITION, addEditionMiddleware);
     yield takeEvery(PUBLISH_BOOK, publishBookMiddleware);
+    yield takeEvery(CREATE_BOOKLIST, createBookListMiddleware);
+    yield takeEvery(GET_BOOKLISTS, getBookListsMiddleware);
+    yield takeEvery(GET_BOOKLIST_CONTENT, getBooklistContentMiddleware);
+    yield takeEvery(DELETE_BOOK_FROM_BOOKLIST, deleteBookFromBooklistMiddleware);
+    yield takeEvery(ADD_BOOKS_TO_BOOKLIST, addBooksToBooklistMiddleware);
 }

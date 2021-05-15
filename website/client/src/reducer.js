@@ -7,7 +7,10 @@ import {
     ADD_REVIEW_SUCCESS,
     ADD_PROGRESS_SUCCESS,
     GET_MY_BOOKS_SUCCESS,
-    ADD_REPLY_SUCCESS
+    ADD_REPLY_SUCCESS,
+    GET_BOOKLISTS_SUCCESS,
+    GET_BOOKLIST_CONTENT_SUCCESS,
+    RESET_CURRENT_LIST_CONTENT
 } from './actions';
 
 export default function reducer(state, action) {
@@ -102,6 +105,28 @@ export default function reducer(state, action) {
                     replies: newReplies
                 }
             }
+        case GET_BOOKLISTS_SUCCESS:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    booklists: action.payload
+                }
+            }
+        case GET_BOOKLIST_CONTENT_SUCCESS:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    currentListContent: action.payload,
+                    currentList: action.list
+                }
+            }
+        case RESET_CURRENT_LIST_CONTENT:
+            const newState = {...state};
+            delete newState?.user?.currentListContent;
+            delete newState?.user?.currentListID;
+            return newState;
         default:
             return state || {};
     }

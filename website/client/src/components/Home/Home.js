@@ -1,9 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { AppBar, Toolbar, makeStyles, styled, Button, Container, Typography } from '@material-ui/core';
+import { AppBar, Toolbar, makeStyles, styled, Button, Container } from '@material-ui/core';
 import { SET_HOME_CONTENT } from '../../actions';
 import HomePage from '../HomePage/HomePage';
-import BookListContainer from '../BookList/BookListContainer';
 import ChallengeListContainer from '../ChallengeList/ChallengeListContainer';
 import BooksContainer from '../Books/BooksContainer';
 import Logo from '../../assets/logo.png';
@@ -11,6 +10,7 @@ import { useHomeContentSelector, useUserSelector } from '../../selectors';
 import BookPage from '../BookPage/BookPage';
 import UserMenu from './UserMenu';
 import MyBooks from '../MyBooks/MyBooks';
+import Booklist from '../Booklist/Booklist';
 
 const useStyles = makeStyles((theme) => ({
     navBar: {
@@ -71,7 +71,7 @@ export default function Home() {
             MainComponent = ChallengeListContainer;
             break;
         case 'booklists':
-            MainComponent = BookListContainer;
+            MainComponent = Booklist;
             break;
         case 'book':
             MainComponent = BookPage;

@@ -37,3 +37,15 @@ export const useReplySelector = (userID, bookID) => {
         return e.userId === userID && e.bookId === bookID;
     })[0])
 }
+
+export const useBooklistsSelector = () => {
+    return useSelector(state => state?.user?.booklists) || [];
+}
+
+export const useCurrentListContentSelector = () => {
+    return useSelector(state => state?.user?.currentListContent) || false;
+}
+
+export const useCurrentListSelector = () => {
+    return useSelector(state => state?.user?.currentList) || false;
+}
