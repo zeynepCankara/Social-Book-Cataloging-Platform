@@ -64,7 +64,6 @@ async function runServer() {
         }
         const uniqueUserId = await connection.executeQuery(`SELECT MAX(userId) AS userId FROM User`);
         const uniqueId = uniqueUserId[0].userId + 1;
-        console.log(uniqueUserId);
         await connection.executeQuery(`INSERT INTO User VALUES('${uniqueId}','${username}','${name}','${email}','${password}','${userType}')`);
         res.status(200).send(`testSignup with ${name} and ${password}`);
     })
@@ -237,11 +236,15 @@ async function runServer() {
     app.post('/publishBook', parse.json(), async (req, res) => {
         console.log('publishBook', req.body);
         const { name, year, genre, authorName } = req.body;
-
-
-
+        //Finding new unique bookId
+        const uniqueBookId = await connection.executeQuery(`SELECT MAX(bookId) AS bookId FROM Book`);
+        const bookId = uniqueBookId[0].bookId + 1;
+        //Getting the name of the author
+        const names = await connection.executeQuery(`SELECT name FROM User WHERE username = '${authorName}'`);
+        const authorname = names[0].name;
+        //Insert book into the book table
         const authorId = await getUserIDFromUsername(authorName);
-
+        await connection.executeQuery(`INSERT INTO Book VALUES('${bookId}', '${genre}', '${year}', '${name}', '${authorId}', '${authorname}')`);
         res.status(200).send();
     })
 }
