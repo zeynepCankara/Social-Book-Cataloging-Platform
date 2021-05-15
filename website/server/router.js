@@ -8,6 +8,16 @@ async function runServer() {
     const connection = new Connection();
     await connection.initDatabase();
     
+    async function getUserIDFromUsername(username) {
+        const results = await connection.executeQuery(`SELECT userId FROM User WHERE userName = '${username}'`);
+        return results[0].userId;
+    }
+
+    async function getUsernameFromUserID(userId) {
+        const results = await connection.executeQuery(`SELECT userName FROM User WHERE userId = ${userId}`);
+        return results[0].userName;
+    }
+    
     app.use(function(req, res, next) {
       res.header("Access-Control-Allow-Origin", "*");
       res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -117,25 +127,9 @@ async function runServer() {
         const { username } = req.body;
         // Get all reviews done by specified user
 
-                /*
-        response should be in this format:
-        {
-            bookID: {
-                rate: 2,
-                comment: 'Comment',
-                date: '2020-01-01,
-            },
-            otherBookID...
-        }
-    
-        */
-        res.status(200).send({
-            1: {
-                rate: 4,
-                comment: 'I loved this book',
-                date: '2020-01-01'
-            }
-        });
+        const userId = await getUserIDFromUsername(username);
+        const results = await connection.executeQuery(`SELECT * FROM Reviews WHERE userId = '${userId}'`)
+        res.status(200).send(results);
     })
 
     app.post('/getEditions', parse.json(), async (req, res) => {
@@ -182,6 +176,25 @@ async function runServer() {
         const { pageNumber, date, username, bookId, number, publisher, format, language} = req.body;
 
         res.status(200).send();
+    })
+
+    app.post('/getBooksOfAuthor', parse.json(), async (req, res) => {
+        // Already implemented
+        console.log('getBooksOfAuthor', req.body);
+        const { username } = req.body;
+        const authorId = await getUserIDFromUsername(username);
+
+        const results = await connection.executeQuery(`SELECT * FROM Book WHERE authorId = ${authorId}`);
+        res.status(200).send(results);
+    })
+
+    app.post('/getReviewsForBook', parse.json(), async (req, res) => {
+        // Already implemented
+        console.log('getReviewsForBook', req.body);
+        const { bookId } = req.body;
+
+        const results = await connection.executeQuery(`SELECT * FROM Reviews NATURAL JOIN User WHERE bookId = ${bookId}`);
+        res.status(200).send(results);
     })
 }
 
