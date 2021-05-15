@@ -37,7 +37,6 @@ export default function PublishBook() {
     return (
         <div style={{padding: 10}}>
             <TextField
-                type='number'
                 variant="outlined"
                 fullWidth
                 label='Book Title'
