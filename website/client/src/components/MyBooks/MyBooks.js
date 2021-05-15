@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Divider, List, ListItem, ListSubheader, makeStyles, Typography } from '@material-ui/core';
+import { Button, Divider, List, ListItem, ListSubheader, makeStyles, Typography } from '@material-ui/core';
 import { GET_MY_BOOKS, GET_REVIEWS_FOR_BOOK } from '../../actions';
 import { useDispatch } from 'react-redux';
 import { useMyBooksSelector, useUserSelector } from '../../selectors';
@@ -18,10 +18,10 @@ const useStyles = makeStyles((theme) => ({
     },
     booksHeader: {
         fontSize: '30px',
-        padding: 10,
-        textAlign: 'center',
+        textAlign: 'right',
+        padding: '20px 10px',
         fontWeight: 'bold',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
     },
     rightSection: {
         flex: 1
@@ -75,6 +75,13 @@ export default function MyBooks() {
         })
     }
 
+    const handlePublishBook = () => {
+        setContent({
+            mode: 'publishBook',
+            authorName: user.username
+        })
+    }
+
     return (
         <div className={classes.container}>
             <RightSection content={content}/>
@@ -82,7 +89,15 @@ export default function MyBooks() {
                 className={classes.books}
                 subheader={
                     <ListSubheader color='primary' classes={{ root: classes.booksHeader}}>
-                        Books
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            size='large'
+                            style={{fontSize: 20}}
+                            onClick={handlePublishBook}
+                        >
+                            Publish New Book
+                        </Button>
                     </ListSubheader>
                 }
             >

@@ -3,6 +3,7 @@ import { Container, IconButton, List, makeStyles, Typography } from '@material-u
 import CancelIcon from '@material-ui/icons/Cancel';
 import Review from '../Review/Review';
 import NewEdition from './NewEdition';
+import PublishBook from './PublishBook';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -41,6 +42,11 @@ export default function RightSection({content}) {
                     Add Edition for <b>{content?.bookInfo?.name}</b>
                 </Typography>
                 break;
+            case 'publishBook':
+                Header = <Typography variant="h6">
+                    Publish New Book
+                </Typography>
+                break; 
             default:
                 break;
         }
@@ -72,6 +78,9 @@ export default function RightSection({content}) {
             break;
         case 'addEdition':
             setMainComponent(<NewEdition bookInfo={content.bookInfo}/>)
+            break;
+        case 'publishBook':
+            setMainComponent(<PublishBook/>)
             break;
         default:
             MainComponent = Container;

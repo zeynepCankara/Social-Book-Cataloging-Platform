@@ -37,3 +37,5 @@ export const ADD_REPLY = 'ADD_REPLY';
 export const ADD_REPLY_SUCCESS = 'ADD_REPLY_SUCCESS';
 
 export const ADD_EDITION = 'ADD_EDITION';
+
+export const PUBLISH_BOOK = 'PUBLISH_BOOK';

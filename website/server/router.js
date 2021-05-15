@@ -233,6 +233,15 @@ async function runServer() {
        
         res.status(200).send();
     })
+
+    app.post('/publishBook', parse.json(), async (req, res) => {
+        console.log('publishBook', req.body);
+        const { name, year, genre, authorName } = req.body;
+
+        const authorId = await getUserIDFromUsername(authorName);
+
+        res.status(200).send();
+    })
 }
 
 runServer();
