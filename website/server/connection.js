@@ -259,21 +259,21 @@ class Connection {
     async populateDatabase() {
         // insert into User table
         await this.executeQuery('INSERT INTO user (userId, userName, name, mail, password, userType) VALUES' +
-                                    '(1, \'ggurbuzturk\', \'goktug gurbuzturk\', \'gg@gmail.com\', \'1234\', \'librarian\'),' +
-                                    '(2, \'egesah\', \'ege sahin\', \'es@gmail.com\', \'1234\', \'user\'),' +
-                                    '(3, \'jweiner\', \'Jennifer Weiner\', \'jennifer@gmail.com\', \'1234\', \'author\'),' +
-                                    '(4, \'anapolitano\', \'Ann Napolitano\', \'ann@gmail.com\', \'1234\', \'author\'),' +
-                                    '(5, \'cconaghy\', \'Charlotte McConaghy\', \'charlotte@gmail.com\', \'1234\', \'author\'),' +
-                                    '(6, \'vtfisher\', \'Tarryn Fisher\', \'tarryn@gmail.com\', \'1234\', \'author\'),' +
-                                    '(7, \'jlourey\', \'Jess Lourey\', \'jess@gmail.com\', \'1234\', \'author\'),' +
-                                    '(8, \'alazarre\', \'Adam Lazarre\', \'adam@gmail.com\', \'1234\', \'author\'),' +
-                                    '(9, \'ahoffman\', \'Alice Hoffman\', \'alice@gmail.com\', \'1234\', \'author\'),' +
-                                    '(10, \'bbennet\', \'Brit Bennett\', \'brit@gmail.com\', \'1234\', \'author\'),' +
-                                    '(11, \'jbride\', \'James McBride\', \'james@gmail.com\', \'1234\', \'author\'),' +
-                                    '(12, \'sclarke\', \'Susanna Clarke\', \'susanna@gmail.com\', \'1234\', \'author\'),' +
-                                    '(13, \'jbutcher\', \'Jim Butcher\', \'jim@gmail.com\', \'1234\', \'author\'),' +
-                                    '(14, \'pbriggs\', \'Patricia Briggs\', \'patricia@gmail.com\', \'1234\', \'author\'),' +
-                                    '(15, \'jkrowling\', \'J.K. Rowling\', \'rowling@gmail.com\', \'1234\', \'author\');');
+                                    '(1, \'ggurbuzturk\', \'goktug gurbuzturk\', \'gg@gmail.com\', \'1234\', \'LIBRARIAN\'),' +
+                                    '(2, \'egesah\', \'ege sahin\', \'es@gmail.com\', \'1234\', \'USER\'),' +
+                                    '(3, \'jweiner\', \'Jennifer Weiner\', \'jennifer@gmail.com\', \'1234\', \'AUTHOR\'),' +
+                                    '(4, \'anapolitano\', \'Ann Napolitano\', \'ann@gmail.com\', \'1234\', \'AUTHOR\'),' +
+                                    '(5, \'cconaghy\', \'Charlotte McConaghy\', \'charlotte@gmail.com\', \'1234\', \'AUTHOR\'),' +
+                                    '(6, \'vtfisher\', \'Tarryn Fisher\', \'tarryn@gmail.com\', \'1234\', \'AUTHOR\'),' +
+                                    '(7, \'jlourey\', \'Jess Lourey\', \'jess@gmail.com\', \'1234\', \'AUTHOR\'),' +
+                                    '(8, \'alazarre\', \'Adam Lazarre\', \'adam@gmail.com\', \'1234\', \'AUTHOR\'),' +
+                                    '(9, \'ahoffman\', \'Alice Hoffman\', \'alice@gmail.com\', \'1234\', \'AUTHOR\'),' +
+                                    '(10, \'bbennet\', \'Brit Bennett\', \'brit@gmail.com\', \'1234\', \'AUTHOR\'),' +
+                                    '(11, \'jbride\', \'James McBride\', \'james@gmail.com\', \'1234\', \'AUTHOR\'),' +
+                                    '(12, \'sclarke\', \'Susanna Clarke\', \'susanna@gmail.com\', \'1234\', \'AUTHOR\'),' +
+                                    '(13, \'jbutcher\', \'Jim Butcher\', \'jim@gmail.com\', \'1234\', \'AUTHOR\'),' +
+                                    '(14, \'pbriggs\', \'Patricia Briggs\', \'patricia@gmail.com\', \'1234\', \'AUTHOR\'),' +
+                                    '(15, \'jkrowling\', \'J.K. Rowling\', \'rowling@gmail.com\', \'1234\', \'AUTHOR\');');
         
         // insert into Book table -> BURAYA BIR EKLEME YAPILIRKEN EDITION'A DA YAPILMALI BUNUN ICIN TRIGGER OLABILIR
         await this.executeQuery('INSERT INTO Book (bookId, genre, year, name, authorId, authorName) VALUES' +

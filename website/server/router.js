@@ -35,9 +35,19 @@ async function runServer() {
         console.log('login', req.body);
         const { username, password, userType } = req.body;
 
-        // const results = await connection.executeQuery('SELECT * FROM users...');
+        const nameResults = await connection.executeQuery(`SELECT * FROM User WHERE userName = '${username}'`);
+        const passwordResults = await connection.executeQuery(`SELECT * FROM User WHERE userName = '${username}' AND password = '${password}'`);
+        const userTypeResults = await connection.executeQuery(`SELECT * FROM User WHERE userName = '${username}' AND password = '${password}' AND userType = '${userType}'`);
+        if(nameResults.length === 0){
+            res.status(400).send(`Username is invalid!`);
+        }else if(passwordResults.length === 0){
+            res.status(400).send(`Password is invalid!`);
+        }else if(userTypeResults === 0){
+            res.status(400).send(`userType is invalid!`);
+        }else{
+            res.status(200).send(`testLogin with ${username} and ${password}`);
+        }
 
-        res.status(200).send(`testLogin with ${username} and ${password}`);
     })
     
     /**
