@@ -226,8 +226,11 @@ async function runServer() {
     app.post('/createBooklist', parse.json(), async (req, res) => {
         console.log('publishBook', req.body);
         const { name, date, description, username } = req.body;
-
+    
         const ownerId = await getUserIDFromUsername(username);
+        const maxBookId = await connection.executeQuery(`SELECT MAX(bookListId) AS booklistid FROM BookList`);
+        const booklistId = maxBookId + 1;
+        await connection.executeQuery(`INSERT INTO BookList VALUES('${booklistId}', '${name}', '${date}', '${description}', '${ownerId}')`);
 
         res.status(200).send();
 
@@ -236,30 +239,30 @@ async function runServer() {
     app.post('/getBooklists', parse.json(), async (req, res) => {
         // Get booklists
         console.log('getBooklists', req.body);
-
         const { username } = req.body;
-
-        res.status(200).send();
+        const userId = await getUserIDFromUsername(username);
+        const results = await connection.executeQuery(`SELECT * FROM BookList WHERE ownerId = '${userId}'`);
+        res.status(200).send(results);
     })
 
     app.get('/getBooklistContent', parse.json(), async (req, res) => {
         console.log('getBooklistContent', req.body);
         const { bookListId } = req.body;
-
-        res.status(200).send();
+        const results = await connection.executeQuery(`SELECT * FROM Contains NATURAL JOIN Book WHERE bookListId = '${bookListId}'`);
+        res.status(200).send(results);
     })
 
     app.get('/addBookToBooklist', parse.json(), async (req, res) => {
         console.log('addBookToBooklist', req.body);
         const { bookListId, bookId } = req.body;
-
+        await connection.executeQuery(`INSERT INTO Containts VALUES('${bookListId}', '${bookId}')`);
         res.status(200).send();
     })
 
     app.get('/deleteBookFromBooklist', parse.json(), async (req, res) => {
         console.log('deleteBookFromBooklist', req.body);
         const { bookListId, bookId } = req.body;
-
+        await connection.executeQuery(`DELETE FROM Contains WHERE (bookListId,bookId) = ('${bookListId}', '${bookId}')`);
         res.status(200).send();
     })
 }
