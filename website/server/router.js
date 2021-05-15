@@ -49,7 +49,7 @@ async function runServer() {
         }
 
     })
-    
+
     /**
      * Saves new user
      */
@@ -57,6 +57,15 @@ async function runServer() {
         console.log('signup', req.body);
         const { name, username, email, password, userType } = req.body;
         // TODO: Check database whether this credentials are valid
+        const userCheckResults = await connection.executeQuery(`SELECT userName FROM User WHERE username = '${username}'`);
+        if(userCheckResults.length !== 0){
+            res.status(400).send(`Specified username is already used by another!`);
+            return;
+        }
+        const uniqueUserId = await connection.executeQuery(`SELECT MAX(userId) AS userId FROM User`);
+        const uniqueId = uniqueUserId[0].userId + 1;
+        console.log(uniqueUserId);
+        await connection.executeQuery(`INSERT INTO User VALUES('${uniqueId}','${username}','${name}','${email}','${password}','${userType}')`);
         res.status(200).send(`testSignup with ${name} and ${password}`);
     })
 
@@ -145,39 +154,21 @@ async function runServer() {
     app.post('/getEditions', parse.json(), async (req, res) => {
         console.log('getEditons', req.body);
         const { bookId } = req.body;
-        res.status(200).send([
-            {
-                bookId,
-                number: 1,
-                publisher: 'X',
-                pageCount: 258,
-                format: 'Print',
-                language: 'English',
-                translator: 'Ahmet'
-            },
-            {
-                bookId,
-                number: 2,
-                publisher: 'Y',
-                pageCount: 123,
-                format: 'E-book',
-                language: 'Turkish',
-                translator: 'Mehmet'
-            }
-        ])
+        const results = await connection.executeQuery(`SELECT * FROM Edition WHERE bookId = '${bookId}'`);
+        res.status(200).send(results);
     })
 
     app.post('/startTracking', parse.json(), async (req, res) => {
         console.log('startTracking', req.body);
         const { username, edition } = req.body; // Edition is the same format as above
-
+        const userId = await getUserIDFromUsername(username);
+        await connection.executeQuery(`INSERT INTO Tracks VALUES('${userId}', '${edition.bookId}', '${edition.number}', '${edition.publisher}', '${edition.format}', '${edition.language}')`);
         res.status(200).send();
     })
 
     app.post('/addReview', parse.json(), async (req, res) => {
         console.log('addReview', req.body);
         const { username, bookId, rate, comment, date } = req.body;
-
         res.status(200).send();
     })
 
