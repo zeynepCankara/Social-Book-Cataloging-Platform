@@ -224,8 +224,13 @@ async function runServer() {
 
     app.post('/addEdition', parse.json(), async (req, res) => {
         console.log('addEdition', req.body);
-        const { number, publisher, pageCount, format, language, bookId } = req.body;
-
+        const { number, publisher, pageCount, format, language, bookId, translator } = req.body;
+        if (translator){
+            await connection.executeQuery(`INSERT INTO Edition VALUES('${bookId}', '${number}', '${publisher}', '${pageCount}', '${format}', '${language}, '${translator}')`);
+        }else{
+            await connection.executeQuery(`INSERT INTO Edition VALUES('${bookId}', '${number}', '${publisher}', '${pageCount}', '${format}', '${language}', null)`);
+        }
+       
         res.status(200).send();
     })
 }
