@@ -95,49 +95,24 @@ async function runServer() {
     app.post('/getTrackedBooks', parse.json(), async (req, res) => {
         console.log('getTrackedBooks', req.body);
         const { username } = req.body;
-        /*
-        response should be in this format:
-        {
-            bookID: {
-                edition: { editionInformation... },
-                progresses: [
-                    {
-                        page_number: firstProgress' pageNumber,
-                        date: firstProgress' date,
-                    },
-                    {
-                        page_number: secondProgress' pageNumber,
-                        date: secondProgress' date,
-                    }
-                ]   
-            },
-            otherBookID...
-        }
-    
-        */
-        res.status(200).send({
-            1: {
-                edition: {
-                    bookId: 1,
-                    number: 1,
-                    publisher: 'X',
-                    pageCount: 258,
-                    format: 'Print',
-                    language: 'English',
-                    translator: 'Ahmet'
-                },
-                progresses: [
-                    {
-                        pageNumber: 10,
-                        date: '2020-01-01'
-                    },
-                    {
-                        pageNumber: 50,
-                        date: '2020-02-01'
-                    },
-                ]
+        const userId = await getUserIDFromUsername(username);
+        const results = await connection.executeQuery(`SELECT * FROM Tracks WHERE userId = ${userId}`);
+
+        let formattedResult = {};
+        for (const row in results) {
+            const edition = await connection.executeQuery(`SELECT * FROM Edition WHERE bookId = ${results[row].bookId} AND number = ${results[row].number
+                                                                } AND publisher = '${results[row].publisher}' AND format = '${results[row].format 
+                                                                }' AND language = '${results[row].language}'`);
+            const progresses = await connection.executeQuery(`SELECT pageNumber, date FROM Progress WHERE bookId = ${results[row].bookId
+                                                                } AND number = ${results[row].number} AND userId = ${results[row].userId
+                                                                } AND publisher = '${results[row].publisher}' AND format = '${results[row].format 
+                                                                }' AND language = '${results[row].language}'`);
+            formattedResult[results[row].bookId] = {
+                edition: edition[0],
+                progresses
             }
-        });
+        }
+        res.status(200).send(formattedResult);
     })
 
     app.post('/getReviews', parse.json(), async (req, res) => {
