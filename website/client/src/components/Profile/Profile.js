@@ -72,7 +72,9 @@ export default function Profile() {
                 >
                     {challengeOutcomes.map(e => {
                         return <ListItem divider>
-                            <Typography variant='h5' align='center'>{`You ${e.achieved === 1 ? 'won' : 'lose'} ${e.name}`}</Typography>
+                            <Typography variant='h5' align='center'>
+                                You <b>{e.achieved === 1 ? 'won ' : 'lose '}</b> {e.name}
+                            </Typography>
                         </ListItem>
                     })}
                 </List>
