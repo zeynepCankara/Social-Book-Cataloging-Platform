@@ -360,6 +360,8 @@ async function runServer() {
     })
 
     app.post('/mostPopularTenBooks', parse.json(), async (req, res) => {
+        console.log('mostPopularTenBooks');
+        const results = await connection.executeQuery(`SELECT bookId, COUNT(userID) AS totalTrack, authorName, genre,name FROM (SELECT userId, Tracks.bookId, temp.authorName, temp.genre, temp.name FROM Tracks JOIN (SELECT bookId, authorName, genre, name, year FROM Book) AS temp ON Tracks.bookId = temp.bookId) AS temp2 GROUP BY bookId, authorName,genre,name ORDER BY totalTrack desc LIMIT 10`);
         res.status(200).send();
     })
 

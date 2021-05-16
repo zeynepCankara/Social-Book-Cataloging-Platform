@@ -301,13 +301,33 @@ class Connection {
         // insert into Challenge table -> GOODREADS'DEN BAK CHALLENGE'DA BASKALARIYLA YARISTIRMIYOR
         await this.executeQuery('INSERT INTO Challenge (challengeId, name, startDate, endDate, description, type, creatorId, bookCount) VALUES' +
                                     '(1, \'Challenge1\', \'2021-01-01\', \'2021-02-01\', \'description1\', \'reading\', 1, 20),' +
-                                    '(2, \'Challenge2\', \'2021-02-02\', \'2021-07-02\', \'description2\', \'reading\', 1, 40);');
+                                    '(2, \'Challenge2\', \'2021-02-02\', \'2021-07-02\', \'description2\', \'reading\', 1, 40),' +
+                                    '(3, \'Challenge3\', \'2021-02-01\', \'2021-08-02\', \'summer challenge\', \'reading\', 1, 50),' +
+                                    '(4, \'Challenge4\', \'2021-02-02\', \'2021-08-02\', \'summer challenge2\', \'reading\', 1, 50),' +
+                                    '(5, \'Challenge5\', \'2021-02-03\', \'2021-08-02\', \'summer challenge3\', \'reading\', 1, 50),' +
+                                    '(6, \'Challenge6\', \'2021-02-04\', \'2021-08-02\', \'medium level\', \'reading\', 1, 70),' +
+                                    '(7, \'Challenge7\', \'2021-02-05\', \'2021-08-02\', \'medium level\', \'reading\', 1, 80),' +
+                                    '(8, \'Challenge8\', \'2021-02-06\', \'2021-08-02\', \'medium level\', \'reading\', 1, 80),' +
+                                    '(9, \'Challenge9\', \'2021-02-07\', \'2021-08-02\', \'hard level\', \'reading\', 1, 120),' +
+                                    '(10, \'Challenge10\', \'2021-02-08\', \'2021-08-02\', \'hard level\', \'reading\', 1, 130);');
 
         // insert into JoinsChallenge table 
         await this.executeQuery('INSERT INTO JoinsChallenge (challengeId, userId, score, achieved) VALUES' + 
-                                    '(1, 2, 100, null),' +
-                                    '(1, 6, 80, null),' +
-                                    '(2, 2, 5, null);');
+                                    '(1, 2, 100, 1),' +
+                                    '(1, 6, 80, 1),' +
+                                    '(2, 1, 10, null),' +
+                                    '(2, 2, 5, null),' +
+                                    '(2, 3, 12, null),' +
+                                    '(2, 4, 13, null),' +
+                                    '(2, 5, 14, null),' +
+                                    '(2, 6, 15, null),' +
+                                    '(2, 7, 16, null),' +
+                                    '(2, 8, 17, null),' +
+                                    '(2, 9, 18, null),' +
+                                    '(2, 10, 19, null),' +
+                                    '(2, 11, 20, null),' +
+                                    '(2, 13, 25, null),' +
+                                    '(2, 12, 11, null);');
 
         // insert into FriendOf table
         await this.executeQuery('INSERT INTO FriendOf (friendId, personId, status) VALUES' + 
@@ -355,6 +375,7 @@ class Connection {
         // insert into Edition Table
         await this.executeQuery('INSERT INTO Edition (bookId, number, publisher, pageCount, format, language, translator) VALUES' +
                                     '(1, 1, \'Atria Books\', 254, \'Hardcover\', \'English\', null),' +
+                                    '(1, 2, \'Dial Press\', 234, \'Hardcover\', \'English\', null)' +
                                     '(2, 1, \'Dial Press\', 326, \'Hardcover\', \'English\', null),' +
                                     '(3, 1, \'Flatiron Books\', 186, \'Hardcover\', \'English\', null),' +
                                     '(3, 2, \'Macmillan Audio\', 364, \'Paperback\', \'English\', null),' +
@@ -377,6 +398,11 @@ class Connection {
                                     '(2, 1, 1, \'Atria Books\', \'Hardcover\', \'English\'),' +
                                     '(2, 5, 1, \'Thomas & Mercer\', \'Hardcover\', \'English\'),' +
                                     '(5, 2, 1, \'Dial Press\', \'Hardcover\', \'English\'),' +
+                                    '(6, 1, 1, \'Atria Books\', \'Hardcover\', \'English\')' +
+                                    '(7, 1, 1, \'Atria Books\', \'Hardcover\', \'English\')' +
+                                    '(3, 1, 2, \'Dial Press\', \'Hardcover\', \'English\')' +
+                                    '(4, 1, 2, \'Dial Press\', \'Hardcover\', \'English\')' +
+                                    '(5, 1, 2, \'Dial Press\', \'Hardcover\', \'English\')' +
                                     '(7, 8, 2, \'Riverhead Books\', \'Paperback\', \'English\');');
 
         // Insert into Progress Table
