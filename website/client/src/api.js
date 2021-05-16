@@ -99,3 +99,15 @@ export async function getAllReviews() {
 export async function getAvailableChallenges() {
     return axios.post('http://localhost:3001/getAvailableChallenges').then(res => res);
 }
+
+export async function getAllParticipantsOfChallenge(payload) {
+    return axios.post('http://localhost:3001/getAllParticipantsOfChallenge', payload).then(res => res);
+}
+
+export async function joinChallenge(payload) {
+    return axios.post('http://localhost:3001/joinChallenge', payload).then(res => res);
+}
+
+export async function createChallenge(payload) {
+    return axios.post('http://localhost:3001/createChallenge', payload).then(res => res);
+}

@@ -24,7 +24,10 @@ import {
     getMostPopularTenBooks,
     getMostPopularTenChallenges,
     getAllReviews,
-    getAvailableChallenges
+    getAvailableChallenges,
+    getAllParticipantsOfChallenge,
+    joinChallenge,
+    createChallenge
 } from './api';
 import { 
     LOGIN_REQUEST, 
@@ -62,7 +65,10 @@ import {
     GET_HOME_CONTENT,
     GET_HOME_CONTENT_SUCCESS,
     GET_AVAILABLE_CHALLENGES,
-    GET_AVAILABLE_CHALLENGES_SUCCESS
+    GET_AVAILABLE_CHALLENGES_SUCCESS,
+    GET_ALL_PARTICIPANTS_OF_CHALLENGE,
+    JOIN_CHALLENGE,
+    CREATE_CHALLENGE
 } from './actions';
 import Cookies from 'universal-cookie';
 
@@ -415,6 +421,28 @@ function* getAvailableChallengesMiddleware(action) {
     }
 }
 
+function* getAllParticipantsOfChallengeMiddleware(action) {
+    const response = yield call(getAllParticipantsOfChallenge, action.payload.challenge);
+
+    action.payload.onSuccess(response.data);
+}
+
+function* joinChallengeMiddleware(action) {
+    const response = yield call(joinChallenge, action.payload.data);
+
+    if (response.status === 200) {
+        action.payload.onSuccess();
+    }
+}
+
+function* createChallengeMiddleware(action) {
+    const response = yield call(createChallenge, action.payload)
+
+    if (response.status === 200) {
+        yield put({ type: GET_AVAILABLE_CHALLENGES})
+    }
+}
+
 export default function* mainMiddleware() {
     yield takeEvery(LOGIN_REQUEST, loginMiddleware);
     yield takeEvery(SIGNUP_REQUEST, signupMiddleware);
@@ -438,4 +466,7 @@ export default function* mainMiddleware() {
     yield takeEvery(ADD_BOOKS_TO_BOOKLIST, addBooksToBooklistMiddleware);
     yield takeEvery(GET_HOME_CONTENT, getHomeContentMiddleware);
     yield takeEvery(GET_AVAILABLE_CHALLENGES, getAvailableChallengesMiddleware);
+    yield takeEvery(GET_ALL_PARTICIPANTS_OF_CHALLENGE, getAllParticipantsOfChallengeMiddleware);
+    yield takeEvery(JOIN_CHALLENGE, joinChallengeMiddleware);
+    yield takeEvery(CREATE_CHALLENGE, createChallengeMiddleware);
 }

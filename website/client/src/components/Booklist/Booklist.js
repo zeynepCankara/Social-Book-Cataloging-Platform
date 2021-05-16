@@ -191,7 +191,11 @@ export default function Booklist() {
     return (
         <div className={classes.container}>
             <div className={classes.leftSide}>
-                <List className={classes.list} subheader={<ListSubheader>My Lists</ListSubheader>}>
+                <List className={classes.list} subheader={<ListSubheader style={{paddingTop: 20, margin: '0 20px', borderBottom: '1px solid'}}>
+                    <Typography variant='h4' color='primary' align='center'>
+                        My Lists
+                    </Typography>
+                </ListSubheader>}>
                     {lists.map((e, index) => {
                         return <ListItem 
                             style={{backgroundColor: currentList.bookListId === e.bookListId ? '#ccc' : (index % 2 === 1 ? '#eee' : 'white')}} 

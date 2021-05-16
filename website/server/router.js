@@ -319,7 +319,7 @@ async function runServer() {
 
         const creatorId = await getUserIDFromUsername(username);
         const challengeIDs = await connection.executeQuery(`SELECT MAX(challengeId) as challengeid FROM Challenge`);
-        const newChallengeId = 1;
+        let newChallengeId = 1;
         if(challengeIDs.length !== 0){
             newChallengeId = challengeIDs[0].challengeid;
             newChallengeId = newChallengeId + 1;
@@ -332,6 +332,17 @@ async function runServer() {
     app.post('/getAvailableChallenges', parse.json(), async (req, res) => {
         console.log('getAvailableChallenges', req.body);
         const results = await connection.executeQuery(`SELECT * FROM Challenge WHERE endDate >= (SELECT CURRENT_DATE)`);
+        res.status(200).send(results);
+    })
+
+    app.post('/joinChallenge', parse.json(), async (req, res) => {
+        console.log('joinChallenge', req.body);
+        const { username, challengeId } = req.body;
+        
+        const userId = await getUserIDFromUsername(username);
+
+        const results = await connection.executeQuery(`INSERT INTO JoinsChallenge VALUES (${challengeId}, ${userId}, 0, null)`);
+
         res.status(200).send();
     })
 
@@ -339,7 +350,7 @@ async function runServer() {
         console.log('getAllParticipantsOfChallenge', req.body);
         const { challengeId } = req.body;
 
-        const results = await connection.executeQuery(`SELECT * FROM JoinsChallenge NATURAL JOIN User WHERE challengeId = ${challengeId}`);
+        const results = await connection.executeQuery(`SELECT * FROM JoinsChallenge NATURAL JOIN User WHERE challengeId = ${challengeId} ORDER BY score DESC`);
         res.status(200).send(results);
     })
 
@@ -362,12 +373,12 @@ async function runServer() {
     app.post('/mostPopularTenBooks', parse.json(), async (req, res) => {
         console.log('mostPopularTenBooks');
         const results = await connection.executeQuery(`SELECT bookId, COUNT(userID) AS totalTrack, authorName, genre,name FROM (SELECT userId, Tracks.bookId, temp.authorName, temp.genre, temp.name FROM Tracks JOIN (SELECT bookId, authorName, genre, name, year FROM Book) AS temp ON Tracks.bookId = temp.bookId) AS temp2 GROUP BY bookId, authorName,genre,name ORDER BY totalTrack desc LIMIT 10`);
-        res.status(200).send();
+        res.status(200).send(results);
     })
 
     app.post('/getAllReviews', parse.json(), async (req, res) => {
         console.log('getAllReviews');
-        const results = await connection.executeQuery('SELECT * FROM Reviews ORDER BY date DESC')
+        const results = await connection.executeQuery('SELECT * FROM Reviews NATURAL JOIN User ORDER BY date DESC')
         res.status(200).send(results);
     })
 }
