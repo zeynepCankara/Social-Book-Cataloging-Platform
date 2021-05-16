@@ -13,7 +13,8 @@ import {
     RESET_CURRENT_LIST_CONTENT,
     GET_HOME_CONTENT_SUCCESS,
     GET_AVAILABLE_CHALLENGES,
-    GET_AVAILABLE_CHALLENGES_SUCCESS
+    GET_AVAILABLE_CHALLENGES_SUCCESS,
+    GET_TRADES_SUCCESS
 } from './actions';
 
 export default function reducer(state, action) {
@@ -139,6 +140,11 @@ export default function reducer(state, action) {
             return {
                 ...state,
                 challenges: action.payload
+            }
+        case GET_TRADES_SUCCESS:
+            return {
+                ...state,
+                trades: action.payload
             }
         default:
             return state || {};

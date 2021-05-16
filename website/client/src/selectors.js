@@ -65,3 +65,7 @@ export const useAllReviewsSelector = () => {
 export const useChallengesSelector = () => {
     return useSelector(state => state?.challenges) || [];
 }
+
+export const useTradesSelector = () => {
+    return useSelector(state => state?.trades) || [];
+} 

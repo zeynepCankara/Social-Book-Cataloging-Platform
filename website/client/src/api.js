@@ -111,3 +111,15 @@ export async function joinChallenge(payload) {
 export async function createChallenge(payload) {
     return axios.post('http://localhost:3001/createChallenge', payload).then(res => res);
 }
+
+export async function getTrades(payload) {
+    return axios.post('http://localhost:3001/viewTrades', payload).then(res => res);
+}
+
+export async function buyBook(payload) {
+    return axios.post('http://localhost:3001/buyBook', payload).then(res => res);
+}
+
+export async function sellBook(payload) {
+    return axios.post('http://localhost:3001/createTrade', payload).then(res => res);
+}

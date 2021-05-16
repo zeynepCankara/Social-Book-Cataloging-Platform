@@ -36,7 +36,6 @@ export default function HomePage() {
     const challenges = usePopularChallengesSelector();
     const books = [...usePopularBooksSelector(), ...usePopularBooksSelector()]
     const reviews = useAllReviewsSelector();
-
     const bookInfos = useBookSelector();
 
     return (
@@ -60,7 +59,7 @@ export default function HomePage() {
                     return <div>
                         <Review
                             username={e.userName}
-                            bookInfo={bookInfos.filter(book => book.bookId === e.bookId)[0]}
+                            bookInfo={bookInfos.filter(book => book.bookId === e.bookId)[0] || []}
                             {...e}
                         />
                         <div style={{height: 10}}/>

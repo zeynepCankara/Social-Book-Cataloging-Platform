@@ -6,7 +6,7 @@ import HomePage from '../HomePage/HomePage';
 import Challenges from '../Challenges/Challenges';
 import BooksContainer from '../Books/BooksContainer';
 import Logo from '../../assets/logo.png';
-import { useHomeContentSelector, useUserSelector } from '../../selectors';
+import { useBookSelector, useHomeContentSelector, useUserSelector } from '../../selectors';
 import BookPage from '../BookPage/BookPage';
 import UserMenu from './UserMenu';
 import MyBooks from '../MyBooks/MyBooks';

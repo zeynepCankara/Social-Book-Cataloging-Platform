@@ -27,7 +27,10 @@ import {
     getAvailableChallenges,
     getAllParticipantsOfChallenge,
     joinChallenge,
-    createChallenge
+    createChallenge,
+    getTrades,
+    buyBook,
+    sellBook
 } from './api';
 import { 
     LOGIN_REQUEST, 
@@ -68,7 +71,11 @@ import {
     GET_AVAILABLE_CHALLENGES_SUCCESS,
     GET_ALL_PARTICIPANTS_OF_CHALLENGE,
     JOIN_CHALLENGE,
-    CREATE_CHALLENGE
+    CREATE_CHALLENGE,
+    GET_TRADES,
+    GET_TRADES_SUCCESS,
+    BUY_BOOK,
+    SELL_BOOK
 } from './actions';
 import Cookies from 'universal-cookie';
 
@@ -84,6 +91,7 @@ function* loginMiddleware(action) {
         if (response.status === 200) {
             yield put({type: SET_USERNAME, payload: action.payload });
             yield put({type: SET_HOME_CONTENT, payload: { mode: 'home' }});
+            yield put({type: FETCH_BOOKS_REQUEST, onSuccess: e => e})
             action.history.push('/home');
         }
     } catch (error) {
@@ -100,6 +108,7 @@ function* signupMiddleware(action) {
         if (response.status === 200) {
             yield put({type: SET_USERNAME, payload: action.payload});
             yield put({type: SET_HOME_CONTENT, payload: { mode: 'home' }});
+            yield put({type: FETCH_BOOKS_REQUEST, onSuccess: e => e})
             action.history.push('/home');
         }
     } catch (error) {
@@ -443,6 +452,43 @@ function* createChallengeMiddleware(action) {
     }
 }
 
+function* getTradesMiddleware(action) {
+    const response = yield call(getTrades, action.payload);
+
+    if (response.status === 200) {
+        yield put({
+            type: GET_TRADES_SUCCESS,
+            payload: response.data
+        })
+    }
+}
+
+function* buyBookMiddleware(action) {
+    const response = yield call(buyBook, action.payload);
+
+    if (response.status === 200) {
+        yield put({
+            type: GET_TRADES,
+            payload: {
+                bookId: action.payload.bookId
+            }
+        })
+    }
+}
+
+function* sellBookMiddleware(action) {
+    const response = yield call(sellBook, action.payload);
+
+    if(response.status === 200) {
+        yield put({
+            type: GET_TRADES,
+            payload: {
+                bookId: action.payload.bookId
+            }
+        })
+    }
+}
+
 export default function* mainMiddleware() {
     yield takeEvery(LOGIN_REQUEST, loginMiddleware);
     yield takeEvery(SIGNUP_REQUEST, signupMiddleware);
@@ -469,4 +515,7 @@ export default function* mainMiddleware() {
     yield takeEvery(GET_ALL_PARTICIPANTS_OF_CHALLENGE, getAllParticipantsOfChallengeMiddleware);
     yield takeEvery(JOIN_CHALLENGE, joinChallengeMiddleware);
     yield takeEvery(CREATE_CHALLENGE, createChallengeMiddleware);
+    yield takeEvery(GET_TRADES, getTradesMiddleware);
+    yield takeEvery(BUY_BOOK, buyBookMiddleware);
+    yield takeEvery(SELL_BOOK, sellBookMiddleware);
 }

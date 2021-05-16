@@ -272,7 +272,7 @@ async function runServer() {
 
         const sellerId = await getUserIDFromUsername(username);
         const offerIds = await connection.executeQuery(`SELECT MAX(offerId) as offerId FROM Trades`);
-        const offerid = 0;
+        let offerid = 0;
         if(offerIds.length === 0){ //There is no trades in the table
             offerid = 1;
         }else{                      //Get the max offerId and increment it by one
@@ -289,7 +289,7 @@ async function runServer() {
         const { bookId } = req.body;
 
         // Get only trades whose buyerId null
-        const results = await connection.executeQuery(`SELECT* FROM Trades WHERE bookId = ${bookId} AND buyerId = null`);
+        const results = await connection.executeQuery(`SELECT * FROM Trades, User WHERE bookId = ${bookId} AND buyerId IS null AND sellerId = userId`);
         res.status(200).send(results);
     })
 
