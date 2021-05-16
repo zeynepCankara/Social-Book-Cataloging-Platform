@@ -72,3 +72,7 @@ export const GET_TRADES_SUCCESS = 'GET_TRADES_SUCCESS';
 export const BUY_BOOK = 'BUY_BOOK';
 
 export const SELL_BOOK = 'SELL_BOOK';
+
+export const GET_BOUGHT_BOOKS = 'GET_BOUGHT_BOOKS';
+
+export const GET_CHALLENGE_OUTCOMES = 'GET_CHALLENGE_OUTCOMES';

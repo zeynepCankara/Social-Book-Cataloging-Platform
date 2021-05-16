@@ -81,6 +81,14 @@ export default function UserMenu() {
         handleClose();
     }
 
+    const openProfile = () => {
+        dispatch({
+            type: SET_HOME_CONTENT,
+            payload: { mode: 'profile' }
+        })
+        handleClose();
+    }
+
     return (
         <div className={classes.container}>
             <div className={classes.accountBox} onClick={handleClick}>
@@ -107,6 +115,9 @@ export default function UserMenu() {
                     {user.userType === 'AUTHOR' && <MyListItem button divider onClick={openMyBooks}>
                         My Books
                     </MyListItem>}
+                    <MyListItem button divider onClick={openProfile}>
+                        My Profile
+                    </MyListItem>
                     <MyListItem button onClick={handleLogout} divider>
                         Logout
                     </MyListItem>

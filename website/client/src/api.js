@@ -123,3 +123,11 @@ export async function buyBook(payload) {
 export async function sellBook(payload) {
     return axios.post('http://localhost:3001/createTrade', payload).then(res => res);
 }
+
+export async function getBoughtBooks(payload) {
+    return axios.post('http://localhost:3001/getBoughtBooks', payload).then(res => res);
+}
+
+export async function getChallengeOutcomes(payload) {
+    return axios.post('http://localhost:3001/getChallengeOutcomesForUser', payload).then(res => res);
+}

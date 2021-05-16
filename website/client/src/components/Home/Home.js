@@ -11,6 +11,7 @@ import BookPage from '../BookPage/BookPage';
 import UserMenu from './UserMenu';
 import MyBooks from '../MyBooks/MyBooks';
 import Booklist from '../Booklist/Booklist';
+import Profile from '../Profile/Profile';
 
 const useStyles = makeStyles((theme) => ({
     navBar: {
@@ -79,6 +80,9 @@ export default function Home() {
         case 'mybooks':
             MainComponent = MyBooks;
             break;
+        case 'profile':
+            MainComponent = Profile;
+            break;
         default:
             MainComponent = Container;
     }
@@ -104,6 +108,7 @@ export default function Home() {
                     {renderButton('challenges', 'Challenges')}
                     {renderButton('booklists', 'My Lists')}
                     {homeContent.mode === 'mybooks' && renderButton('mybooks', 'My Books', true)}
+                    {homeContent.mode === 'profile' && renderButton('profile', 'My Profile', true)}
                     {homeContent.mode === 'book' && renderButton('books', homeContent.book.name, true)}
                     <div style={{flex: 1}}/>
                     <UserMenu/>

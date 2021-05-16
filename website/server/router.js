@@ -308,7 +308,7 @@ async function runServer() {
         const { username } = req.body;
 
         const buyerId = await getUserIDFromUsername(username);
-        const results = await connection.executeQuery(`SELECT * FROM Trades WHERE buyerId = ${buyerId}`);
+        const results = await connection.executeQuery(`SELECT * FROM Trades, Book WHERE buyerId = ${buyerId} AND Trades.bookId = Book.bookId`);
 
         res.status(200).send(results);
     })

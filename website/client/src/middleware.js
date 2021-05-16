@@ -30,7 +30,9 @@ import {
     createChallenge,
     getTrades,
     buyBook,
-    sellBook
+    sellBook,
+    getBoughtBooks,
+    getChallengeOutcomes
 } from './api';
 import { 
     LOGIN_REQUEST, 
@@ -75,7 +77,9 @@ import {
     GET_TRADES,
     GET_TRADES_SUCCESS,
     BUY_BOOK,
-    SELL_BOOK
+    SELL_BOOK,
+    GET_BOUGHT_BOOKS,
+    GET_CHALLENGE_OUTCOMES
 } from './actions';
 import Cookies from 'universal-cookie';
 
@@ -489,6 +493,23 @@ function* sellBookMiddleware(action) {
     }
 }
 
+function* getBoughtBooksMiddleware(action) {
+    const response = yield call(getBoughtBooks, action.payload.data);
+
+    if (response.status === 200) {
+        action.payload.onSuccess(response.data);
+    }
+}
+
+function* getChallengeOutcomesMiddleware(action) {
+    const response = yield call(getChallengeOutcomes, action.payload.data);
+
+    if (response.status === 200) {
+        action.payload.onSuccess(response.data[0]);
+    }
+
+}
+
 export default function* mainMiddleware() {
     yield takeEvery(LOGIN_REQUEST, loginMiddleware);
     yield takeEvery(SIGNUP_REQUEST, signupMiddleware);
@@ -518,4 +539,6 @@ export default function* mainMiddleware() {
     yield takeEvery(GET_TRADES, getTradesMiddleware);
     yield takeEvery(BUY_BOOK, buyBookMiddleware);
     yield takeEvery(SELL_BOOK, sellBookMiddleware);
+    yield takeEvery(GET_BOUGHT_BOOKS, getBoughtBooksMiddleware);
+    yield takeEvery(GET_CHALLENGE_OUTCOMES, getChallengeOutcomesMiddleware);
 }
