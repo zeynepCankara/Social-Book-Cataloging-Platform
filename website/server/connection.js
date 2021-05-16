@@ -327,7 +327,28 @@ class Connection {
                                     '(2, 10, 19, null),' +
                                     '(2, 11, 20, null),' +
                                     '(2, 13, 25, null),' +
-                                    '(2, 12, 11, null);');
+                                    '(2, 12, 11, null),' +
+                                    '(3, 3, 34, null),' +
+                                    '(3, 4, 45, null),' +
+                                    '(4, 5, 54, null),' +
+                                    '(4, 7, 32, null),' +
+                                    '(4, 8, 12, null),' +
+                                    '(3, 9, 75, null),' +
+                                    '(5, 10, 56, null),' +
+                                    '(5, 11, 45, null),' +
+                                    '(6, 12, 32, null),' +
+                                    '(7, 2, 67, null),' +
+                                    '(8, 3, 87, null),' +
+                                    '(9, 4, 98, null),' +
+                                    '(10, 5, 78, null),' +
+                                    '(10, 6, 99, null),' +
+                                    '(10, 7, 56, null),' +
+                                    '(10, 8, 67, null),' +
+                                    '(10, 9, 78, null),' +
+                                    '(10, 10, 56, null),' +
+                                    '(10, 11, 97, null),' +
+                                    '(10, 12, 67, null),' +
+                                    '(10, 13, 87, null);');
 
         // insert into FriendOf table
         await this.executeQuery('INSERT INTO FriendOf (friendId, personId, status) VALUES' + 
@@ -337,15 +358,39 @@ class Connection {
         // inser into Post table
         await this.executeQuery('INSERT INTO Post (postId, text, date, writerId) VALUES' +
                                     '(1, \'sun\', \'2021-03-02\', 2),' +
-                                    '(2, \'look\', \'2021-03-10\', 5),' +
-                                    '(3, \'shine\', \'2020-08-02\', 8);');
+                                    '(2, \'look\', \'2021-03-10\', 3),' +
+                                    '(3, \'shine\', \'2020-08-02\', 4),' +
+                                    '(4, \'good luck all in new challenge\', \'2021-04-02\', 1),' +
+                                    '(5, \'nice book this is\', \'2021-03-04\', 5),' +
+                                    '(9, \'ZZZ\', \'2021-03-04\', 6),' +
+                                    '(6, \'good day\', \'2021-03-05\', 7),' +
+                                    '(10, \'Hello my friends\', \'2021-03-06\', 10),' +
+                                    '(11, \'Hello all\', \'2021-03-06\', 11),' +
+                                    '(12, \'Empty post\', \'2021-03-06\', 12),' +
+                                    '(13, \'I wrote a new book\', \'2021-03-06\', 13),' +
+                                    '(14, \'My book is published\', \'2021-03-06\', 14),' +
+                                    '(15, \'sunshine\', \'2021-03-06\', 15),' +
+                                    '(7, \'Hello librarian goktug\', \'2021-03-06\', 8),' +
+                                    '(8, \'funny post\', \'2021-03-010\', 9);');
 
         // insert into Likes table
         await this.executeQuery('INSERT INTO Likes (postId, userId) VALUES' +
-                                    '(1, 4),' +
+                                    '(1, 15),' +
                                     '(1, 6),' +
-                                    '(2, 10),' +
-                                    '(3, 2);');
+                                    '(4, 2),' +
+                                    '(5, 3),' +
+                                    '(6, 4),' +
+                                    '(7, 1),' +
+                                    '(8, 5),' +
+                                    '(9, 6),' +
+                                    '(10, 7),' +
+                                    '(11, 8),' +
+                                    '(12, 9),' +
+                                    '(13, 10),' +
+                                    '(14, 11),' +
+                                    '(15, 12),' +
+                                    '(2, 13),' +
+                                    '(3, 14);');
 
         // insert into Comments Table
         await this.executeQuery('INSERT INTO Comments (postId, userId, text) VALUES' +
