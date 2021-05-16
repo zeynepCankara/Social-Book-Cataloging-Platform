@@ -508,10 +508,11 @@ class Connection {
         await this.executeQuery('INSERT INTO Reviews (userId, bookId, rate, comment, date) VALUES' +
                                     '(2, 1, 4, \'It was a very gripping book.\', \'2021-04-10\'),' +
                                     '(5, 2, 2, \'There are contradictory statements in the book.\', \'2021-04-20\'),' +
-                                    '(5, 13, 2, \'Ehh\', \'2021-07-20\'),' +
-                                    '(6, 13, 5, \'Love\', \'2021-01-20\'),' +
-                                    '(7, 13, 0, \'Hate\', \'2021-04-09\'),' +
-                                    '(15, 1, 4, \'Selamun Aleykum\', \'2021-04-09\'),' +
+                                    '(5, 13, 2, \'I did not love it but it is okay.\', \'2021-07-20\'),' +
+                                    '(6, 13, 5, \'I love it\', \'2021-01-20\'),' +
+                                    '(7, 13, 0, \'I could not even read it.\', \'2020-04-09\'),' +
+                                    '(10, 7, 2, \'\', \'2019-04-09\'),' +
+                                    '(11, 5, 4, \'\', \'2018-04-09\'),' +
                                     '(7, 8, 3, \'I strongly recommend everyone to read it. It broadened my perspective.\', \'2021-05-03\');');
 
         //Insert into Recommends
