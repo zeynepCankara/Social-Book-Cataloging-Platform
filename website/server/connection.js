@@ -420,7 +420,7 @@ class Connection {
         // insert into Edition Table
         await this.executeQuery('INSERT INTO Edition (bookId, number, publisher, pageCount, format, language, translator) VALUES' +
                                     '(1, 1, \'Atria Books\', 254, \'Hardcover\', \'English\', null),' +
-                                    '(1, 2, \'Dial Press\', 234, \'Hardcover\', \'English\', null)' +
+                                    '(1, 2, \'Dial Press\', 234, \'Hardcover\', \'English\', null),' +
                                     '(2, 1, \'Dial Press\', 326, \'Hardcover\', \'English\', null),' +
                                     '(3, 1, \'Flatiron Books\', 186, \'Hardcover\', \'English\', null),' +
                                     '(3, 2, \'Macmillan Audio\', 364, \'Paperback\', \'English\', null),' +
@@ -443,11 +443,11 @@ class Connection {
                                     '(2, 1, 1, \'Atria Books\', \'Hardcover\', \'English\'),' +
                                     '(2, 5, 1, \'Thomas & Mercer\', \'Hardcover\', \'English\'),' +
                                     '(5, 2, 1, \'Dial Press\', \'Hardcover\', \'English\'),' +
-                                    '(6, 1, 1, \'Atria Books\', \'Hardcover\', \'English\')' +
-                                    '(7, 1, 1, \'Atria Books\', \'Hardcover\', \'English\')' +
-                                    '(3, 1, 2, \'Dial Press\', \'Hardcover\', \'English\')' +
-                                    '(4, 1, 2, \'Dial Press\', \'Hardcover\', \'English\')' +
-                                    '(5, 1, 2, \'Dial Press\', \'Hardcover\', \'English\')' +
+                                    '(6, 1, 1, \'Atria Books\', \'Hardcover\', \'English\'),' +
+                                    '(7, 1, 1, \'Atria Books\', \'Hardcover\', \'English\'),' +
+                                    '(3, 1, 2, \'Dial Press\', \'Hardcover\', \'English\'),' +
+                                    '(4, 1, 2, \'Dial Press\', \'Hardcover\', \'English\'),' +
+                                    '(5, 1, 2, \'Dial Press\', \'Hardcover\', \'English\'),' +
                                     '(7, 8, 2, \'Riverhead Books\', \'Paperback\', \'English\');');
 
         // Insert into Progress Table
