@@ -271,6 +271,15 @@ async function runServer() {
         const { username, price, description, bookId } = req.body;
 
         const sellerId = await getUserIDFromUsername(username);
+        const offerIds = await connection.executeQuery(`SELECT MAX(offerId) as offerId FROM Trades`);
+        const offerid = 0;
+        if(offerIds.length === 0){ //There is no trades in the table
+            offerid = 1;
+        }else{                      //Get the max offerId and increment it by one
+            offerid = offerIds[0].offerId;
+            offerid = offerid + 1;
+        }
+        await connection.executeQuery(`INSERT INTO Trades VALUES(${offerid}, null, ${sellerId}, '${price}', '${description}', ${bookId})`);
 
         res.status(200).send();
     })
@@ -280,7 +289,8 @@ async function runServer() {
         const { bookId } = req.body;
 
         // Get only trades whose buyerId null
-        res.status(200).send();
+        const results = await connection.executeQuery(`SELECT* FROM Trades WHERE bookId = ${bookId} AND buyerId = null`);
+        res.status(200).send(results);
     })
 
     app.post('/buyBook', parse.json(), async (req, res) => {
@@ -288,6 +298,7 @@ async function runServer() {
         const { offerId, username } = req.body;
 
         const buyerId = await getUserIDFromUsername(username);
+        await connection.executeQuery(`UPDATE Trades SET buyerId = ${buyerId} WHERE offerId = ${offerId}`);
 
         res.status(200).send();
     })
@@ -297,8 +308,9 @@ async function runServer() {
         const { username };
 
         const buyerId = await getUserIDFromUsername(username);
+        const results = await connection.executeQuery(`SELECT * FROM Trades WHERE buyerId = ${buyerId}`);
 
-        res.status(200).send();
+        res.status(200).send(results);
     })
 
     app.post('/createChallenge', parse.json(), async (req, res) => {
@@ -306,13 +318,20 @@ async function runServer() {
         const { name, startDate, endDate, description, type, bookCount, username } = req.body;
 
         const creatorId = await getUserIDFromUsername(username);
+        const challengeIDs = await connection.executeQuery(`SELECT MAX(challengeId) as challengeid FROM Challenge`);
+        const newChallengeId = 1;
+        if(challengeIDs.length !== 0){
+            newChallengeId = challengeIDs[0].challengeid;
+            newChallengeId = newChallengeId + 1;
+        }
+        await connection.executeQuery(`INSERT INTO Challenge VALUES(${newChallengeId}, '${name}', '${startDate}', '${endDate}', '${description}', '${type}', ${creatorId}, ${bookCount})`);
 
         res.status(200).send();
     })
 
     app.post('/getAvailableChallenges', parse.json(), async (req, res) => {
         console.log('getAvailableChallenges', req.body);
-        
+        const results = await connection.executeQuery(`SELECT * FROM Challenge WHERE endDate >= (SELECT CURRENT_DATE)`);
         res.status(200).send();
     })
 
@@ -320,7 +339,8 @@ async function runServer() {
         console.log('getAllParticipantsOfChallenge', req.body);
         const { challengeId } = req.body;
 
-        res.status(200).send();
+        const results = await connection.executeQuery(`SELECT * FROM JoinsChallenge NATURAL JOIN User WHERE challengeId = ${challengeId}`);
+        res.status(200).send(results);
     })
 
     app.post('/getChallengeOutcomesForUser', parse.json(), async (req, res) => {
@@ -328,12 +348,15 @@ async function runServer() {
         const { username } = req.body;
 
         const userId = await getUserIDFromUsername(username);
+        const results = await connection.executeQuery(`CALL getAchievementInfo(${userId})`);
 
-        res.status(200).send();
+        res.status(200).send(results);
     })
 
     app.post('/mostPopularTenChallenge', parse.json(), async (req, res) => {
-        res.status(200).send();
+        console.log('mostPopularTenChallenge', req.body);
+        const results = await connection.executeQuery(`SELECT name, totalParticipant FROM (SELECT name, challengeId, totalParticipant FROM Challenge NATURAL JOIN (SELECT challengeId, COUNT(score) AS totalParticipant FROM JoinsChallenge GROUP BY challengeId) AS temp) AS temp2 ORDER BY totalParticipant DESC LIMIT 10`);
+        res.status(200).send(results);
     })
 
     app.post('/mostPopularTenBooks', parse.json(), async (req, res) => {

@@ -33,7 +33,7 @@ class Connection {
         await this.executeQuery('USE test');
 
         //STORED PROCEDURES
-        await this.executeQuery('CREATE PROCEDURE getAchievementInfo(IN specifiedUserId INT) BEGIN SELECT name,achieved FROM JoinsChallenge NATURAL JOIN Challenge WHERE  ((userId = 2) AND (achieved IS NOT NULL)); END');
+        await this.executeQuery('CREATE PROCEDURE getAchievementInfo(IN specifiedUserId INT) BEGIN SELECT name,achieved FROM JoinsChallenge NATURAL JOIN Challenge WHERE  ((userId = specifiedUserId) AND (achieved IS NOT NULL)); END');
         await this.executeQuery('CREATE PROCEDURE indicateAchievement(IN specifiedChallengeId INT) BEGIN UPDATE JoinsChallenge SET achieved = 1 WHERE (score >= (SELECT bookCount FROM Challenge WHERE challengeId = specifiedChallengeId)) AND (challengeId = specifiedChallengeId); UPDATE JoinsChallenge SET achieved = 0 WHERE (score < (SELECT bookCount FROM Challenge WHERE challengeId = specifiedChallengeId)) AND (challengeId = specifiedChallengeId); END ');
         
         // TODO: Initialize database
