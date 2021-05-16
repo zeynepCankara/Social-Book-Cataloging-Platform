@@ -303,12 +303,12 @@ class Connection {
                                     '(1, \'Challenge1\', \'2021-01-01\', \'2021-02-01\', \'description1\', \'reading\', 1, 20),' +
                                     '(2, \'Challenge2\', \'2021-02-02\', \'2021-07-02\', \'description2\', \'reading\', 1, 40),' +
                                     '(3, \'Challenge3\', \'2021-02-01\', \'2021-08-02\', \'summer challenge\', \'reading\', 1, 50),' +
-                                    '(4, \'Challenge4\', \'2021-02-02\', \'2021-08-02\', \'summer challenge2\', \'reading\', 1, 50),' +
+                                    '(4, \'Challenge4\', \'2021-02-02\', \'2021-03-02\', \'summer challenge2\', \'reading\', 1, 50),' +
                                     '(5, \'Challenge5\', \'2021-02-03\', \'2021-08-02\', \'summer challenge3\', \'reading\', 1, 50),' +
-                                    '(6, \'Challenge6\', \'2021-02-04\', \'2021-08-02\', \'medium level\', \'reading\', 1, 70),' +
+                                    '(6, \'Challenge6\', \'2021-02-04\', \'2021-04-02\', \'medium level\', \'reading\', 1, 70),' +
                                     '(7, \'Challenge7\', \'2021-02-05\', \'2021-08-02\', \'medium level\', \'reading\', 1, 80),' +
-                                    '(8, \'Challenge8\', \'2021-02-06\', \'2021-08-02\', \'medium level\', \'reading\', 1, 80),' +
-                                    '(9, \'Challenge9\', \'2021-02-07\', \'2021-08-02\', \'hard level\', \'reading\', 1, 120),' +
+                                    '(8, \'Challenge8\', \'2021-02-06\', \'2021-04-10\', \'medium level\', \'reading\', 1, 80),' +
+                                    '(9, \'Challenge9\', \'2021-02-07\', \'2021-05-02\', \'hard level\', \'reading\', 1, 120),' +
                                     '(10, \'Challenge10\', \'2021-02-08\', \'2021-08-02\', \'hard level\', \'reading\', 1, 130);');
 
         // insert into JoinsChallenge table 
@@ -330,16 +330,16 @@ class Connection {
                                     '(2, 12, 11, null),' +
                                     '(3, 3, 34, null),' +
                                     '(3, 4, 45, null),' +
-                                    '(4, 5, 54, null),' +
-                                    '(4, 7, 32, null),' +
-                                    '(4, 8, 12, null),' +
+                                    '(4, 2, 54, 1),' +
+                                    '(4, 7, 32, 0),' +
+                                    '(4, 8, 12, 0),' +
                                     '(3, 9, 75, null),' +
                                     '(5, 10, 56, null),' +
                                     '(5, 11, 45, null),' +
-                                    '(6, 12, 32, null),' +
+                                    '(6, 2, 72, 1),' +
                                     '(7, 2, 67, null),' +
-                                    '(8, 3, 87, null),' +
-                                    '(9, 4, 98, null),' +
+                                    '(8, 2, 75, 0),' +
+                                    '(9, 2, 98, 0),' +
                                     '(10, 5, 78, null),' +
                                     '(10, 6, 99, null),' +
                                     '(10, 7, 56, null),' +
