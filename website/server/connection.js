@@ -266,6 +266,7 @@ class Connection {
         await this.executeQuery('INSERT INTO user (userId, userName, name, mail, password, userType) VALUES' +
                                     '(1, \'ggurbuzturk\', \'goktug gurbuzturk\', \'gg@gmail.com\', \'1234\', \'LIBRARIAN\'),' +
                                     '(2, \'egesah\', \'ege sahin\', \'es@gmail.com\', \'1234\', \'USER\'),' +
+                                    '(16, \'hallac\', \'ahmet feyzi halac\', \'afh@gmail.com\', \'1234\', \'USER\'),' +
                                     '(3, \'jweiner\', \'Jennifer Weiner\', \'jennifer@gmail.com\', \'1234\', \'AUTHOR\'),' +
                                     '(4, \'anapolitano\', \'Ann Napolitano\', \'ann@gmail.com\', \'1234\', \'AUTHOR\'),' +
                                     '(5, \'cconaghy\', \'Charlotte McConaghy\', \'charlotte@gmail.com\', \'1234\', \'AUTHOR\'),' +
@@ -407,6 +408,17 @@ class Connection {
         await this.executeQuery('INSERT INTO Follows (userId, bookListId) VALUES' +
                                     '(4, 1),' +
                                     '(6, 2),' +
+                                    '(1, 1),' +
+                                    '(3, 1),' +
+                                    '(7, 1),' +
+                                    '(5, 1),' +
+                                    '(8, 1),' +
+                                    '(9, 1),' +
+                                    '(10, 1),' +
+                                    '(11, 1),' +
+                                    '(12, 1),' +
+                                    '(14, 1),' +
+                                    '(15, 1),' +
                                     '(13, 1);');
 
         // insert into Contains Table
@@ -415,6 +427,22 @@ class Connection {
                                     '(1, 5),' +
                                     '(1, 7),' +
                                     '(2, 8),' +
+                                    '(1, 1),' +
+                                    '(1, 2),' +
+                                    '(1, 4),' +
+                                    '(1, 6),' +
+                                    '(1, 8),' +
+                                    '(1, 9),' +
+                                    '(1, 11),' +
+                                    '(1, 12),' +
+                                    '(1, 13),' +
+                                    '(2, 1),' +
+                                    '(2, 2),' +
+                                    '(2, 3),' +
+                                    '(2, 4),' +
+                                    '(2, 15),' +
+                                    '(2, 14),' +
+                                    '(2, 13),' +
                                     '(2, 10);');
 
         // insert into Edition Table
@@ -448,7 +476,27 @@ class Connection {
                                     '(3, 1, 2, \'Dial Press\', \'Hardcover\', \'English\'),' +
                                     '(4, 1, 2, \'Dial Press\', \'Hardcover\', \'English\'),' +
                                     '(5, 1, 2, \'Dial Press\', \'Hardcover\', \'English\'),' +
-                                    '(7, 8, 2, \'Riverhead Books\', \'Paperback\', \'English\');');
+                                    '(7, 8, 2, \'Riverhead Books\', \'Paperback\', \'English\'),' +
+                                    '(2, 3, 1, \'Flatiron Books\', \'Hardcover\', \'English\'),' +
+                                    '(3, 3, 2, \'Macmillan Audio\', \'Paperback\', \'English\'),' +
+                                    '(4, 4, 1, \'Graydon House\', \'Hardcover\', \'English\'),' +
+                                    '(5, 5, 1, \'Thomas & Mercer\', \'Hardcover\', \'English\'),' +
+                                    '(6, 6, 1, \'Flatiron Books\', \'Hardcover\', \'English\'),' +
+                                    '(7, 7, 1, \'Orbit\', \'Hardcover\', \'English\'),' +
+                                    '(8, 8, 1, \'Simon Schuster\', \'Hardcover\', \'English\'),' +
+                                    '(9, 8, 2, \'Riverhead Books\', \'Paperback\', \'English\'),' +
+                                    '(10, 9, 1, \'Riverhead Books\', \'Hardcover\', \'English\'),' +
+                                    '(11, 10, 1, \'Bloomsbury\', \'Hardcover\', \'English\'),' +
+                                    '(12, 11, 1, \'Orbit\', \'Hardcover\', \'English\'),' +
+                                    '(13, 12, 1, \'Ace\', \'Hardcover\', \'English\'),' +
+                                    '(14, 13, 1, \'Scholastic Inc\', \'Hardcover\', \'English\'),' +
+                                    '(15, 14, 1, \'Pottermore Publishing\', \'Hardcover\', \'English\'),' +
+                                    '(14, 15, 1, \'Scholastic Inc\', \'Hardcover\', \'English\'),' +
+                                    '(13, 7, 1, \'Orbit\', \'Hardcover\', \'English\'),' +
+                                    '(12, 8, 1, \'Simon Schuster\', \'Hardcover\', \'English\'),' +
+                                    '(12, 8, 2, \'Riverhead Books\', \'Paperback\', \'English\'),' +
+                                    '(9, 10, 1, \'Bloomsbury\', \'Hardcover\', \'English\'),' +
+                                    '(8, 12, 1, \'Ace\', \'Hardcover\', \'English\');');
 
         // Insert into Progress Table
         await this.executeQuery('INSERT INTO Progress (pageNumber, date, userId, bookId, number, publisher, format, language) VALUES' +
