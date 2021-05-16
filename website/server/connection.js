@@ -539,7 +539,6 @@ class Connection {
                                     '(14, 1),' +
                                     '(15, 1);');
 
-
         //Insert into Replies
         await this.executeQuery('INSERT INTO test.Replies (userId, bookId, date, text, authorId) VALUES' +
                                     '(2, 1, \'2021-04-10\', \'Thank you.\', 3),' +
@@ -553,7 +552,23 @@ class Connection {
                                     '(2, 4, 2, 40, \'Brand new\', 5),' +
                                     '(3, 3, 5, 30, \'Brand new\', 7),' +
                                     '(4, 14, 10, 25, \'Second hand\', 4),' +
-                                    '(5, null, 11, 50, \'Second hand\', 10);');
+                                    '(5, null, 11, 50, \'Second hand\', 10),' +
+                                    '(6, null, 3, 15, \'Second hand\', 2),' +
+                                    '(7, null, 4, 40, \'Brand new\', 3),' +
+                                    '(8, null, 5, 30, \'Brand new\', 4),' +
+                                    '(9, null, 6, 25, \'Second hand\', 5),' +
+                                    '(10, null, 7, 50, \'Second hand\', 6),' +
+                                    '(11, null, 8, 15, \'Second hand\', 7),' +
+                                    '(12, null, 9, 40, \'Brand new\', 8),' +
+                                    '(13, null, 10, 30, \'Brand new\', 9),' +
+                                    '(14, null, 11, 25, \'Second hand\', 10),' +
+                                    '(15, null, 12, 50, \'Second hand\', 11),' +
+                                    '(16, null, 13, 15, \'Second hand\', 12),' +
+                                    '(17, null, 14, 40, \'Brand new\', 13),' +
+                                    '(18, null, 15, 30, \'Brand new\', 14),' +
+                                    '(19, null, 16, 25, \'Second hand\', 15),' +
+                                    '(20, null, 3, 50, \'Second hand\', 12),' +
+                                    '(21, null, 4, 60, \'Very Old\', 13);');
 
         //Grup 
         await this.executeQuery('INSERT INTO Grup (groupId, name, description, isPrivate, userId) VALUES' +
