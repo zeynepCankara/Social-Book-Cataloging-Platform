@@ -34,7 +34,7 @@ export default function HomePage() {
     }, [])
 
     const challenges = usePopularChallengesSelector();
-    const books = [...usePopularBooksSelector(), ...usePopularBooksSelector()]
+    const books = usePopularBooksSelector();
     const reviews = useAllReviewsSelector();
     const bookInfos = useBookSelector();
 
