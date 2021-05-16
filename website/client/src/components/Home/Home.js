@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { AppBar, Toolbar, makeStyles, styled, Button, Container } from '@material-ui/core';
 import { SET_HOME_CONTENT } from '../../actions';
 import HomePage from '../HomePage/HomePage';
-import ChallengeListContainer from '../ChallengeList/ChallengeListContainer';
+import Challenges from '../Challenges/Challenges';
 import BooksContainer from '../Books/BooksContainer';
 import Logo from '../../assets/logo.png';
 import { useHomeContentSelector, useUserSelector } from '../../selectors';
@@ -68,7 +68,7 @@ export default function Home() {
             MainComponent = BooksContainer;
             break;
         case 'challenges':
-            MainComponent = ChallengeListContainer;
+            MainComponent = Challenges;
             break;
         case 'booklists':
             MainComponent = Booklist;

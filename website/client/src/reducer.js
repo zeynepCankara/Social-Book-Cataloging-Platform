@@ -10,7 +10,10 @@ import {
     ADD_REPLY_SUCCESS,
     GET_BOOKLISTS_SUCCESS,
     GET_BOOKLIST_CONTENT_SUCCESS,
-    RESET_CURRENT_LIST_CONTENT
+    RESET_CURRENT_LIST_CONTENT,
+    GET_HOME_CONTENT_SUCCESS,
+    GET_AVAILABLE_CHALLENGES,
+    GET_AVAILABLE_CHALLENGES_SUCCESS
 } from './actions';
 
 export default function reducer(state, action) {
@@ -127,6 +130,16 @@ export default function reducer(state, action) {
             delete newState?.user?.currentListContent;
             delete newState?.user?.currentListID;
             return newState;
+        case GET_HOME_CONTENT_SUCCESS:
+            return {
+                ...state,
+                reports: action.payload
+            }
+        case GET_AVAILABLE_CHALLENGES_SUCCESS:
+            return {
+                ...state,
+                challenges: action.payload
+            }
         default:
             return state || {};
     }

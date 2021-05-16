@@ -83,3 +83,19 @@ export async function addBooksToBooklist(payload) {
 export async function removeBookFromBooklist(payload) {
     return axios.post('http://localhost:3001/deleteBookFromBooklist', payload).then(res => res);
 }
+
+export async function getMostPopularTenBooks() {
+    return axios.post('http://localhost:3001/mostPopularTenBooks').then(res => res);
+}
+
+export async function getMostPopularTenChallenges() {
+    return axios.post('http://localhost:3001/mostPopularTenChallenge').then(res => res);
+}
+
+export async function getAllReviews() {
+    return axios.post('http://localhost:3001/getAllReviews').then(res => res);
+}
+
+export async function getAvailableChallenges() {
+    return axios.post('http://localhost:3001/getAvailableChallenges').then(res => res);
+}

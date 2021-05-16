@@ -49,3 +49,19 @@ export const useCurrentListContentSelector = () => {
 export const useCurrentListSelector = () => {
     return useSelector(state => state?.user?.currentList) || false;
 }
+
+export const usePopularChallengesSelector = () => {
+    return useSelector(state => state?.reports?.challenges) || [];
+}
+
+export const usePopularBooksSelector = () => {
+    return useSelector(state => state?.reports?.books) || [];
+}
+
+export const useAllReviewsSelector = () => {
+    return useSelector(state => state?.reports?.reviews) || [];
+}
+
+export const useChallengesSelector = () => {
+    return useSelector(state => state?.challenges) || [];
+}

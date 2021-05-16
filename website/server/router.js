@@ -305,7 +305,7 @@ async function runServer() {
 
     app.post('/getBoughtBooks', parse.json(), async (req, res) => {
         console.log('getBoughtBooks', req.body);
-        const { username };
+        const { username } = req.body;
 
         const buyerId = await getUserIDFromUsername(username);
         const results = await connection.executeQuery(`SELECT * FROM Trades WHERE buyerId = ${buyerId}`);

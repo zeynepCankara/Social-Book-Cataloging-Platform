@@ -204,6 +204,7 @@ export default function Book({info, className}) {
         <div className={`${classes.container} ${className || ''}`}>
             <Typography className={classes.name} onClick={goToBookPage}>{info.name }</Typography>
             <Typography className={classes.author}>{`by ${info.authorName} (${info.year})`}</Typography>
+            <Typography className={classes.author}>{`Genre: ${info.genre}`}</Typography>
             <div style={{flex: 1}}/>
             <div className={classes.actions}>
                 <Button

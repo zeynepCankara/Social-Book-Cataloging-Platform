@@ -20,7 +20,11 @@ import {
     getBooklists,
     getBooklistContent,
     removeBookFromBooklist,
-    addBooksToBooklist
+    addBooksToBooklist,
+    getMostPopularTenBooks,
+    getMostPopularTenChallenges,
+    getAllReviews,
+    getAvailableChallenges
 } from './api';
 import { 
     LOGIN_REQUEST, 
@@ -54,7 +58,11 @@ import {
     GET_BOOKLIST_CONTENT,
     GET_BOOKLIST_CONTENT_SUCCESS,
     DELETE_BOOK_FROM_BOOKLIST,
-    ADD_BOOKS_TO_BOOKLIST
+    ADD_BOOKS_TO_BOOKLIST,
+    GET_HOME_CONTENT,
+    GET_HOME_CONTENT_SUCCESS,
+    GET_AVAILABLE_CHALLENGES,
+    GET_AVAILABLE_CHALLENGES_SUCCESS
 } from './actions';
 import Cookies from 'universal-cookie';
 
@@ -366,6 +374,47 @@ function* addBooksToBooklistMiddleware(action) {
     }
 }
 
+function* getHomeContentMiddleware(action) {
+    const topTenBooks = yield call(getMostPopularTenBooks);
+
+    if (topTenBooks.status !== 200) {
+        return;
+    }
+
+    const topTenChallenges = yield call(getMostPopularTenChallenges);
+
+    if (topTenChallenges.status !== 200) {
+        return;
+    }
+
+    const reviews = yield call(getAllReviews);
+
+    if (reviews.status !== 200) {
+        return;
+    }
+
+    yield put({
+        type: GET_HOME_CONTENT_SUCCESS,
+        payload: {
+            books: topTenBooks.data,
+            challenges: topTenChallenges.data,
+            reviews: reviews.data
+        }
+    })
+
+}
+
+function* getAvailableChallengesMiddleware(action) {
+    const response = yield call(getAvailableChallenges);
+
+    if (response.status === 200) {
+        yield put({
+            type: GET_AVAILABLE_CHALLENGES_SUCCESS,
+            payload: response.data
+        })
+    }
+}
+
 export default function* mainMiddleware() {
     yield takeEvery(LOGIN_REQUEST, loginMiddleware);
     yield takeEvery(SIGNUP_REQUEST, signupMiddleware);
@@ -387,4 +436,6 @@ export default function* mainMiddleware() {
     yield takeEvery(GET_BOOKLIST_CONTENT, getBooklistContentMiddleware);
     yield takeEvery(DELETE_BOOK_FROM_BOOKLIST, deleteBookFromBooklistMiddleware);
     yield takeEvery(ADD_BOOKS_TO_BOOKLIST, addBooksToBooklistMiddleware);
+    yield takeEvery(GET_HOME_CONTENT, getHomeContentMiddleware);
+    yield takeEvery(GET_AVAILABLE_CHALLENGES, getAvailableChallengesMiddleware);
 }
