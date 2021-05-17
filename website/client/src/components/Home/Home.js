@@ -12,6 +12,7 @@ import UserMenu from './UserMenu';
 import MyBooks from '../MyBooks/MyBooks';
 import Booklist from '../Booklist/Booklist';
 import Profile from '../Profile/Profile';
+import Groups from '../Groups/Groups';
 
 const useStyles = makeStyles((theme) => ({
     navBar: {
@@ -71,6 +72,9 @@ export default function Home() {
         case 'challenges':
             MainComponent = Challenges;
             break;
+        case 'groups':
+            MainComponent = Groups;
+            break;
         case 'booklists':
             MainComponent = Booklist;
             break;
@@ -107,6 +111,7 @@ export default function Home() {
                     {renderButton('books', 'Books')}
                     {renderButton('challenges', 'Challenges')}
                     {renderButton('booklists', 'My Lists')}
+                    {renderButton('groups', 'Groups')}
                     {homeContent.mode === 'mybooks' && renderButton('mybooks', 'My Books', true)}
                     {homeContent.mode === 'profile' && renderButton('profile', 'My Profile', true)}
                     {homeContent.mode === 'book' && renderButton('books', homeContent.book.name, true)}

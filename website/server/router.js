@@ -7,7 +7,7 @@ async function runServer() {
     const port = 3001;
     const connection = new Connection();
     await connection.initDatabase();
-    
+
     async function getUserIDFromUsername(username) {
         const results = await connection.executeQuery(`SELECT userId FROM User WHERE userName = '${username}'`);
         return results[0].userId;
@@ -17,17 +17,17 @@ async function runServer() {
         const results = await connection.executeQuery(`SELECT userName FROM User WHERE userId = ${userId}`);
         return results[0].userName;
     }
-    
+
     app.use(function(req, res, next) {
       res.header("Access-Control-Allow-Origin", "*");
       res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
       next();
     });
-    
+
     app.listen(port, () => {
         console.log(`Listening at http://localhost:${port}`)
     })
-    
+
     /**
      * Checks the credentials of user trying to login and returns status 200 if they are valid, return 400 otherwise
      */
@@ -77,7 +77,7 @@ async function runServer() {
         res.status(200).send(results);
     })
 
-    
+
     app.post('/getFilteredBooks', parse.json(), async (req, res) => {
         console.log('getFilteredBooks', req.body);
         const { bookName, author, genre, publishYear } = req.body;
@@ -91,7 +91,7 @@ async function runServer() {
         const results = await connection.executeQuery(`SELECT * FROM Book WHERE ${whereClause};`)
         res.status(200).send(results);
     })
-    
+
     app.post('/getTrackedBooks', parse.json(), async (req, res) => {
         console.log('getTrackedBooks', req.body);
         const { username } = req.body;
@@ -101,11 +101,11 @@ async function runServer() {
         let formattedResult = {};
         for (const row in results) {
             const edition = await connection.executeQuery(`SELECT * FROM Edition WHERE bookId = ${results[row].bookId} AND number = ${results[row].number
-                                                                } AND publisher = '${results[row].publisher}' AND format = '${results[row].format 
+                                                                } AND publisher = '${results[row].publisher}' AND format = '${results[row].format
                                                                 }' AND language = '${results[row].language}'`);
             const progresses = await connection.executeQuery(`SELECT pageNumber, date FROM Progress WHERE bookId = ${results[row].bookId
                                                                 } AND number = ${results[row].number} AND userId = ${results[row].userId
-                                                                } AND publisher = '${results[row].publisher}' AND format = '${results[row].format 
+                                                                } AND publisher = '${results[row].publisher}' AND format = '${results[row].format
                                                                 }' AND language = '${results[row].language}'`);
             formattedResult[results[row].bookId] = {
                 edition: edition[0],
@@ -152,7 +152,7 @@ async function runServer() {
     app.post('/addProgress', parse.json(), async (req, res) => {
         console.log('addProgress', req.body);
         const { pageNumber, date, username, bookId, number, publisher, format, language} = req.body;
-        const userId = await getUserIDFromUsername(username); 
+        const userId = await getUserIDFromUsername(username);
         await connection.executeQuery(`INSERT INTO Progress VALUES('${pageNumber}', '${date}', '${userId}', '${bookId}', '${number}', '${publisher}', '${format}', '${language}')`);
         res.status(200).send();
     })
@@ -204,7 +204,7 @@ async function runServer() {
         }else{
             await connection.executeQuery(`INSERT INTO Edition VALUES('${bookId}', '${number}', '${publisher}', '${pageCount}', '${format}', '${language}', null)`);
         }
-       
+
         res.status(200).send();
     })
 
@@ -226,7 +226,7 @@ async function runServer() {
     app.post('/createBooklist', parse.json(), async (req, res) => {
         console.log('createBooklist', req.body);
         const { name, date, description, username } = req.body;
-    
+
         const ownerId = await getUserIDFromUsername(username);
         const maxBookId = await connection.executeQuery(`SELECT MAX(bookListId) AS booklistid FROM BookList`);
         const booklistId = maxBookId[0].booklistid + 1;
@@ -338,7 +338,7 @@ async function runServer() {
     app.post('/joinChallenge', parse.json(), async (req, res) => {
         console.log('joinChallenge', req.body);
         const { username, challengeId } = req.body;
-        
+
         const userId = await getUserIDFromUsername(username);
 
         const results = await connection.executeQuery(`INSERT INTO JoinsChallenge VALUES (${challengeId}, ${userId}, 0, null)`);
@@ -367,6 +367,48 @@ async function runServer() {
     app.post('/mostPopularTenChallenge', parse.json(), async (req, res) => {
         console.log('mostPopularTenChallenge', req.body);
         const results = await connection.executeQuery(`SELECT name, totalParticipant FROM (SELECT name, challengeId, totalParticipant FROM Challenge NATURAL JOIN (SELECT challengeId, COUNT(score) AS totalParticipant FROM JoinsChallenge GROUP BY challengeId) AS temp) AS temp2 ORDER BY totalParticipant DESC LIMIT 10`);
+        res.status(200).send(results);
+    })
+
+
+    app.post('/createGroup', parse.json(), async (req, res) => {
+        const { name, description, username } = req.body;
+
+        const creatorId = await getUserIDFromUsername(username);
+        const groupIDs = await connection.executeQuery(`SELECT MAX(groupId) as groupid FROM Grup`);
+        const isPrivate = 0;
+        let newGroupId = 1;
+        if(groupIDs.length !== 0){
+            newGroupId = groupIDs[0].groupid;
+            newGroupId = newGroupId + 1;
+        }
+        await connection.executeQuery(`INSERT INTO Grup VALUES(${newGroupId}, '${name}', '${description}', '${isPrivate}', ${creatorId})`);
+
+        res.status(200).send();
+    })
+
+    app.post('/getAvailableGroups', parse.json(), async (req, res) => {
+        console.log('getAvailableGroups', req.body);
+        const results = await connection.executeQuery(`SELECT * FROM Grup`);
+        res.status(200).send(results);
+    })
+
+    app.post('/joinGroup', parse.json(), async (req, res) => {
+        console.log('joinGroup', req.body);
+        const { username, groupId } = req.body;
+
+        const userId = await getUserIDFromUsername(username);
+
+        const results = await connection.executeQuery(`INSERT INTO JoinsGroup VALUES (${groupId}, ${userId})`);
+
+        res.status(200).send();
+    })
+
+    app.post('/getAllParticipantsOfGroup', parse.json(), async (req, res) => {
+        console.log('getAllParticipantsOfGroup', req.body);
+        const { groupId } = req.body;
+
+        const results = await connection.executeQuery(`SELECT * FROM JoinsGroup NATURAL JOIN User WHERE groupId = ${groupId}`);
         res.status(200).send(results);
     })
 

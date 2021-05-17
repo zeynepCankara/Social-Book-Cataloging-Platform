@@ -66,6 +66,10 @@ export const useChallengesSelector = () => {
     return useSelector(state => state?.challenges) || [];
 }
 
+export const useGroupsSelector = () => {
+    return useSelector(state => state?.groups) || [];
+}
+
 export const useTradesSelector = () => {
     return useSelector(state => state?.trades) || [];
-} 
+}

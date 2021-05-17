@@ -1,4 +1,4 @@
-import { 
+import {
     SET_USERNAME,
     SET_HOME_CONTENT,
     SET_USER_INFORMATION,
@@ -12,8 +12,8 @@ import {
     GET_BOOKLIST_CONTENT_SUCCESS,
     RESET_CURRENT_LIST_CONTENT,
     GET_HOME_CONTENT_SUCCESS,
-    GET_AVAILABLE_CHALLENGES,
     GET_AVAILABLE_CHALLENGES_SUCCESS,
+    GET_AVAILABLE_GROUPS_SUCCESS,
     GET_TRADES_SUCCESS
 } from './actions';
 
@@ -140,6 +140,11 @@ export default function reducer(state, action) {
             return {
                 ...state,
                 challenges: action.payload
+            }
+        case GET_AVAILABLE_GROUPS_SUCCESS:
+            return {
+                ...state,
+                groups: action.payload
             }
         case GET_TRADES_SUCCESS:
             return {

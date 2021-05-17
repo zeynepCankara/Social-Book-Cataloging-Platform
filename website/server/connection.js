@@ -8,7 +8,7 @@ class Connection {
             user,
             password
         })
-        
+
         connection.connect(function (err) {
             if (err) {
                 console.error(err.stack);
@@ -22,20 +22,20 @@ class Connection {
         let alreadyInitialized;
         const results = await this.executeQuery('SHOW DATABASES');
         alreadyInitialized = results.some(e => e.Database === 'test');
-        
-        if (alreadyInitialized) { 
+
+        if (alreadyInitialized) {
             /*await this.executeQuery('USE test');
             return;*/
             await this.executeQuery('DROP DATABASE test')
         }
-        
+
         await this.executeQuery('CREATE DATABASE test');
         await this.executeQuery('USE test');
 
         //STORED PROCEDURES
         await this.executeQuery('CREATE PROCEDURE getAchievementInfo(IN specifiedUserId INT) BEGIN SELECT name,achieved FROM JoinsChallenge NATURAL JOIN Challenge WHERE  ((userId = specifiedUserId) AND (achieved IS NOT NULL)); END');
         await this.executeQuery('CREATE PROCEDURE indicateAchievement(IN specifiedChallengeId INT) BEGIN UPDATE JoinsChallenge SET achieved = 1 WHERE (score >= (SELECT bookCount FROM Challenge WHERE challengeId = specifiedChallengeId)) AND (challengeId = specifiedChallengeId); UPDATE JoinsChallenge SET achieved = 0 WHERE (score < (SELECT bookCount FROM Challenge WHERE challengeId = specifiedChallengeId)) AND (challengeId = specifiedChallengeId); END ');
-        
+
         // TODO: Initialize database
         await this.executeQuery('CREATE TABLE User(' +
                                     'userId INT,' +
@@ -78,7 +78,7 @@ class Connection {
                                     'PRIMARY KEY(userId, challengeId),' +
                                     'FOREIGN KEY(challengeId) REFERENCES Challenge(challengeId),' +
                                     'FOREIGN KEY(userId) REFERENCES User(userId));');
-                                     
+
         await this.executeQuery('CREATE TABLE FriendOf(' +
                                     'friendId INT,' +
                                     'personId INT,' +
@@ -95,13 +95,13 @@ class Connection {
                                     'writerId INT,' +
                                     'PRIMARY KEY(postId),' +
                                     'FOREIGN KEY(writerId) REFERENCES User(userId));');
-                                    
+
         await this.executeQuery('CREATE TABLE Likes(' +
                                     'postId INT,' +
                                     'userId INT,' +
                                     'PRIMARY KEY(postId, userId),' +
                                     'FOREIGN KEY(postId) REFERENCES Post(postId),' +
-                                    'FOREIGN KEY(userId) REFERENCES User(userId));');        
+                                    'FOREIGN KEY(userId) REFERENCES User(userId));');
 
         await this.executeQuery('CREATE TABLE Comments(' +
                                     'postId INT,' +
@@ -169,7 +169,7 @@ class Connection {
                                     'FOREIGN KEY(userId, bookId, number, publisher, format, language) REFERENCES Tracks (userId, bookId, number, publisher, format, language));');
 
         await this.executeQuery('CREATE TABLE Reviews(' +
-                                    'userId INT,' + 
+                                    'userId INT,' +
                                     'bookId INT,' +
                                     'rate INT,' +
                                     'comment VARCHAR(200),' +
@@ -196,7 +196,7 @@ class Connection {
                                     'FOREIGN KEY(userId) REFERENCES User(userId),' +
                                     'FOREIGN KEY(bookId) REFERENCES Book(bookId));');
                                     //'CHECK (bookAttribute IN (\'genre\', \'year\', \'name\'));');
-                                  
+
         await this.executeQuery('CREATE TABLE BookSerie(' +
                                     'bookSerieId INT,' +
                                     'name VARCHAR(64),' +
@@ -256,11 +256,11 @@ class Connection {
 
         //TRIGGERS
         await this.executeQuery('CREATE TRIGGER challengeDateChk AFTER INSERT ON Challenge FOR EACH ROW BEGIN IF NEW.startDate > NEW.endDate THEN DELETE FROM challenge WHERE challengeId = NEW.challengeId; END IF; END;');
-                            
+
 
         await this.populateDatabase();
     }
-    
+
     async populateDatabase() {
         // insert into User table
         await this.executeQuery('INSERT INTO user (userId, userName, name, mail, password, userType) VALUES' +
@@ -280,7 +280,7 @@ class Connection {
                                     '(13, \'jbutcher\', \'Jim Butcher\', \'jim@gmail.com\', \'1234\', \'AUTHOR\'),' +
                                     '(14, \'pbriggs\', \'Patricia Briggs\', \'patricia@gmail.com\', \'1234\', \'AUTHOR\'),' +
                                     '(15, \'jkrowling\', \'J.K. Rowling\', \'rowling@gmail.com\', \'1234\', \'AUTHOR\');');
-        
+
         // insert into Book table -> BURAYA BIR EKLEME YAPILIRKEN EDITION'A DA YAPILMALI BUNUN ICIN TRIGGER OLABILIR
         await this.executeQuery('INSERT INTO Book (bookId, genre, year, name, authorId, authorName) VALUES' +
                                     '(1, \'fiction\', 2020, \'Big Summer\', 3, \'Jennifer Weiner\'),' +
@@ -312,8 +312,8 @@ class Connection {
                                     '(9, \'Challenge9\', \'2021-02-07\', \'2021-05-02\', \'hard level\', \'reading\', 1, 120),' +
                                     '(10, \'Challenge10\', \'2021-02-08\', \'2021-08-02\', \'hard level\', \'reading\', 1, 130);');
 
-        // insert into JoinsChallenge table 
-        await this.executeQuery('INSERT INTO JoinsChallenge (challengeId, userId, score, achieved) VALUES' + 
+        // insert into JoinsChallenge table
+        await this.executeQuery('INSERT INTO JoinsChallenge (challengeId, userId, score, achieved) VALUES' +
                                     '(1, 2, 100, 1),' +
                                     '(1, 6, 80, 1),' +
                                     '(2, 1, 10, null),' +
@@ -352,10 +352,10 @@ class Connection {
                                     '(10, 13, 87, null);');
 
         // insert into FriendOf table
-        await this.executeQuery('INSERT INTO FriendOf (friendId, personId, status) VALUES' + 
+        await this.executeQuery('INSERT INTO FriendOf (friendId, personId, status) VALUES' +
                                     '(2, 7, \'REJECTED\'),' +
                                     '(10, 8, \'PENDING\');');
-        
+
         // inser into Post table
         await this.executeQuery('INSERT INTO Post (postId, text, date, writerId) VALUES' +
                                     '(1, \'sun\', \'2021-03-02\', 2),' +
@@ -403,7 +403,7 @@ class Connection {
         await this.executeQuery('INSERT INTO BookList (bookListId, name, creationDate, description, ownerId) VALUES' +
                                     '(1, \'favorite\', \'2021-01-01\', \'These are my favorites\', 2),' +
                                     '(2, \'random\', \'2021-03-01\', \'These are random books\', 2);');
-        
+
         // insert into Follows Table
         await this.executeQuery('INSERT INTO Follows (userId, bookListId) VALUES' +
                                     '(4, 1),' +
@@ -570,14 +570,14 @@ class Connection {
                                     '(20, null, 3, 50, \'Second hand\', 12),' +
                                     '(21, null, 4, 60, \'Very Old\', 13);');
 
-        //Grup 
+        //Grup
         await this.executeQuery('INSERT INTO Grup (groupId, name, description, isPrivate, userId) VALUES' +
                                     '(1, \'Stars\', \'Group of stars\', null, 2),' +
                                     '(2, \'Readers\', \'Group of book lovers\', 1, 5),' +
                                     '(3, \'Bookworms\', \'Group of bookworms\', null, 7);');
 
         //JoinsGroup -> GRUP KURULURKEN KURUCUYU BURAYA EKLEMEK ICIN TRIGGER VB BIR SEY YAZILABILIR
-        await this.executeQuery('INSERT INTO test.JoinsGroup (groupId, userId) VALUES' +
+        await this.executeQuery('INSERT INTO JoinsGroup (groupId, userId) VALUES' +
                                     '(1, 2),' +
                                     '(1, 3),' +
                                     '(2, 5),' +
@@ -589,7 +589,7 @@ class Connection {
         //GroupPost
         await this.executeQuery('INSERT INTO test.GroupPost (postId, groupId) VALUES' +
                                     '(1, 1),' +
-                                    '(3, 2);');                            
+                                    '(3, 2);');
 
 
     }

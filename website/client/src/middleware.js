@@ -1,9 +1,9 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { 
-    login, 
+import {
+    login,
     signup,
-    getAllBooks, 
-    getTrackedBooks, 
+    getAllBooks,
+    getTrackedBooks,
     getFilteredBooks,
     getReviews,
     getEditions,
@@ -32,14 +32,18 @@ import {
     buyBook,
     sellBook,
     getBoughtBooks,
-    getChallengeOutcomes
+    getChallengeOutcomes,
+    joinGroup,
+    createGroup,
+    getAvailableGroups,
+    getAllParticipantsOfGroup,
 } from './api';
-import { 
-    LOGIN_REQUEST, 
-    LOGIN_FAILURE, 
-    SIGNUP_REQUEST, 
+import {
+    LOGIN_REQUEST,
+    LOGIN_FAILURE,
+    SIGNUP_REQUEST,
     SIGNUP_FAILURE,
-    SET_HOME_CONTENT, 
+    SET_HOME_CONTENT,
     FETCH_BOOKS_REQUEST,
     FETCH_BOOKS_SUCCESS,
     FETCH_BOOKS_FAILURE,
@@ -48,7 +52,7 @@ import {
     APPLY_FILTERS,
     GET_EDITIONS,
     START_TRACKING,
-    START_TRACKING_SUCCESS, 
+    START_TRACKING_SUCCESS,
     ADD_REVIEW,
     ADD_REVIEW_SUCCESS,
     ADD_PROGRESS,
@@ -79,7 +83,12 @@ import {
     BUY_BOOK,
     SELL_BOOK,
     GET_BOUGHT_BOOKS,
-    GET_CHALLENGE_OUTCOMES
+    GET_CHALLENGE_OUTCOMES,
+    GET_AVAILABLE_GROUPS,
+    GET_AVAILABLE_GROUPS_SUCCESS,
+    GET_ALL_PARTICIPANTS_OF_GROUP,
+    JOIN_GROUP,
+    CREATE_GROUP
 } from './actions';
 import Cookies from 'universal-cookie';
 
@@ -89,9 +98,9 @@ function setCookie(key, value) {
 }
 
 function* loginMiddleware(action) {
-    try {  
+    try {
         const response = yield call(login, action.payload);
-    
+
         if (response.status === 200) {
             yield put({type: SET_USERNAME, payload: action.payload });
             yield put({type: SET_HOME_CONTENT, payload: { mode: 'home' }});
@@ -168,7 +177,7 @@ function* fetchUserInformation(action) {
     if (response.status === 200) {
         yield put({
             type: SET_USER_INFORMATION,
-            payload: { 
+            payload: {
                 informationType: 'reviews',
                 value: newResults
             }
@@ -232,7 +241,7 @@ function* startTrackingMiddleware(action) {
             payload: { edition }
         })
     }
-}   
+}
 
 function* addReviewMiddleware(action) {
     const response = yield call(addReview, action.payload);
@@ -342,7 +351,7 @@ function* createBookListMiddleware(action) {
         })
     }
 
-    
+
 }
 
 function* getBookListsMiddleware(action) {
@@ -456,6 +465,39 @@ function* createChallengeMiddleware(action) {
     }
 }
 
+function* getAvailableGroupsMiddleware(action) {
+    const response = yield call(getAvailableGroups);
+
+    if (response.status === 200) {
+        yield put({
+            type: GET_AVAILABLE_GROUPS_SUCCESS,
+            payload: response.data
+        })
+    }
+}
+
+function* getAllParticipantsOfGroupMiddleware(action) {
+    const response = yield call(getAllParticipantsOfGroup, action.payload.group);
+
+    action.payload.onSuccess(response.data);
+}
+
+function* joinGroupMiddleware(action) {
+    const response = yield call(joinGroup, action.payload.data);
+
+    if (response.status === 200) {
+        action.payload.onSuccess();
+    }
+}
+
+function* createGroupMiddleware(action) {
+    const response = yield call(createGroup, action.payload)
+
+    if (response.status === 200) {
+        yield put({ type: GET_AVAILABLE_GROUPS})
+    }
+}
+
 function* getTradesMiddleware(action) {
     const response = yield call(getTrades, action.payload);
 
@@ -536,6 +578,10 @@ export default function* mainMiddleware() {
     yield takeEvery(GET_ALL_PARTICIPANTS_OF_CHALLENGE, getAllParticipantsOfChallengeMiddleware);
     yield takeEvery(JOIN_CHALLENGE, joinChallengeMiddleware);
     yield takeEvery(CREATE_CHALLENGE, createChallengeMiddleware);
+    yield takeEvery(CREATE_GROUP, createGroupMiddleware);
+    yield takeEvery(GET_AVAILABLE_GROUPS, getAvailableGroupsMiddleware);
+    yield takeEvery(GET_ALL_PARTICIPANTS_OF_GROUP, getAllParticipantsOfGroupMiddleware);
+    yield takeEvery(JOIN_GROUP, joinGroupMiddleware);
     yield takeEvery(GET_TRADES, getTradesMiddleware);
     yield takeEvery(BUY_BOOK, buyBookMiddleware);
     yield takeEvery(SELL_BOOK, sellBookMiddleware);

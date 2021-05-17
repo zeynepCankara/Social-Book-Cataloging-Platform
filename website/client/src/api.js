@@ -112,6 +112,22 @@ export async function createChallenge(payload) {
     return axios.post('http://localhost:3001/createChallenge', payload).then(res => res);
 }
 
+export async function getAvailableGroups() {
+    return axios.post('http://localhost:3001/getAvailableGroups').then(res => res);
+}
+
+export async function getAllParticipantsOfGroup(payload) {
+    return axios.post('http://localhost:3001/getAllParticipantsOfGroup', payload).then(res => res);
+}
+
+export async function joinGroup(payload) {
+    return axios.post('http://localhost:3001/joinGroup', payload).then(res => res);
+}
+
+export async function createGroup(payload) {
+    return axios.post('http://localhost:3001/createGroup', payload).then(res => res);
+}
+
 export async function getTrades(payload) {
     return axios.post('http://localhost:3001/viewTrades', payload).then(res => res);
 }
