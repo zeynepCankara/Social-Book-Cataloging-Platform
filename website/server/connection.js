@@ -257,6 +257,9 @@ class Connection {
         //TRIGGERS
         await this.executeQuery('CREATE TRIGGER challengeDateChk AFTER INSERT ON Challenge FOR EACH ROW BEGIN IF NEW.startDate > NEW.endDate THEN DELETE FROM challenge WHERE challengeId = NEW.challengeId; END IF; END;');
 
+        //SECONDARY INDICES
+        await this.executeQuery('CREATE INDEX genreIndex ON Book (genre);');
+        await this.executeQuery('CREATE INDEX bookcountIndex ON Challenge (bookCount);');
 
         await this.populateDatabase();
     }
