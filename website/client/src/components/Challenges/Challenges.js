@@ -143,6 +143,7 @@ export default function Challenges() {
     const user = useUserSelector();
     const [joinedChallenges, setJoinedChallenges] = useState([]);
     const [newChallengeIsOpen, toggleNewChallengePopup] = useState(false);
+    const [selectedChallenge, setSelectedChallenge] = useState(-1);
 
     useEffect(() => {
         dispatch({
@@ -161,6 +162,7 @@ export default function Challenges() {
                 onSuccess: setParticipants
             }
         })
+        setSelectedChallenge(challenge.challengeId);
     }
 
     const joinedChallenge = challenge => () => {
@@ -210,7 +212,7 @@ export default function Challenges() {
                             return <TableRow
                                 hover
                                 onClick={showParticipants(e)}
-                                style={{cursor: 'pointer'}}
+                                style={{cursor: 'pointer', backgroundColor: selectedChallenge === e.challengeId && '#ddd'}}
                             >
                                 <TableCell align="center">{e.name}</TableCell>
                                 <TableCell align="center">{parseDate(e.startDate)}</TableCell>

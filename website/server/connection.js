@@ -301,55 +301,45 @@ class Connection {
 
         // insert into Challenge table -> GOODREADS'DEN BAK CHALLENGE'DA BASKALARIYLA YARISTIRMIYOR
         await this.executeQuery('INSERT INTO Challenge (challengeId, name, startDate, endDate, description, type, creatorId, bookCount) VALUES' +
-                                    '(1, \'Challenge1\', \'2021-01-01\', \'2021-02-01\', \'description1\', \'reading\', 1, 20),' +
-                                    '(2, \'Challenge2\', \'2021-02-02\', \'2021-07-02\', \'description2\', \'reading\', 1, 40),' +
-                                    '(3, \'Challenge3\', \'2021-02-01\', \'2021-08-02\', \'summer challenge\', \'reading\', 1, 50),' +
-                                    '(4, \'Challenge4\', \'2021-02-02\', \'2021-03-02\', \'summer challenge2\', \'reading\', 1, 50),' +
-                                    '(5, \'Challenge5\', \'2021-02-03\', \'2021-08-02\', \'summer challenge3\', \'reading\', 1, 50),' +
-                                    '(6, \'Challenge6\', \'2021-02-04\', \'2021-04-02\', \'medium level\', \'reading\', 1, 70),' +
-                                    '(7, \'Challenge7\', \'2021-02-05\', \'2021-08-02\', \'medium level\', \'reading\', 1, 80),' +
-                                    '(8, \'Challenge8\', \'2021-02-06\', \'2021-04-10\', \'medium level\', \'reading\', 1, 80),' +
-                                    '(9, \'Challenge9\', \'2021-02-07\', \'2021-05-02\', \'hard level\', \'reading\', 1, 120),' +
-                                    '(10, \'Challenge10\', \'2021-02-08\', \'2021-08-02\', \'hard level\', \'reading\', 1, 130);');
+                                    '(1, \'Challenge1\', \'2021-01-01\', \'2021-03-01\', \'description1\', \'reading\', 1, 4),' +
+                                    '(2, \'Challenge2\', \'2021-02-02\', \'2021-07-02\', \'description2\', \'reading\', 1, 4),' +
+                                    '(3, \'Challenge3\', \'2021-02-01\', \'2021-08-02\', \'summer challenge\', \'reading\', 1, 5),' +
+                                    '(4, \'Challenge4\', \'2021-02-02\', \'2021-03-02\', \'summer challenge2\', \'reading\', 1, 5),' +
+                                    '(5, \'Challenge5\', \'2021-02-03\', \'2021-08-02\', \'summer challenge3\', \'reading\', 1, 5),' +
+                                    '(6, \'Challenge6\', \'2021-02-04\', \'2021-04-02\', \'medium level\', \'reading\', 1, 5),' +
+                                    '(7, \'Challenge7\', \'2021-02-05\', \'2021-08-02\', \'medium level\', \'reading\', 1, 6),' +
+                                    '(8, \'Challenge8\', \'2021-02-06\', \'2021-04-10\', \'medium level\', \'reading\', 1, 6),' +
+                                    '(9, \'Challenge9\', \'2021-02-07\', \'2021-05-02\', \'hard level\', \'reading\', 1, 10),' +
+                                    '(10, \'Challenge10\', \'2021-02-08\', \'2021-08-02\', \'hard level\', \'reading\', 1, 10);');
 
         // insert into JoinsChallenge table
         await this.executeQuery('INSERT INTO JoinsChallenge (challengeId, userId, score, achieved) VALUES' +
-                                    '(1, 2, 100, 1),' +
-                                    '(1, 6, 80, 1),' +
-                                    '(2, 1, 10, null),' +
+                                    '(1, 2, 5, 1),' +
+                                    '(1, 6, 5, 1),' +
+                                    '(2, 1, 0, null),' +
                                     '(2, 2, 5, null),' +
-                                    '(2, 3, 12, null),' +
-                                    '(2, 4, 13, null),' +
-                                    '(2, 5, 14, null),' +
-                                    '(2, 6, 15, null),' +
-                                    '(2, 7, 16, null),' +
-                                    '(2, 8, 17, null),' +
-                                    '(2, 9, 18, null),' +
-                                    '(2, 10, 19, null),' +
-                                    '(2, 11, 20, null),' +
-                                    '(2, 13, 25, null),' +
-                                    '(2, 12, 11, null),' +
-                                    '(3, 3, 34, null),' +
-                                    '(3, 4, 45, null),' +
-                                    '(4, 2, 54, 1),' +
-                                    '(4, 7, 32, 0),' +
-                                    '(4, 8, 12, 0),' +
-                                    '(3, 9, 75, null),' +
-                                    '(5, 10, 56, null),' +
-                                    '(5, 11, 45, null),' +
-                                    '(6, 2, 72, 1),' +
-                                    '(7, 2, 67, null),' +
-                                    '(8, 2, 75, 0),' +
-                                    '(9, 2, 98, 0),' +
-                                    '(10, 5, 78, null),' +
-                                    '(10, 6, 99, null),' +
-                                    '(10, 7, 56, null),' +
-                                    '(10, 8, 67, null),' +
-                                    '(10, 9, 78, null),' +
-                                    '(10, 10, 56, null),' +
-                                    '(10, 11, 97, null),' +
-                                    '(10, 12, 67, null),' +
-                                    '(10, 13, 87, null);');
+                                    '(2, 7, 1, null),' +
+                                    '(2, 8, 1, null),' +
+                                    '(2, 9, 1, null),' +
+                                    '(2, 10, 1, null),' +
+                                    '(2, 11, 0, null),' +
+                                    '(2, 13, 0, null),' +
+                                    '(2, 12, 0, null),' +
+                                    '(3, 3, 1, null),' +
+                                    '(3, 4, 1, null),' +
+                                    '(4, 2, 5, 1),' +
+                                    '(4, 7, 1, 0),' +
+                                    '(4, 8, 2, 0),' +
+                                    '(3, 9, 1, null),' +
+                                    '(5, 10, 1, null),' +
+                                    '(5, 11, 0, null),' +
+                                    '(6, 2, 5, 1),' +
+                                    '(7, 2, 2, null),' +
+                                    '(8, 2, 3, 0),' +
+                                    '(9, 2, 2, 0),' +
+                                    '(10, 5, 1, null),' +
+                                    '(10, 6, 1, null),' +
+                                    '(10, 9, 1, null);');
 
         // insert into FriendOf table
         await this.executeQuery('INSERT INTO FriendOf (friendId, personId, status) VALUES' +
@@ -470,6 +460,7 @@ class Connection {
         await this.executeQuery('INSERT INTO Tracks (userId, bookId, number, publisher, format, language) VALUES' +
                                     '(2, 1, 1, \'Atria Books\', \'Hardcover\', \'English\'),' +
                                     '(2, 5, 1, \'Thomas & Mercer\', \'Hardcover\', \'English\'),' +
+                                    '(2, 14, 1, \'Pottermore Publishing\', \'Hardcover\', \'English\'),' +
                                     '(5, 2, 1, \'Dial Press\', \'Hardcover\', \'English\'),' +
                                     '(6, 1, 1, \'Atria Books\', \'Hardcover\', \'English\'),' +
                                     '(7, 1, 1, \'Atria Books\', \'Hardcover\', \'English\'),' +
@@ -496,23 +487,32 @@ class Connection {
                                     '(12, 8, 1, \'Simon Schuster\', \'Hardcover\', \'English\'),' +
                                     '(12, 8, 2, \'Riverhead Books\', \'Paperback\', \'English\'),' +
                                     '(9, 10, 1, \'Bloomsbury\', \'Hardcover\', \'English\'),' +
+                                    '(2, 6, 1, \'Flatiron Books\', \'Hardcover\', \'English\'),' +
+                                    '(2, 9, 1, \'Riverhead Books\', \'Hardcover\', \'English\'),' +
                                     '(8, 12, 1, \'Ace\', \'Hardcover\', \'English\');');
 
         // Insert into Progress Table
         await this.executeQuery('INSERT INTO Progress (pageNumber, date, userId, bookId, number, publisher, format, language) VALUES' +
                                     '(25, \'2021-02-05\', 2, 1, 1, \'Atria Books\', \'Hardcover\', \'English\'),' +
-                                    '(50, \'2021-02-07\', 2, 1, 1, \'Atria Books\', \'Hardcover\', \'English\'),' +
+                                    '(254, \'2021-02-07\', 2, 1, 1, \'Atria Books\', \'Hardcover\', \'English\'),' +
+                                    '(200, \'2021-03-15\', 2, 14, 1, \'Pottermore Publishing\', \'Hardcover\', \'English\'),' +
+                                    '(300, \'2021-04-15\', 2, 14, 1, \'Pottermore Publishing\', \'Hardcover\', \'English\'),' +
                                     '(100, \'2021-03-10\', 5, 2, 1, \'Dial Press\', \'Hardcover\', \'English\'),' +
+                                    '(186, \'2021-02-08\', 2, 3, 1, \'Flatiron Books\', \'Hardcover\', \'English\'),' +
+                                    '(264, \'2021-02-09\', 2, 5, 1, \'Thomas & Mercer\', \'Hardcover\', \'English\'),' +
+                                    '(238, \'2021-02-10\', 2, 6, 1, \'Flatiron Books\', \'Hardcover\', \'English\'),' +
+                                    '(371, \'2021-02-11\', 2, 9, 1, \'Riverhead Books\', \'Hardcover\', \'English\'),' +
                                     '(160, \'2021-03-15\', 7, 8, 2, \'Riverhead Books\', \'Paperback\', \'English\');');
 
         // Insert into Reviews
         await this.executeQuery('INSERT INTO Reviews (userId, bookId, rate, comment, date) VALUES' +
                                     '(2, 1, 4, \'It was a very gripping book.\', \'2021-04-10\'),' +
                                     '(5, 2, 2, \'There are contradictory statements in the book.\', \'2021-04-20\'),' +
-                                    '(5, 13, 2, \'Ehh\', \'2021-07-20\'),' +
-                                    '(6, 13, 5, \'Love\', \'2021-01-20\'),' +
-                                    '(7, 13, 0, \'Hate\', \'2021-04-09\'),' +
-                                    '(15, 1, 4, \'Selamun Aleykum\', \'2021-04-09\'),' +
+                                    '(5, 13, 2, \'I did not love it but it is okay.\', \'2021-07-20\'),' +
+                                    '(6, 13, 5, \'I love it\', \'2021-01-20\'),' +
+                                    '(7, 13, 0, \'I could not even read it.\', \'2020-04-09\'),' +
+                                    '(10, 7, 2, \'\', \'2019-04-09\'),' +
+                                    '(11, 5, 4, \'\', \'2018-04-09\'),' +
                                     '(7, 8, 3, \'I strongly recommend everyone to read it. It broadened my perspective.\', \'2021-05-03\');');
 
         //Insert into Recommends
@@ -547,7 +547,7 @@ class Connection {
                                     '(7, 8, \'2021-05-03\', \'Thank you for your good comment.\', 10);');
 
         //Insert into Trades -> EKSTRA BUYER SELLER OLAYINA GEREK VAR MI YOKSA SATILMADIYSA NULL TUTMAK MI GEREKLI
-        await this.executeQuery('INSERT INTO test.Trades (offerId, buyerId, sellerId, price, description, bookId) VALUES' +
+        await this.executeQuery('INSERT INTO Trades (offerId, buyerId, sellerId, price, description, bookId) VALUES' +
                                     '(1, null, 2, 15, \'Second hand\', 1),' +
                                     '(2, 4, 2, 40, \'Brand new\', 5),' +
                                     '(3, 3, 5, 30, \'Brand new\', 7),' +
