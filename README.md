@@ -1,20 +1,41 @@
-# Social Cataloging Platform for Books (i. e. Goodreads)
+# Bilread: Social Cataloging Platform for Books (i.e. Goodreads)
 
-The Social Cataloging Platform for Books contains various and large amounts of data coming from actors of the system which are users, authors and librarians. These actors can perform wide range of actions such as publishing books, adding friends, joining challanges bringing togather the book catologing and social networks platforms. The use of a database is necessary to store such large data in a distributed manner. With this system, a lot of data can be stored easily and it is easy to keep it regularly when needed.By using a database system, it becomes possible to reach and use various information and actions quickly and efficiently.
+A full-stack application which is a social book cataloging platform for books (i.e. Goodreads). The applications aims to teach fundemental database concepts by designing a database system from scratch. Futher information can be found on the project website.
 
-At the same time, database usage is reliable for storing data. It allows forming complex queries to manipulate volumes of data in a persistent manner. With the database management system, permission conditions are determined to access data. It can prevent unauthorized access to data, and backup of data is provided due to system crashes or corruption. That's why we use databases in our project to control and access all these interrelated data easily and efficiently.
+## How to Run
 
-## Team Members
+From the root directory
 
-* Ahmet Feyzi Halaç: 21703026
-* Ege Şahin: 21702300
-* Göktuğ Gürbüztürk: 21702383
-* Zeynep Cankara: 21703381
+- `yarn build`: Installs the dependencies
+- `yarn start:frontend`: Running the project frontend
+- `yarn start:backend`: Running the project backend
 
-## Project Deliverables
+Note: make sure to create a credentials file for the MySQL server.
+Insert the `credentials.js` file into the  `website/server/credentials.js`
 
-[Project Proposal](https://docs.google.com/document/d/1hq7DRZyj2dp-6nJ6X1iobbfGvHzaPEXvCxdDKfmgFY0/edit?usp=sharing)
+### Technologies used
 
-## Project Website
+* React for the frontend
+* Node.js for the backend
+* MySQL for the database
+
+#### Team Members
+
+I would like to thank all of my amazing team members for their contributions to the project.
+
+* Ahmet Feyzi Halaç
+* Ege Şahin
+* Göktuğ Gürbüztürk
+* Zeynep Cankara
+
+#### Project Website
+
+Check out the project website for the project deliverables.
 
 - https://zeynepcankara.github.io/Social-Book-Cataloging-Platform/
+
+##### Project Deliverables
+
+- [Proposal Report](https://zeynepcankara.github.io/Social-Book-Cataloging-Platform/data/CS353-Proposal-Group10.pdf)
+- [Design Report](https://zeynepcankara.github.io/Social-Book-Cataloging-Platform/data/CS353-Design-Report-Group10.pdf)
+- [Final Report](https://zeynepcankara.github.io/Social-Book-Cataloging-Platform/data/CS353-Final-Report-Group10.pdf)
